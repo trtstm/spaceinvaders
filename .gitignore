@@ -1,0 +1,8 @@
+build/*
+!build/.gitignore
+
+src/.*
+!src/.gitignore
+
+bin/*
+!bin/.gitignore
