@@ -1,7 +1,7 @@
 #ifndef COMPONENT_HPP
 #define COMPONENT_HPP
 
-enum ComponentType {MOVEABLE};
+enum ComponentType {MOVABLE};
 
 class Component {
 	public:
