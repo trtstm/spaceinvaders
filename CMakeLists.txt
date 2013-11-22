@@ -1,0 +1,4 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+PROJECT(spaceinvaders)
+SET(CMAKE_CXX_FLAGS "--std=c++11 -Wall -Wextra -pedantic")
+ADD_SUBDIRECTORY(src)
