@@ -1,4 +1,4 @@
-SET(SRC main.cpp KeyboardController.cpp SpaceshipController.cpp)
+SET(SRC main.cpp KeyboardController.cpp SpaceshipController.cpp Message.cpp)
 ADD_EXECUTABLE(spaceinvaders ${SRC})
 FIND_PACKAGE(SFML 2.0 REQUIRED system window graphics network audio)
 TARGET_LINK_LIBRARIES(spaceinvaders ${SFML_LIBRARIES})
