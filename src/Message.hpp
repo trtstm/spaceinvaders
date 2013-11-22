@@ -5,7 +5,7 @@ enum MessageType {MOVE};
 
 class Message {
 	public:
-		Message(MessageType type);
+		Message(MessageType type, unsigned int sender);
 		virtual ~Message() = 0;
 
 		/**
@@ -15,8 +15,16 @@ class Message {
 		*/
 		MessageType getType() const;
 
+		/**
+		* Get the sender of the message.
+		*
+		* @return The sender's id.
+		*/
+		unsigned int getSender() const;
+
 	private:
 		MessageType type;
+		unsigned int sender;
 };
 
 #endif
