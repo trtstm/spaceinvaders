@@ -2,9 +2,15 @@
 #include <iostream>
 
 #include "KeyboardController.hpp"
+#include "Entity.hpp"
+#include "Movable.hpp"
 
 int main()
 {
+	Entity entity;
+	entity.setComponent("movable", new Movable);
+	std::cout << entity.getComponent<Movable>("movable")->getLocation().x << std::endl;
+
     sf::Window window(sf::VideoMode(800, 600), "My window");
 
     // run the program as long as the window is open
