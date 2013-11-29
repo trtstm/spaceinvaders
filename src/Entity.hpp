@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <typeinfo>
 
 class Component;
 
@@ -14,10 +15,10 @@ class Entity {
 		/**
 		* Add a component.
 		*
-		* @param name The name corresponding to the component.
 		* @param component The component to add. The pointer will be owned by this class from now on.
 		*/
-		void setComponent(const std::string& name, Component* component);	
+		template <class T>
+		void setComponent(std::shared_ptr<T> component);	
 
 		/**
 		* Get a component.
@@ -27,22 +28,30 @@ class Entity {
 		* @pre There is a component with the name.
 		*/
 		template <class T>
-		T* getComponent(const std::string& name);
+		T* getComponent();
 		
 		
 
 	private:
-		std::map< std::string, std::unique_ptr<Component> > components;
+		std::map< std::string, std::shared_ptr<Component> > components;
 };
 
 template <class T>
-T* Entity::getComponent(const std::string& name)
+void Entity::setComponent(std::shared_ptr<T> component)
 {
-	if(components.count(name) != 1) {
+	components.erase(typeid(T).name());
+
+	components[typeid(T).name()] = component;
+}
+
+template <class T>
+T* Entity::getComponent()
+{
+	if(components.count(typeid(T).name()) != 1) {
 		throw "No component with that name";
 	}
 
-	return static_cast<T*>(components[name].get());
+	return static_cast<T*>(components[typeid(T).name()].get());
 }
 
 #endif

@@ -1,9 +1,6 @@
 #include "SpaceshipController.hpp"
 
-void SpaceshipController::onKeyDown(const sf::Event::KeyEvent& e)
-{
-}
-
-void SpaceshipController::onKeyUp(const sf::Event::KeyEvent& e)
+SpaceshipController::SpaceshipController(std::shared_ptr<Spaceship> spaceship)
+	: spaceship(spaceship)
 {
 }
