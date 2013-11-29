@@ -1,5 +1,7 @@
 #include "Movable.hpp"
 
+#include "MoveMessage.hpp"
+
 Movable::Movable()
 	: Component(MOVABLE), location(Coordinate(0, 0))
 {
@@ -7,22 +9,44 @@ Movable::Movable()
 
 void Movable::moveLeft()
 {
-	location.x -= 1;
+	auto newLocation = location;
+	newLocation.x -= 1;
+
+	setLocation(newLocation);
 }
 
 void Movable::moveRight()
 {
-	location.x += 1;
+	auto newLocation = location;
+	newLocation.x += 1;
+
+	setLocation(newLocation);
 }
 
 void Movable::moveUp()
 {
-	location.y -= 1;
+	auto newLocation = location;
+	newLocation.y -= 1;
+
+	setLocation(newLocation);
 }
 
 void Movable::moveDown()
 {
-	location.y += 1;
+	auto newLocation = location;
+	newLocation.y += 1;
+
+	setLocation(newLocation);
+}
+
+void Movable::setLocation(Coordinate location)
+{
+	auto oldLocation = this->location;
+
+	this->location = location;
+
+	MoveMessage msg(0, oldLocation, this->location);
+	notifyObservers(msg);
 }
 
 Coordinate Movable::getLocation() const

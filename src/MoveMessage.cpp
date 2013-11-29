@@ -1,6 +1,6 @@
 #include "MoveMessage.hpp"
 
-MoveMessage::MoveMessage(unsigned int sender, const Coordinate& oldPos, const Coordinate& newPos)
-	: Message(MOVE, sender), oldPos(oldPos), newPos(newPos)
+MoveMessage::MoveMessage(unsigned int sender, const Coordinate& oldPosition, const Coordinate& newPosition)
+	: Message(MOVE, sender), oldPosition(oldPosition), newPosition(newPosition)
 {
 }

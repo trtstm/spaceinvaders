@@ -6,11 +6,10 @@
 
 class MoveMessage : public Message {
 	public:
-		MoveMessage(unsigned int sender, const Coordinate& oldPos, const Coordinate& newPos);
+		MoveMessage(unsigned int sender, const Coordinate& oldPosition, const Coordinate& newPosition);
 
-	private:
-		Coordinate oldPos;
-		Coordinate newPos;
+		Coordinate oldPosition;
+		Coordinate newPosition;
 };
 
 #endif

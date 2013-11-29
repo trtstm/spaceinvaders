@@ -13,6 +13,8 @@ class Movable : public Component {
 		void moveUp();
 		void moveDown();
 
+		void setLocation(Coordinate location);
+
 		Coordinate getLocation() const;
 
 	private:

@@ -5,7 +5,6 @@
 
 class Spaceship : public Entity {
 	public:
-		
 
 	private:
 };
