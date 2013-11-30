@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
 #include <iostream>
 #include <memory>
 
@@ -21,6 +22,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
 
+	sf::Clock clock;
 	while(window.isOpen()) {
 		sf::Event event;
         while(window.pollEvent(event)) {
@@ -58,6 +60,9 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 			}
+
+
+			sf::Time dt = clock.restart();
 
 			window.clear(sf::Color::Black);
 
