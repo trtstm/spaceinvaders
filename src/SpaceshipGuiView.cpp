@@ -22,7 +22,7 @@ void SpaceshipGuiView::render(sf::RenderWindow& w)
 
 	Coordinate location = spaceship->getComponent<Movable>()->getLocation();
 
-	rectangle.setPosition(location.x, location.y);
+	rectangle.setPosition(location.x - 120 / 2, location.y - 50 / 2);
 
 	w.draw(rectangle);
 }

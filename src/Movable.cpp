@@ -7,34 +7,34 @@ Movable::Movable()
 {
 }
 
-void Movable::moveLeft()
+void Movable::moveLeft(double dt)
 {
 	auto newLocation = location;
-	newLocation.x -= 1;
+	newLocation.x -= 800 * dt;
 
 	setLocation(newLocation);
 }
 
-void Movable::moveRight()
+void Movable::moveRight(double dt)
 {
 	auto newLocation = location;
-	newLocation.x += 1;
+	newLocation.x += 800 * dt;
 
 	setLocation(newLocation);
 }
 
-void Movable::moveUp()
+void Movable::moveUp(double dt)
 {
 	auto newLocation = location;
-	newLocation.y -= 1;
+	newLocation.y -= 800 * dt;
 
 	setLocation(newLocation);
 }
 
-void Movable::moveDown()
+void Movable::moveDown(double dt)
 {
 	auto newLocation = location;
-	newLocation.y += 1;
+	newLocation.y += 800 * dt;
 
 	setLocation(newLocation);
 }

@@ -48,7 +48,7 @@ template <class T>
 T* Entity::getComponent()
 {
 	if(components.count(typeid(T).name()) != 1) {
-		throw "No component with that name";
+		return 0;
 	}
 
 	return static_cast<T*>(components[typeid(T).name()].get());

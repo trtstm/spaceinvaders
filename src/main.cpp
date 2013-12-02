@@ -2,6 +2,7 @@
 #include <SFML/System/Clock.hpp>
 #include <iostream>
 #include <memory>
+#include <array>
 
 #include "SpaceshipController.hpp"
 #include "Entity.hpp"
@@ -15,12 +16,16 @@ int main()
 	auto spaceship = std::make_shared<Spaceship>();
 	auto view = std::make_shared<SpaceshipGuiView>(spaceship);
 	auto movable = std::make_shared<Movable>();
+	movable->setLocation(Coordinate(400,575));
 	movable->registerObserver(view);
 	spaceship->setComponent(movable);
 
 	SpaceshipController spc(spaceship);
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
+
+	std::array<bool, sf::Keyboard::KeyCount> keys;
+	keys.fill(false);
 
 	sf::Clock clock;
 	while(window.isOpen()) {
@@ -33,42 +38,39 @@ int main()
 
 				case sf::Event::KeyPressed:
 				{
-					if(event.key.code == sf::Keyboard::Escape) {
-						window.close();
-					}
-					else if(event.key.code == sf::Keyboard::Left) {
-						spaceship->getComponent<Movable>()->moveLeft();
-					}
-					else if(event.key.code == sf::Keyboard::Right) {
-						spaceship->getComponent<Movable>()->moveRight();
-					}
-					else if(event.key.code == sf::Keyboard::Up) {
-						spaceship->getComponent<Movable>()->moveUp();
-					}
-					else if(event.key.code == sf::Keyboard::Down) {
-						spaceship->getComponent<Movable>()->moveDown();
-					}
+					keys[event.key.code] = true;
+					break;
+				}
 
+				case sf::Event::KeyReleased:
+				{
+					keys[event.key.code] = false;
 					break;
 				}
 
 				default:
-
 					break;
 			}
 
 			if (event.type == sf::Event::Closed)
 				window.close();
-			}
+		}
 
+		double dt = clock.restart().asSeconds();
 
-			sf::Time dt = clock.restart();
+		if(keys[sf::Keyboard::Left]) {
+			spc.moveLeft(dt);
+		}
 
-			window.clear(sf::Color::Black);
+		if(keys[sf::Keyboard::Right]) {
+			spc.moveRight(dt);
+		}
 
-			view->render(window);
+		window.clear(sf::Color::Black);
 
-			window.display();
+		view->render(window);
+
+		window.display();
 	}
 
     return 0;

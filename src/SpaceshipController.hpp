@@ -9,6 +9,9 @@ class SpaceshipController {
 	public:
 		SpaceshipController(std::shared_ptr<Spaceship> spaceship);
 
+		void moveLeft(double dt);
+		void moveRight(double dt);
+
 	private:
 		std::shared_ptr<Spaceship> spaceship;
 		

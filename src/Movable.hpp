@@ -8,10 +8,10 @@ class Movable : public Component {
 	public:
 		Movable();
 
-		void moveLeft();
-		void moveRight();
-		void moveUp();
-		void moveDown();
+		void moveLeft(double dt);
+		void moveRight(double dt);
+		void moveUp(double dt);
+		void moveDown(double dt);
 
 		void setLocation(Coordinate location);
 
