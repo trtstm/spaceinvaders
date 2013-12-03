@@ -1,6 +1,6 @@
 #include "SpaceshipController.hpp"
 
-#include "Movable.hpp"
+#include "components/Movable.hpp"
 
 SpaceshipController::SpaceshipController(std::shared_ptr<Spaceship> spaceship)
 	: spaceship(spaceship)

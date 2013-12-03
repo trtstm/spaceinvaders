@@ -4,7 +4,7 @@
 #include <memory>
 #include <set>
 
-#include "Message.hpp"
+#include "messages/Message.hpp"
 #include "Observer.hpp"
 
 class Subject {

@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "Spaceship.hpp"
+#include "models/Spaceship.hpp"
 
 class SpaceshipController {
 	public:

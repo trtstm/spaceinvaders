@@ -5,8 +5,8 @@
 #include <memory>
 
 #include "Observer.hpp"
-#include "Message.hpp"
-#include "Spaceship.hpp"
+#include "messages/Message.hpp"
+#include "models/Spaceship.hpp"
 
 class SpaceshipGuiView: public Observer {
 	public:

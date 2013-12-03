@@ -7,6 +7,7 @@
 class Movable : public Component {
 	public:
 		Movable();
+		Movable(Coordinate location, double speed);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
@@ -19,6 +20,7 @@ class Movable : public Component {
 
 	private:
 		Coordinate location;
+		double speed;
 };
 
 #endif

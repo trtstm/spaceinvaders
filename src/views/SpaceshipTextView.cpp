@@ -2,7 +2,7 @@
 
 #include "SpaceshipTextView.hpp"
 
-#include "MoveMessage.hpp"
+#include "messages/MoveMessage.hpp"
 
 bool SpaceshipTextView::notify(Message& msg)
 {

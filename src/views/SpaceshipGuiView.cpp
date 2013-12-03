@@ -2,8 +2,8 @@
 
 #include "SpaceshipGuiView.hpp"
 
-#include "Movable.hpp"
-#include "MoveMessage.hpp"
+#include "components/Movable.hpp"
+#include "messages/MoveMessage.hpp"
 
 SpaceshipGuiView::SpaceshipGuiView(std::shared_ptr<Spaceship> spaceship)
 	: spaceship(spaceship)
@@ -18,9 +18,14 @@ bool SpaceshipGuiView::notify(Message& msg)
 
 void SpaceshipGuiView::render(sf::RenderWindow& w)
 {
+	auto movable = spaceship->getComponent<Movable>();
+	if(!movable) {
+		return;
+	}
+
 	sf::RectangleShape rectangle(sf::Vector2f(120, 50));
 
-	Coordinate location = spaceship->getComponent<Movable>()->getLocation();
+	Coordinate location = movable->getLocation();
 
 	rectangle.setPosition(location.x - 120 / 2, location.y - 50 / 2);
 

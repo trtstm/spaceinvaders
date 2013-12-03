@@ -1,16 +1,21 @@
 #include "Movable.hpp"
 
-#include "MoveMessage.hpp"
+#include "messages/MoveMessage.hpp"
 
 Movable::Movable()
-	: Component(MOVABLE), location(Coordinate(0, 0))
+	: Component(MOVABLE), location(Coordinate(0, 0)), speed(100)
+{
+}
+
+Movable::Movable(Coordinate location, double speed)
+	: Component(MOVABLE), location(location), speed(speed)
 {
 }
 
 void Movable::moveLeft(double dt)
 {
 	auto newLocation = location;
-	newLocation.x -= 800 * dt;
+	newLocation.x -= speed * dt;
 
 	setLocation(newLocation);
 }
@@ -18,7 +23,7 @@ void Movable::moveLeft(double dt)
 void Movable::moveRight(double dt)
 {
 	auto newLocation = location;
-	newLocation.x += 800 * dt;
+	newLocation.x += speed * dt;
 
 	setLocation(newLocation);
 }
@@ -26,7 +31,7 @@ void Movable::moveRight(double dt)
 void Movable::moveUp(double dt)
 {
 	auto newLocation = location;
-	newLocation.y -= 800 * dt;
+	newLocation.y -= speed * dt;
 
 	setLocation(newLocation);
 }
@@ -34,7 +39,7 @@ void Movable::moveUp(double dt)
 void Movable::moveDown(double dt)
 {
 	auto newLocation = location;
-	newLocation.y += 800 * dt;
+	newLocation.y += speed * dt;
 
 	setLocation(newLocation);
 }

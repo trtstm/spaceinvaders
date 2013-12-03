@@ -1,7 +1,7 @@
 #ifndef OBSERVER_HPP
 #define OBSERVER_HPP
 
-#include "Message.hpp"
+#include "messages/Message.hpp"
 
 class Observer {
 	public:

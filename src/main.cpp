@@ -4,23 +4,31 @@
 #include <memory>
 #include <array>
 
-#include "SpaceshipController.hpp"
-#include "Entity.hpp"
-#include "Spaceship.hpp"
-#include "Movable.hpp"
-#include "SpaceshipTextView.hpp"
-#include "SpaceshipGuiView.hpp"
+#include "controllers/SpaceshipController.hpp"
+#include "controllers/BulletController.hpp"
+#include "models/Entity.hpp"
+#include "models/Spaceship.hpp"
+#include "models/Bullet.hpp"
+#include "components/Movable.hpp"
+#include "views/SpaceshipTextView.hpp"
+#include "views/SpaceshipGuiView.hpp"
+#include "views/BulletGuiView.hpp"
 
 int main()
 {
 	auto spaceship = std::make_shared<Spaceship>();
-	auto view = std::make_shared<SpaceshipGuiView>(spaceship);
-	auto movable = std::make_shared<Movable>();
-	movable->setLocation(Coordinate(400,575));
-	movable->registerObserver(view);
-	spaceship->setComponent(movable);
+	auto spaceshipMovable = std::make_shared<Movable>(Coordinate(400,575), 800);
+	auto spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship);
+	spaceshipMovable->registerObserver(spaceshipView);
+	spaceship->setComponent(spaceshipMovable);
+	SpaceshipController spaceshipController(spaceship);
 
-	SpaceshipController spc(spaceship);
+	auto bullet = std::make_shared<Bullet>();
+	auto bulletMovable = std::make_shared<Movable>(Coordinate(400,575), 100);
+	auto bulletView = std::make_shared<BulletGuiView>(bullet);
+	bulletMovable->registerObserver(bulletView);
+	bullet->setComponent(bulletMovable);
+	BulletController bulletController(bullet);
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
 
@@ -51,24 +59,24 @@ int main()
 				default:
 					break;
 			}
-
-			if (event.type == sf::Event::Closed)
-				window.close();
 		}
 
 		double dt = clock.restart().asSeconds();
 
 		if(keys[sf::Keyboard::Left]) {
-			spc.moveLeft(dt);
+			spaceshipController.moveLeft(dt);
 		}
 
 		if(keys[sf::Keyboard::Right]) {
-			spc.moveRight(dt);
+			spaceshipController.moveRight(dt);
 		}
+
+		bulletController.update(dt);
 
 		window.clear(sf::Color::Black);
 
-		view->render(window);
+		spaceshipView->render(window);
+		bulletView->render(window);
 
 		window.display();
 	}

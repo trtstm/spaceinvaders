@@ -1,0 +1,7 @@
+SET(SRC 
+	${SRC}
+	${CMAKE_CURRENT_SOURCE_DIR}/SpaceshipTextView.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/SpaceshipGuiView.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BulletGuiView.cpp
+	PARENT_SCOPE)
+

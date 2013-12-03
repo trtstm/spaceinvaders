@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "Observer.hpp"
-#include "Message.hpp"
+#include "messages/Message.hpp"
 
 class SpaceshipTextView : public Observer {
 	public:
