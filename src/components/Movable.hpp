@@ -1,13 +1,16 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
+#include <memory>
+
 #include "Component.hpp"
 #include "Coordinate.hpp"
+#include "models/Entity.hpp"
 
 class Movable : public Component {
 	public:
-		Movable();
-		Movable(Coordinate location, double speed);
+		Movable(std::shared_ptr<Entity> entity);
+		Movable(std::shared_ptr<Entity> entity, Coordinate location, double speed);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);

@@ -10,6 +10,7 @@ class Component;
 
 class Entity {
 	public:
+		Entity();
 		virtual ~Entity() ;
 
 		/**
@@ -29,10 +30,20 @@ class Entity {
 		*/
 		template <class T>
 		T* getComponent();
+
+		int getId() const;
 		
-		
+		bool operator==(const Entity& e) const;
+		bool operator!=(const Entity& e) const;
+		bool operator<(const Entity& e) const;
+		bool operator>(const Entity& e) const;
+		bool operator<=(const Entity& e) const;
+		bool operator>=(const Entity& e) const;
 
 	private:
+		static int idCounter;
+		const int id;
+
 		std::map< std::string, std::shared_ptr<Component> > components;
 };
 

@@ -2,13 +2,13 @@
 
 #include "messages/MoveMessage.hpp"
 
-Movable::Movable()
-	: Component(MOVABLE), location(Coordinate(0, 0)), speed(100)
+Movable::Movable(std::shared_ptr<Entity> entity)
+	: Component(MOVABLE, entity), location(Coordinate(0, 0)), speed(100)
 {
 }
 
-Movable::Movable(Coordinate location, double speed)
-	: Component(MOVABLE), location(location), speed(speed)
+Movable::Movable(std::shared_ptr<Entity> entity, Coordinate location, double speed)
+	: Component(MOVABLE, entity), location(location), speed(speed)
 {
 }
 
@@ -50,7 +50,7 @@ void Movable::setLocation(Coordinate location)
 
 	this->location = location;
 
-	MoveMessage msg(0, oldLocation, this->location);
+	MoveMessage msg(getEntity(), oldLocation, this->location);
 	notifyObservers(msg);
 }
 

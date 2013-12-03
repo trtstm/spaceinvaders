@@ -1,7 +1,7 @@
 #include "Message.hpp"
 
-Message::Message(MessageType type, unsigned int sender)
-	: type(type), sender(sender)
+Message::Message(MessageType type, std::shared_ptr<Entity> entity)
+	: type(type), entity(entity)
 {
 }
 
@@ -14,7 +14,7 @@ MessageType Message::getType() const
 	return type;
 }
 
-unsigned int Message::getSender() const
+std::shared_ptr<Entity> Message::getEntity()
 {
-	return sender;
+	return entity;
 }

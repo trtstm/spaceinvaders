@@ -1,11 +1,15 @@
 #ifndef MESSAGE_HPP
 #define MESSAGE_HPP
 
-enum MessageType {MOVE};
+#include <memory>
+
+#include "models/Entity.hpp"
+
+enum MessageType {MOVE, COLLISION};
 
 class Message {
 	public:
-		Message(MessageType type, unsigned int sender);
+		Message(MessageType type, std::shared_ptr<Entity> entity);
 		virtual ~Message() = 0;
 
 		/**
@@ -20,11 +24,11 @@ class Message {
 		*
 		* @return The sender's id.
 		*/
-		unsigned int getSender() const;
+		std::shared_ptr<Entity> getEntity();
 
 	private:
 		MessageType type;
-		unsigned int sender;
+		std::shared_ptr<Entity> entity;
 };
 
 #endif

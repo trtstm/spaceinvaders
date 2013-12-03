@@ -1,6 +1,6 @@
 #include "MoveMessage.hpp"
 
-MoveMessage::MoveMessage(unsigned int sender, const Coordinate& oldPosition, const Coordinate& newPosition)
-	: Message(MOVE, sender), oldPosition(oldPosition), newPosition(newPosition)
+MoveMessage::MoveMessage(std::shared_ptr<Entity> entity, const Coordinate& oldPosition, const Coordinate& newPosition)
+	: Message(MOVE, entity), oldPosition(oldPosition), newPosition(newPosition)
 {
 }

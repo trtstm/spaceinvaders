@@ -1,8 +1,9 @@
+#include <iostream>
+
 #include "Subject.hpp"
 
 void Subject::registerObserver(std::shared_ptr<Observer> observer)
 {
-	observers.erase(observer);
 	observers.insert(observer);
 }
 
