@@ -9,20 +9,20 @@ SpaceshipController::SpaceshipController(std::shared_ptr<Spaceship> spaceship)
 
 void SpaceshipController::moveLeft(double dt)
 {
-	auto component = spaceship->getComponent<Movable>();
-	if(!component) {
+	auto movable = spaceship->getComponent<Movable>();
+	if(!movable) {
 		return;
 	}
 
-	component->moveLeft(dt);
+	movable->moveLeft(dt);
 }
 
 void SpaceshipController::moveRight(double dt)
 {
-	auto component = spaceship->getComponent<Movable>();
-	if(!component) {
+	auto movable = spaceship->getComponent<Movable>();
+	if(!movable) {
 		return;
 	}
 
-	component->moveRight(dt);
+	movable->moveRight(dt);
 }

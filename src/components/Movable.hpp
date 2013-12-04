@@ -9,19 +9,19 @@
 
 class Movable : public Component {
 	public:
-		Movable(std::shared_ptr<Entity> entity);
 		Movable(std::shared_ptr<Entity> entity, Coordinate location, double speed);
+		virtual ~Movable();		
 
-		void moveLeft(double dt);
-		void moveRight(double dt);
-		void moveUp(double dt);
-		void moveDown(double dt);
+		virtual void moveLeft(double dt);
+		virtual void moveRight(double dt);
+		virtual void moveUp(double dt);
+		virtual void moveDown(double dt);
 
-		void setLocation(Coordinate location);
+		virtual void setLocation(Coordinate location);
 
 		Coordinate getLocation() const;
 
-	private:
+	protected:
 		Coordinate location;
 		double speed;
 };

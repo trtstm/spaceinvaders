@@ -10,6 +10,7 @@
 #include "models/Spaceship.hpp"
 #include "models/Bullet.hpp"
 #include "components/Movable.hpp"
+#include "components/SpaceshipMovable.hpp"
 #include "components/Collidable.hpp"
 #include "views/SpaceshipTextView.hpp"
 #include "views/SpaceshipGuiView.hpp"
@@ -27,11 +28,11 @@ int main()
 	block->setComponent(blockCollidable);
 
 	auto spaceship = std::make_shared<Spaceship>();
-	auto spaceshipMovable = std::make_shared<Movable>(spaceship, Coordinate(400,575), 800);
+	auto spaceshipMovable = std::make_shared<SpaceshipMovable>(spaceship, Coordinate(400,575), 800);
 	auto spaceshipCollidable = std::make_shared<Collidable>(spaceship);
 	auto spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship);
 	spaceshipMovable->registerObserver(spaceshipView);
-	spaceship->setComponent(spaceshipMovable);
+	spaceship->setComponent<Movable>(spaceshipMovable);
 	spaceship->setComponent(spaceshipCollidable);
 	SpaceshipController spaceshipController(spaceship);
 
