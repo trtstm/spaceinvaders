@@ -3,5 +3,7 @@ SET(SRC ${SRC}
 	${CMAKE_CURRENT_SOURCE_DIR}/Movable.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SpaceshipMovable.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Collidable.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BulletCollidable.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Livable.cpp
 	PARENT_SCOPE)
 

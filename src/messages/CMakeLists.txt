@@ -2,5 +2,7 @@ SET(SRC ${SRC}
 	${CMAKE_CURRENT_SOURCE_DIR}/Message.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MoveMessage.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CollisionMessage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BulletHitMessage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/DiedMessage.cpp
 	PARENT_SCOPE)
 

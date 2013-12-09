@@ -5,7 +5,7 @@
 
 #include "models/Entity.hpp"
 
-enum MessageType {MOVE, COLLISION};
+enum MessageType {MOVE, COLLISION, BULLETHIT, DIED, DELETEENTITY};
 
 class Message {
 	public:

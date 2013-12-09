@@ -6,7 +6,7 @@
 #include "Subject.hpp"
 #include "models/Entity.hpp"
 
-enum ComponentType {MOVABLE, COLLIDABLE};
+enum ComponentType {MOVABLE, COLLIDABLE, LIVABLE};
 
 class Component : public Subject {
 	public:

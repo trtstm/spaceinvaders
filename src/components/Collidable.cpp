@@ -7,7 +7,7 @@ Collidable::Collidable(std::shared_ptr<Entity> entity)
 {
 }
 
-void Collidable::onCollision()
+void Collidable::checkCollision(std::shared_ptr<Entity> subject)
 {
 	CollisionMessage msg(getEntity());
 	notifyObservers(msg);

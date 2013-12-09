@@ -24,7 +24,9 @@ bool CollisionSystem::notify(Message& msg)
 
 			if(moveMsg.getEntity()->getComponent<Collidable>()) {
 				if(moveMsg.newPosition.y < 100) {
-					moveMsg.getEntity()->getComponent<Collidable>()->onCollision();
+					for(auto& entity : entities) {
+						moveMsg.getEntity()->getComponent<Collidable>()->checkCollision(entity);
+					}
 				}
 
 			}

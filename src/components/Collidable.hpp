@@ -11,7 +11,7 @@ class Collidable : public Component {
 	public:
 		Collidable(std::shared_ptr<Entity> entity);
 
-		void onCollision();
+		virtual void checkCollision(std::shared_ptr<Entity> subject);
 
 	private:
 };

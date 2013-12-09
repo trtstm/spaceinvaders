@@ -5,12 +5,17 @@
 
 #include "models/Spaceship.hpp"
 
-class SpaceshipController {
+#include "messages/Message.hpp"
+#include "Observer.hpp"
+
+class SpaceshipController : public Observer {
 	public:
 		SpaceshipController(std::shared_ptr<Spaceship> spaceship);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
+
+		bool notify(Message& msg);
 
 	private:
 		std::shared_ptr<Spaceship> spaceship;
