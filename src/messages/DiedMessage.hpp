@@ -8,7 +8,7 @@
 
 class DiedMessage : public Message {
 	public:
-		DiedMessage(std::shared_ptr<Entity> entity);
+		DiedMessage(int entity);
 };
 
 #endif

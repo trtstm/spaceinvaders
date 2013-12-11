@@ -6,7 +6,7 @@
 
 bool SpaceshipTextView::notify(Message& msg)
 {
-	switch(msg.getType()) {
+	switch(msg.type) {
 		case MOVE:
 		{
 			std::cout << "Spaceship new location: " << static_cast<MoveMessage&>(msg).newPosition << std::endl;	

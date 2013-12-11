@@ -9,7 +9,7 @@
 
 class SpaceshipMovable : public Movable {
 	public:
-		SpaceshipMovable(std::shared_ptr<Entity> entity, Coordinate location, double speed);
+		SpaceshipMovable(int entity, Coordinate location, double speed);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);

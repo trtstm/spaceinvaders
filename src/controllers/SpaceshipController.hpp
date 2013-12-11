@@ -4,9 +4,9 @@
 #include <memory>
 
 #include "models/Spaceship.hpp"
-
 #include "messages/Message.hpp"
 #include "Observer.hpp"
+#include "Coordinate.hpp"
 
 class SpaceshipController : public Observer {
 	public:
@@ -14,6 +14,8 @@ class SpaceshipController : public Observer {
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
+
+		Coordinate getLocation();
 
 		bool notify(Message& msg);
 

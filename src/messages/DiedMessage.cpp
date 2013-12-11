@@ -1,6 +1,6 @@
 #include "DiedMessage.hpp"
 
-DiedMessage::DiedMessage(std::shared_ptr<Entity> entity)
+DiedMessage::DiedMessage(int entity)
 	: Message(DIED, entity)
 {
 }

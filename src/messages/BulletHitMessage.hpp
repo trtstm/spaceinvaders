@@ -8,9 +8,9 @@
 
 class BulletHitMessage : public Message {
 	public:
-		BulletHitMessage(std::shared_ptr<Entity> entity, std::shared_ptr<Entity> subject);
+		BulletHitMessage(int entity, int subject);
 
-		std::shared_ptr<Entity> subject;
+		int subject;
 };
 
 #endif

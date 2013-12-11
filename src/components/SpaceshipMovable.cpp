@@ -2,7 +2,7 @@
 
 #include "messages/MoveMessage.hpp"
 
-SpaceshipMovable::SpaceshipMovable(std::shared_ptr<Entity> entity, Coordinate location, double speed)
+SpaceshipMovable::SpaceshipMovable(int entity, Coordinate location, double speed)
 	: Movable(entity, location, speed)
 {
 }

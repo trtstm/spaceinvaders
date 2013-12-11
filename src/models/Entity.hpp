@@ -1,16 +1,19 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <iostream>
 #include <map>
 #include <string>
 #include <memory>
 #include <typeinfo>
 
+#include "components/Movable.hpp"
+
 class Component;
 
 class Entity {
 	public:
-		Entity();
+		Entity(std::shared_ptr<Movable> movable);
 		virtual ~Entity() ;
 
 		/**
@@ -32,6 +35,11 @@ class Entity {
 		T* getComponent();
 
 		int getId() const;
+
+		void moveLeft(double dt);
+		void moveRight(double dt);
+		void moveUp(double dt);
+		void moveDown(double dt);
 		
 		bool operator==(const Entity& e) const;
 		bool operator!=(const Entity& e) const;
@@ -40,8 +48,11 @@ class Entity {
 		bool operator<=(const Entity& e) const;
 		bool operator>=(const Entity& e) const;
 
-	private:
+	protected:
+		std::shared_ptr<Movable> movable;		
+
 		static int idCounter;
+	private:
 		const int id;
 
 		std::map< std::string, std::shared_ptr<Component> > components;

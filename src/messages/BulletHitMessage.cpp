@@ -1,6 +1,6 @@
 #include "BulletHitMessage.hpp"
 
-BulletHitMessage::BulletHitMessage(std::shared_ptr<Entity> entity, std::shared_ptr<Entity> subject)
+BulletHitMessage::BulletHitMessage(int entity, int subject)
 	: Message(BULLETHIT, entity), subject(subject)
 {
 }

@@ -19,9 +19,6 @@ bool SpaceshipGuiView::notify(Message& msg)
 void SpaceshipGuiView::render(sf::RenderWindow& w)
 {
 	auto movable = spaceship->getComponent<Movable>();
-	if(!movable) {
-		return;
-	}
 
 	sf::RectangleShape rectangle(sf::Vector2f(120, 50));
 

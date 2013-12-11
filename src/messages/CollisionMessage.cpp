@@ -1,6 +1,6 @@
 #include "CollisionMessage.hpp"
 
-CollisionMessage::CollisionMessage(std::shared_ptr<Entity> entity)
+CollisionMessage::CollisionMessage(int entity)
 	: Message(COLLISION, entity)
 {
 }

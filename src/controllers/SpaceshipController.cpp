@@ -13,32 +13,27 @@ SpaceshipController::SpaceshipController(std::shared_ptr<Spaceship> spaceship)
 
 void SpaceshipController::moveLeft(double dt)
 {
-	auto movable = spaceship->getComponent<Movable>();
-	if(!movable) {
-		return;
-	}
-
-	movable->moveLeft(dt);
+	spaceship->moveLeft(dt);
 }
 
 void SpaceshipController::moveRight(double dt)
 {
-	auto movable = spaceship->getComponent<Movable>();
-	if(!movable) {
-		return;
-	}
+	spaceship->moveRight(dt);
+}
 
-	movable->moveRight(dt);
+Coordinate SpaceshipController::getLocation()
+{
+	return spaceship->getComponent<Movable>()->getLocation();
 }
 
 bool SpaceshipController::notify(Message& msg)
 {
-	switch(msg.getType()) {
+	switch(msg.type) {
 		case DIED:
 		{
 			auto diedMsg = static_cast<DiedMessage&>(msg);
 	
-			if(diedMsg.getEntity()->getId() == spaceship->getId()) {
+			if(diedMsg.entity == spaceship->getId()) {
 				std::cout << "We died" << std::endl;
 			}
 
@@ -49,7 +44,7 @@ bool SpaceshipController::notify(Message& msg)
 		{
 			auto bulletHitMsg = static_cast<BulletHitMessage&>(msg);
 	
-			if(bulletHitMsg.subject->getId() == spaceship->getId()) {
+			if(bulletHitMsg.subject == spaceship->getId()) {
 				auto livable = spaceship->getComponent<Livable>();
 				if(!livable) {
 					break;

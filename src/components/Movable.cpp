@@ -2,7 +2,7 @@
 
 #include "messages/MoveMessage.hpp"
 
-Movable::Movable(std::shared_ptr<Entity> entity, Coordinate location, double speed)
+Movable::Movable(int entity, Coordinate location, double speed)
 	: Component(MOVABLE, entity), location(location), speed(speed)
 {
 }
@@ -49,7 +49,7 @@ void Movable::setLocation(Coordinate location)
 
 	this->location = location;
 
-	MoveMessage msg(getEntity(), oldLocation, this->location);
+	MoveMessage msg(entity, oldLocation, this->location);
 	notifyObservers(msg);
 }
 

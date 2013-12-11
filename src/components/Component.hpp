@@ -4,22 +4,17 @@
 #include <memory>
 
 #include "Subject.hpp"
-#include "models/Entity.hpp"
 
 enum ComponentType {MOVABLE, COLLIDABLE, LIVABLE};
 
 class Component : public Subject {
 	public:
-		Component(ComponentType type, std::shared_ptr<Entity> entity);
+		Component(ComponentType type, int entity);
 		virtual ~Component() = 0;
-	
-		ComponentType getType() const;
 
-		std::shared_ptr<Entity> getEntity();
-
-	private:
+	protected:
 		ComponentType type;
-		std::shared_ptr<Entity> entity;
+		int entity;
 };
 
 #endif

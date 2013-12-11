@@ -8,7 +8,7 @@
 
 class Livable : public Component {
 	public:
-		Livable(std::shared_ptr<Entity> entity, int health);
+		Livable(int entity, int health);
 		virtual ~Livable();		
 
 		void doDamage(int damage);

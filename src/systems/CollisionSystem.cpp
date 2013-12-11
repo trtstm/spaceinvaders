@@ -17,23 +17,7 @@ void CollisionSystem::removeEntity(std::shared_ptr<Entity> entity)
 
 bool CollisionSystem::notify(Message& msg)
 {
-	switch(msg.getType()) {
-		case MOVE:
-		{
-			auto moveMsg = static_cast<MoveMessage&>(msg);
 
-			if(moveMsg.getEntity()->getComponent<Collidable>()) {
-				if(moveMsg.newPosition.y < 100) {
-					for(auto& entity : entities) {
-						moveMsg.getEntity()->getComponent<Collidable>()->checkCollision(entity);
-					}
-				}
-
-			}
-
-			break;
-		}
-	};
 
 	return true;
 }

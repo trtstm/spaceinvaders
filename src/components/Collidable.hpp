@@ -9,7 +9,7 @@
 
 class Collidable : public Component {
 	public:
-		Collidable(std::shared_ptr<Entity> entity);
+		Collidable(int entity);
 
 		virtual void checkCollision(std::shared_ptr<Entity> subject);
 

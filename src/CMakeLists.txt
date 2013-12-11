@@ -1,5 +1,5 @@
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/)
-SET(SRC main.cpp Observer.cpp Subject.cpp Coordinate.cpp)
+SET(SRC main.cpp Observer.cpp Subject.cpp Coordinate.cpp SpaceInvaders.cpp)
 ADD_SUBDIRECTORY(controllers)
 ADD_SUBDIRECTORY(models)
 ADD_SUBDIRECTORY(views)

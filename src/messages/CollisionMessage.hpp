@@ -8,7 +8,7 @@
 
 class CollisionMessage : public Message {
 	public:
-		CollisionMessage(std::shared_ptr<Entity> entity);
+		CollisionMessage(int entity);
 };
 
 #endif

@@ -5,11 +5,10 @@
 
 #include "Component.hpp"
 #include "Coordinate.hpp"
-#include "models/Entity.hpp"
 
 class Movable : public Component {
 	public:
-		Movable(std::shared_ptr<Entity> entity, Coordinate location, double speed);
+		Movable(int entity, Coordinate location, double speed);
 		virtual ~Movable();		
 
 		virtual void moveLeft(double dt);

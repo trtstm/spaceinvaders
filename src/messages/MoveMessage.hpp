@@ -9,7 +9,7 @@
 
 class MoveMessage : public Message {
 	public:
-		MoveMessage(std::shared_ptr<Entity> entity, const Coordinate& oldPosition, const Coordinate& newPosition);
+		MoveMessage(int entity, const Coordinate& oldPosition, const Coordinate& newPosition);
 
 		Coordinate oldPosition;
 		Coordinate newPosition;

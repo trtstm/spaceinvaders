@@ -9,7 +9,7 @@
 
 class BulletCollidable : public Collidable {
 	public:
-		BulletCollidable(std::shared_ptr<Entity> entity);
+		BulletCollidable(int entity);
 
 		void checkCollision(std::shared_ptr<Entity> subject);
 

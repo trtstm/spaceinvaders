@@ -2,13 +2,12 @@
 
 #include "messages/CollisionMessage.hpp"
 
-Collidable::Collidable(std::shared_ptr<Entity> entity)
+Collidable::Collidable(int entity)
 	: Component(COLLIDABLE, entity)
 {
 }
 
 void Collidable::checkCollision(std::shared_ptr<Entity> subject)
 {
-	CollisionMessage msg(getEntity());
-	notifyObservers(msg);
+
 }
