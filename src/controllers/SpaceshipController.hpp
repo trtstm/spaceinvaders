@@ -17,6 +17,8 @@ class SpaceshipController : public Observer {
 
 		Coordinate getLocation();
 
+		bool isAlive() const;
+
 		bool notify(Message& msg);
 
 	private:

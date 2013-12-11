@@ -2,6 +2,7 @@
 #define COLLIDABLE_HPP
 
 #include <memory>
+#include <SFML/Graphics/Rect.hpp>
 
 #include "Component.hpp"
 #include "Coordinate.hpp"
@@ -9,11 +10,14 @@
 
 class Collidable : public Component {
 	public:
-		Collidable(int entity);
+		Collidable(int entity, sf::Rect<double> rect);
 
-		virtual void checkCollision(std::shared_ptr<Entity> subject);
+		virtual void onCollision(int subject);
 
-	private:
+		sf::Rect<double> getRect() const;
+
+	protected:
+		sf::Rect<double> rect;
 };
 
 #endif

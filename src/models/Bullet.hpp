@@ -6,10 +6,13 @@
 
 class Bullet : public Entity {
 	public:
-		Bullet(Coordinate location, double speed);
+		Bullet(Coordinate location, double speed, int owner);
 		~Bullet();
 
+		int getOwner() const;
+
 	private:
+		int owner;
 };
 
 #endif

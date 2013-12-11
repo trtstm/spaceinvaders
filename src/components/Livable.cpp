@@ -16,7 +16,7 @@ Livable::~Livable()
 void Livable::doDamage(int damage)
 {
 	health -= damage;
-	std::cout << health << std::endl;
+
 	if(health <= 0) {
 		DiedMessage msg(entity);
 		notifyObservers(msg);

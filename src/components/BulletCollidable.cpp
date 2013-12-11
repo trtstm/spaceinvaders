@@ -1,14 +1,20 @@
+#include <iostream>
+
 #include "BulletCollidable.hpp"
 
 #include "messages/BulletHitMessage.hpp"
 
-BulletCollidable::BulletCollidable(int entity)
-	: Collidable(entity)
+BulletCollidable::BulletCollidable(int entity, sf::Rect<double> rect)
+	: Collidable(entity, rect)
 {
 }
 
-void BulletCollidable::checkCollision(std::shared_ptr<Entity> subject)
+void BulletCollidable::onCollision(int subject)
 {
-	BulletHitMessage msg(entity, subject->getId());
+	if(entity == subject) {
+		return;
+	}
+
+	BulletHitMessage msg(entity, subject);
 	notifyObservers(msg);
 }

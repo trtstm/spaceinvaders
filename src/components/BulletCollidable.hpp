@@ -9,9 +9,9 @@
 
 class BulletCollidable : public Collidable {
 	public:
-		BulletCollidable(int entity);
+		BulletCollidable(int entity, sf::Rect<double> rect);
 
-		void checkCollision(std::shared_ptr<Entity> subject);
+		void onCollision(int subject);
 
 	private:
 };

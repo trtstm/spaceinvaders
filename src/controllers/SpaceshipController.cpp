@@ -26,30 +26,32 @@ Coordinate SpaceshipController::getLocation()
 	return spaceship->getComponent<Movable>()->getLocation();
 }
 
+bool SpaceshipController::isAlive() const
+{
+	auto livable = spaceship->getComponent<Livable>();
+	if(!livable) {
+		return false;
+	}
+
+	return (livable->getHealth() > 0.0);
+}
+
 bool SpaceshipController::notify(Message& msg)
 {
 	switch(msg.type) {
-		case DIED:
-		{
-			auto diedMsg = static_cast<DiedMessage&>(msg);
-	
-			if(diedMsg.entity == spaceship->getId()) {
-				std::cout << "We died" << std::endl;
-			}
-
-			break;
-		}
-
 		case BULLETHIT:
 		{
-			auto bulletHitMsg = static_cast<BulletHitMessage&>(msg);
+			auto bulletHitMessage = static_cast<BulletHitMessage&>(msg);
+			if(bulletHitMessage.subject != spaceship->getId()) {
+				break;
+			}
 	
-			if(bulletHitMsg.subject == spaceship->getId()) {
+			if(bulletHitMessage.subject == spaceship->getId()) {
 				auto livable = spaceship->getComponent<Livable>();
 				if(!livable) {
 					break;
 				}
-
+			std::cout << "We got hit" << std::endl;
 				livable->doDamage(1);
 			}
 

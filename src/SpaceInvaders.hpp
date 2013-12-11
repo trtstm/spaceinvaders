@@ -5,6 +5,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
+#include "systems/CollisionSystem.hpp"
+
 #include "controllers/SpaceshipController.hpp"
 #include "views/SpaceshipGuiView.hpp"
 
@@ -32,6 +34,9 @@ class SpaceInvaders {
 
 
 	private:
+		std::shared_ptr<CollisionSystem> collisions;
+
+		std::shared_ptr<Spaceship> spaceship;
 		std::shared_ptr<SpaceshipController> spaceshipController;
 		std::shared_ptr<SpaceshipGuiView> spaceshipView;
 		
