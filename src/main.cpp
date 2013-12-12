@@ -1,10 +1,21 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
 #include <iostream>
+#include <string>
+#include <sstream>
 #include <memory>
 #include <array>
 
 #include "SpaceInvaders.hpp"
+
+template <class T>
+std::string toString(const T& object)
+{
+	std::ostringstream ss;
+	ss << object;
+
+	return ss.str();
+}
 
 int main()
 {
@@ -14,6 +25,12 @@ int main()
 
 	std::array<bool, sf::Keyboard::KeyCount> keys;
 	keys.fill(false);
+
+	sf::Font font;
+	if(!font.loadFromFile("/usr/share/fonts/TTF/DejaVuSans.ttf")) {
+		std::cerr << "Could not read fonts" << std::endl;
+		return 0;
+	}
 
 	sf::Clock clock;
 	while(window.isOpen()) {
@@ -66,6 +83,14 @@ int main()
 		window.clear(sf::Color::Black);
 
 		game.render(window);
+
+		sf::Text text;
+		text.setFont(font);
+		text.setString(toString(1.0/dt).c_str());
+		text.setCharacterSize(16);
+		text.setColor(sf::Color::Red);
+		text.setPosition(10.0, 10.0);
+		window.draw(text);
 
 		window.display();
 	}
