@@ -9,11 +9,12 @@
 
 class BulletCollidable : public Collidable {
 	public:
-		BulletCollidable(int entity, sf::Rect<double> rect);
+		BulletCollidable(int entity, int bulletOwner, sf::Rect<double> rect);
 
 		void onCollision(int subject);
 
 	private:
+		int bulletOwner;
 };
 
 #endif

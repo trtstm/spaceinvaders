@@ -5,19 +5,30 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-#include "systems/CollisionSystem.hpp"
+class CollisionSystem;
 
-#include "controllers/SpaceshipController.hpp"
-#include "views/SpaceshipGuiView.hpp"
+class Spaceship;
+class Alien;
+class Bullet;
 
-#include "models/Bullet.hpp"
-#include "controllers/BulletController.hpp"
-#include "views/BulletGuiView.hpp"
+class SpaceshipController;
+class AlienController;
+class BulletController;
+
+class SpaceshipGuiView;
+class AlienGuiView;
+class BulletGuiView;
 
 struct BulletInfo {
 	std::shared_ptr<Bullet> model;
 	std::shared_ptr<BulletController> controller;
 	std::shared_ptr<BulletGuiView> view;
+};
+
+struct AlienInfo {
+	std::shared_ptr<Alien> model;
+	std::shared_ptr<AlienController> controller;
+	std::shared_ptr<AlienGuiView> view;
 };
 
 class SpaceInvaders {
@@ -41,6 +52,7 @@ class SpaceInvaders {
 		std::shared_ptr<SpaceshipGuiView> spaceshipView;
 		
 		std::vector<BulletInfo> bullets;
+		std::vector<AlienInfo> aliens;
 };
 
 #endif

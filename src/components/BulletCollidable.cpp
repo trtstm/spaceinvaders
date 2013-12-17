@@ -4,14 +4,14 @@
 
 #include "messages/BulletHitMessage.hpp"
 
-BulletCollidable::BulletCollidable(int entity, sf::Rect<double> rect)
-	: Collidable(entity, rect)
+BulletCollidable::BulletCollidable(int entity, int bulletOwner, sf::Rect<double> rect)
+	: Collidable(entity, rect), bulletOwner(bulletOwner)
 {
 }
 
 void BulletCollidable::onCollision(int subject)
 {
-	if(entity == subject) {
+	if(bulletOwner == subject) {
 		return;
 	}
 

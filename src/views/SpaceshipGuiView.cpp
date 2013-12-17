@@ -20,11 +20,11 @@ void SpaceshipGuiView::render(sf::RenderWindow& w)
 {
 	auto movable = spaceship->getComponent<Movable>();
 
-	sf::RectangleShape rectangle(sf::Vector2f(120, 50));
+	sf::RectangleShape rectangle(sf::Vector2f(80, 40));
 
 	Coordinate location = movable->getLocation();
 
-	rectangle.setPosition(location.x - 120 / 2, location.y - 50 / 2);
+	rectangle.setPosition(location.x - 80 / 2, location.y - 40 / 2);
 
 	w.draw(rectangle);
 }

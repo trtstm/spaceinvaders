@@ -23,11 +23,11 @@ void BulletGuiView::render(sf::RenderWindow& w)
 		return;
 	}
 
-	sf::RectangleShape rectangle(sf::Vector2f(10, 20));
+	sf::RectangleShape rectangle(sf::Vector2f(4, 10));
 
 	Coordinate location = movable->getLocation();
 
-	rectangle.setPosition(location.x - 10 / 2, location.y - 10 / 2);
+	rectangle.setPosition(location.x - 4 / 2, location.y - 10 / 2);
 
 	w.draw(rectangle);
 }
