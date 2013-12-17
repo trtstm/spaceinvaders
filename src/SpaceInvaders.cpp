@@ -25,22 +25,16 @@
 SpaceInvaders::SpaceInvaders()
 	: collisions(std::make_shared<CollisionSystem>())
 {
-	spaceship = std::make_shared<Spaceship>(Coordinate(400,580), 800);
 
+	spaceship = std::make_shared<Spaceship>(Coordinate(400,580), 800);
 	spaceshipController = std::make_shared<SpaceshipController>(spaceship);
 	spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship);
 
-	spaceship->getLivable().registerObserver(spaceshipController);
-
 	collisions->addEntity(spaceship);
-
 
 	for(unsigned int i = 0; i < 8; i++) {
 		auto alien = std::make_shared<Alien>(Coordinate(160 + 25 + i * 60, 50));
 		auto alienController = std::make_shared<AlienController>(alien);
-
-		alien->getLivable().registerObserver(alienController);
-
 		auto alienView = std::make_shared<AlienGuiView>(alien);
 
 		AlienInfo alienInfo;
@@ -71,22 +65,22 @@ void SpaceInvaders::update(double dt)
 	for(auto bulletInfo = bullets.begin(); bulletInfo != bullets.end();) {
 		bulletInfo->controller->update(dt);
 
-		if(bulletInfo->model->getMovable().getLocation().y < -50 || bulletInfo->model->getMovable().getLocation().y > 650) {
-			collisions->removeEntity(bulletInfo->model);
+		if(bulletInfo->model->getMovable().getLocation().y < -50 || bulletInfo->model->getMovable().getLocation().y > 650 || bulletInfo->model->getCollidable().hasCollided()) {
+			collisions->removeEntity(bulletInfo->model->getId());
 			bulletInfo = bullets.erase(bulletInfo);
 		} else {
 			bulletInfo++;
 		}
 	}
 
-	std::vector<AlienInfo> livingAliens;
-	for(auto& alienInfo : aliens) {
-		if(alienInfo.controller->isAlive()) {
-			livingAliens.push_back(alienInfo);
+	for(auto alienInfo = aliens.begin(); alienInfo != aliens.end();) {
+		if(!alienInfo->controller->isAlive()) {
+			collisions->removeEntity(alienInfo->model->getId());
+			alienInfo = aliens.erase(alienInfo);
+		} else {
+			alienInfo++;
 		}
 	}
-
-	aliens = livingAliens;
 
 	if(!spaceshipController->isAlive()) {
 		std::cout << "We died" << std::endl;
@@ -125,11 +119,11 @@ void SpaceInvaders::shoot()
 	auto bulletController = std::make_shared<BulletController>(bullet);
 	auto bulletView = std::make_shared<BulletGuiView>(bullet);
 
-	//bullet->getComponent<Collidable>()->registerObserver(spaceshipController);
-	//bullet->getComponent<Movable>()->registerObserver(collisions);
+	bullet->getCollidable().registerObserver(spaceshipController);
+	bullet->getMovable().registerObserver(collisions);
 
 	for(auto& alienInfo : aliens) {
-		//bullet->getComponent<Collidable>()->registerObserver(alienInfo.controller);
+		bullet->getCollidable().registerObserver(alienInfo.controller);
 	}
 
 	collisions->addEntity(bullet);

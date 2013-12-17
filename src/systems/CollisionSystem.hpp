@@ -9,7 +9,7 @@
 class CollisionSystem : public Observer {
 	public:
 		void addEntity(std::shared_ptr<Entity> entity);
-		void removeEntity(std::shared_ptr<Entity> entity);
+		void removeEntity(int entity);
 
 		bool notify(Message& msg);
 

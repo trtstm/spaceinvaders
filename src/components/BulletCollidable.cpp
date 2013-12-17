@@ -15,6 +15,8 @@ void BulletCollidable::onCollision(int subject)
 		return;
 	}
 
+	collided = true;
+
 	BulletHitMessage msg(entity, subject);
 	notifyObservers(msg);
 }

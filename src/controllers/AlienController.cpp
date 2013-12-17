@@ -18,7 +18,7 @@ Coordinate AlienController::getLocation()
 
 bool AlienController::isAlive() const
 {
-	auto livable = alien->getLivable();
+	auto& livable = alien->getLivable();
 
 	return (livable.getHealth() > 0.0);
 }
@@ -33,7 +33,7 @@ bool AlienController::notify(Message& msg)
 				break;
 			}
 	
-			auto livable = alien->getLivable();
+			auto& livable = alien->getLivable();
 
 			livable.doDamage(1);
 

@@ -18,7 +18,7 @@ bool AlienGuiView::notify(Message& msg)
 
 void AlienGuiView::render(sf::RenderWindow& w)
 {
-	auto movable = alien->getMovable();
+	auto& movable = alien->getMovable();
 
 	sf::RectangleShape rectangle(sf::Vector2f(50, 30));
 

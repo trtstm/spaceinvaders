@@ -18,7 +18,7 @@ bool BulletGuiView::notify(Message& msg)
 
 void BulletGuiView::render(sf::RenderWindow& w)
 {
-	auto movable = bullet->getMovable();
+	auto& movable = bullet->getMovable();
 
 	sf::RectangleShape rectangle(sf::Vector2f(4, 10));
 

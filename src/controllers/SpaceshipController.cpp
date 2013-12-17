@@ -28,7 +28,7 @@ Coordinate SpaceshipController::getLocation()
 
 bool SpaceshipController::isAlive() const
 {
-	auto livable = spaceship->getLivable();
+	auto& livable = spaceship->getLivable();
 
 	return (livable.getHealth() > 0.0);
 }
@@ -44,7 +44,7 @@ bool SpaceshipController::notify(Message& msg)
 			}
 	
 			if(bulletHitMessage.subject == spaceship->getId()) {
-				auto livable = spaceship->getLivable();
+				auto& livable = spaceship->getLivable();
 
 				livable.doDamage(1);
 			}

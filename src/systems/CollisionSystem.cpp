@@ -10,18 +10,18 @@ void CollisionSystem::addEntity(std::shared_ptr<Entity> entity)
 	entities[entity->getId()] = entity;
 }
 
-void CollisionSystem::removeEntity(std::shared_ptr<Entity> entity)
+void CollisionSystem::removeEntity(int entity)
 {
-	entities.erase(entity->getId());
+	entities.erase(entity);
 }
 
 bool CollisionSystem::notify(Message& msg)
 {
 	// The sender has to be added with the addEntity method!
 	auto sender = entities[msg.entity];
-	auto senderCollidable = sender->getCollidable();
+	auto& senderCollidable = sender->getCollidable();
 
-	auto senderMovable = sender->getMovable();
+	auto& senderMovable = sender->getMovable();
 	switch(msg.type) {
 		case MOVE:
 		{
@@ -31,8 +31,8 @@ bool CollisionSystem::notify(Message& msg)
 				}	
 
 				auto subject = entity.second;
-				auto subjectCollidable = subject->getCollidable();
-				auto subjectMovable = subject->getMovable();
+				auto& subjectCollidable = subject->getCollidable();
+				auto& subjectMovable = subject->getMovable();
 
 				auto senderRect = senderCollidable.getRect();	
 				senderRect.left = senderMovable.getLocation().x - senderRect.width / 2;
