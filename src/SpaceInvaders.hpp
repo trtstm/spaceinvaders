@@ -34,6 +34,7 @@ struct AlienInfo {
 class SpaceInvaders {
 	public:
 		SpaceInvaders();
+		~SpaceInvaders();
 
 		void update(double dt);
 		void render(sf::RenderWindow& window);

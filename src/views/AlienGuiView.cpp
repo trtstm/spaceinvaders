@@ -18,11 +18,11 @@ bool AlienGuiView::notify(Message& msg)
 
 void AlienGuiView::render(sf::RenderWindow& w)
 {
-	auto movable = alien->getComponent<Movable>();
+	auto movable = alien->getMovable();
 
 	sf::RectangleShape rectangle(sf::Vector2f(50, 30));
 
-	Coordinate location = movable->getLocation();
+	Coordinate location = movable.getLocation();
 
 	rectangle.setPosition(location.x - 50 / 2, location.y - 30 / 2);
 

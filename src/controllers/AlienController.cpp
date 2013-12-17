@@ -13,17 +13,14 @@ AlienController::AlienController(std::shared_ptr<Alien> alien)
 
 Coordinate AlienController::getLocation()
 {
-	return alien->getComponent<Movable>()->getLocation();
+	return alien->getMovable().getLocation();
 }
 
 bool AlienController::isAlive() const
 {
-	auto livable = alien->getComponent<Livable>();
-	if(!livable) {
-		return false;
-	}
+	auto livable = alien->getLivable();
 
-	return (livable->getHealth() > 0.0);
+	return (livable.getHealth() > 0.0);
 }
 
 bool AlienController::notify(Message& msg)
@@ -36,12 +33,9 @@ bool AlienController::notify(Message& msg)
 				break;
 			}
 	
-			auto livable = alien->getComponent<Livable>();
-			if(!livable) {
-				break;
-			}
+			auto livable = alien->getLivable();
 
-			livable->doDamage(1);
+			livable.doDamage(1);
 
 			break;
 		}

@@ -18,14 +18,11 @@ bool BulletGuiView::notify(Message& msg)
 
 void BulletGuiView::render(sf::RenderWindow& w)
 {
-	auto movable = bullet->getComponent<Movable>();
-	if(!movable) {
-		return;
-	}
+	auto movable = bullet->getMovable();
 
 	sf::RectangleShape rectangle(sf::Vector2f(4, 10));
 
-	Coordinate location = movable->getLocation();
+	Coordinate location = movable.getLocation();
 
 	rectangle.setPosition(location.x - 4 / 2, location.y - 10 / 2);
 

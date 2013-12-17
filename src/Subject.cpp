@@ -2,6 +2,11 @@
 
 #include "Subject.hpp"
 
+Subject::~Subject()
+{
+	std::cout << "Deleted subject" << std::endl;
+}
+
 void Subject::registerObserver(std::shared_ptr<Observer> observer)
 {
 	observers.insert(observer);
@@ -10,6 +15,11 @@ void Subject::registerObserver(std::shared_ptr<Observer> observer)
 void Subject::unRegisterObserver(std::shared_ptr<Observer> observer)
 {
 	observers.erase(observer);
+}
+
+void Subject::unRegisterAll()
+{
+	observers.clear();
 }
   
 void Subject::notifyObservers(Message& msg)

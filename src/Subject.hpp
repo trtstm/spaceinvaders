@@ -9,8 +9,12 @@
 
 class Subject {
 	public:
+		virtual ~Subject();
+
 		void registerObserver(std::shared_ptr<Observer> observer);
 		void unRegisterObserver(std::shared_ptr<Observer> observer);
+
+		void unRegisterAll();
 
 		void notifyObservers(Message& msg);
 

@@ -18,11 +18,11 @@ bool SpaceshipGuiView::notify(Message& msg)
 
 void SpaceshipGuiView::render(sf::RenderWindow& w)
 {
-	auto movable = spaceship->getComponent<Movable>();
+	auto movable = spaceship->getMovable();
 
 	sf::RectangleShape rectangle(sf::Vector2f(80, 40));
 
-	Coordinate location = movable->getLocation();
+	Coordinate location = movable.getLocation();
 
 	rectangle.setPosition(location.x - 80 / 2, location.y - 40 / 2);
 

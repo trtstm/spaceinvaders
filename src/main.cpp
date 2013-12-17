@@ -66,23 +66,23 @@ int main()
 		double dt = clock.restart().asSeconds();
 
 		if(keys[sf::Keyboard::Left]) {
-			game.moveLeft(dt);
+			//game.moveLeft(dt);
 		}
 
 		if(keys[sf::Keyboard::Right]) {
-			game.moveRight(dt);
+			//game.moveRight(dt);
 		}
 
 		if(keys[sf::Keyboard::Space]) {
 			keys[sf::Keyboard::Space] = false;
-			game.shoot();
+			//game.shoot();
 		}
 
-		game.update(dt);
+		//game.update(dt);
 
 		window.clear(sf::Color::Black);
 
-		game.render(window);
+		//game.render(window);
 
 		sf::Text text;
 		text.setFont(font);

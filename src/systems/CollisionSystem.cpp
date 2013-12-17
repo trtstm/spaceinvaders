@@ -19,15 +19,9 @@ bool CollisionSystem::notify(Message& msg)
 {
 	// The sender has to be added with the addEntity method!
 	auto sender = entities[msg.entity];
-	auto senderCollidable = sender->getComponent<Collidable>();
-	if(!senderCollidable) {
-		return true;
-	}
-	auto senderMovable = sender->getComponent<Movable>();
-	if(!senderMovable) {
-		return true;
-	}
+	auto senderCollidable = sender->getCollidable();
 
+	auto senderMovable = sender->getMovable();
 	switch(msg.type) {
 		case MOVE:
 		{
@@ -37,26 +31,19 @@ bool CollisionSystem::notify(Message& msg)
 				}	
 
 				auto subject = entity.second;
-				auto subjectCollidable = subject->getComponent<Collidable>();
-				if(!subjectCollidable) {
-					break;
-				}
-				auto subjectMovable = subject->getComponent<Movable>();
-				if(!subjectMovable) {
-					break;
-				}
+				auto subjectCollidable = subject->getCollidable();
+				auto subjectMovable = subject->getMovable();
 
+				auto senderRect = senderCollidable.getRect();	
+				senderRect.left = senderMovable.getLocation().x - senderRect.width / 2;
+				senderRect.top = senderMovable.getLocation().y - senderRect.height / 2;
 
-				auto senderRect = senderCollidable->getRect();	
-				senderRect.left = senderMovable->getLocation().x - senderRect.width / 2;
-				senderRect.top = senderMovable->getLocation().y - senderRect.height / 2;
-
-				auto subjectRect = subjectCollidable->getRect();	
-				subjectRect.left = subjectMovable->getLocation().x - subjectRect.width / 2;
-				subjectRect.top = subjectMovable->getLocation().y - subjectRect.height / 2;
+				auto subjectRect = subjectCollidable.getRect();	
+				subjectRect.left = subjectMovable.getLocation().x - subjectRect.width / 2;
+				subjectRect.top = subjectMovable.getLocation().y - subjectRect.height / 2;
 
 				if(senderRect.intersects(subjectRect)) {
-					senderCollidable->onCollision(subject->getId());
+					senderCollidable.onCollision(subject->getId());
 				}
 			}
 			break;

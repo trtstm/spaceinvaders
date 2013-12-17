@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "Component.hpp"
-#include "models/Entity.hpp"
 
 class Livable : public Component {
 	public:

@@ -7,6 +7,7 @@
 class Spaceship : public Entity {
 	public:
 		Spaceship(Coordinate location, double speed);
+		~Spaceship();
 
 	private:
 };

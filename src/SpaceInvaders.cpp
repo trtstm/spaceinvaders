@@ -26,24 +26,20 @@ SpaceInvaders::SpaceInvaders()
 	: collisions(std::make_shared<CollisionSystem>())
 {
 	spaceship = std::make_shared<Spaceship>(Coordinate(400,580), 800);
-	spaceship->setComponent<Collidable>(std::make_shared<Collidable>(spaceship->getId(), sf::Rect<double>(0.0, 0.0, 80.0, 40.0)));
-	spaceship->setComponent<Livable>(std::make_shared<Livable>(spaceship->getId(), 1));
 
 	spaceshipController = std::make_shared<SpaceshipController>(spaceship);
 	spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship);
 
-	spaceship->getComponent<Livable>()->registerObserver(spaceshipController);
+	spaceship->getLivable().registerObserver(spaceshipController);
 
 	collisions->addEntity(spaceship);
 
 
 	for(unsigned int i = 0; i < 8; i++) {
 		auto alien = std::make_shared<Alien>(Coordinate(160 + 25 + i * 60, 50));
-		alien->setComponent<Collidable>(std::make_shared<Collidable>(alien->getId(), sf::Rect<double>(0.0, 0.0, 50.0, 30.0)));
-		alien->setComponent<Livable>(std::make_shared<Livable>(alien->getId(), 1));
-
 		auto alienController = std::make_shared<AlienController>(alien);
-		alien->getComponent<Livable>()->registerObserver(alienController);
+
+		alien->getLivable().registerObserver(alienController);
 
 		auto alienView = std::make_shared<AlienGuiView>(alien);
 
@@ -57,12 +53,25 @@ SpaceInvaders::SpaceInvaders()
 	}
 }
 
+SpaceInvaders::~SpaceInvaders()
+{
+	spaceship->unRegisterObservers();
+
+	for(auto& alienInfo : aliens) {
+		alienInfo.model->unRegisterObservers();
+	}
+
+	for(auto& bulletInfo : bullets) {
+		bulletInfo.model->unRegisterObservers();
+	}
+}
+
 void SpaceInvaders::update(double dt)
 {
 	for(auto bulletInfo = bullets.begin(); bulletInfo != bullets.end();) {
 		bulletInfo->controller->update(dt);
 
-		if(bulletInfo->model->getComponent<Movable>()->getLocation().y < -50 || bulletInfo->model->getComponent<Movable>()->getLocation().y > 650) {
+		if(bulletInfo->model->getMovable().getLocation().y < -50 || bulletInfo->model->getMovable().getLocation().y > 650) {
 			collisions->removeEntity(bulletInfo->model);
 			bulletInfo = bullets.erase(bulletInfo);
 		} else {
@@ -70,14 +79,14 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
-	for(auto alienInfo = aliens.begin(); alienInfo != aliens.end();) {
-		if(alienInfo->controller->isAlive() == false) {
-			collisions->removeEntity(alienInfo->model);
-			alienInfo = aliens.erase(alienInfo);
-		} else {
-			alienInfo++;
+	std::vector<AlienInfo> livingAliens;
+	for(auto& alienInfo : aliens) {
+		if(alienInfo.controller->isAlive()) {
+			livingAliens.push_back(alienInfo);
 		}
 	}
+
+	aliens = livingAliens;
 
 	if(!spaceshipController->isAlive()) {
 		std::cout << "We died" << std::endl;
@@ -112,16 +121,15 @@ void SpaceInvaders::shoot()
 	auto bulletPosition = spaceshipController->getLocation();
 
 	auto bullet = std::make_shared<Bullet>(bulletPosition, 300, spaceship->getId());
-	bullet->setComponent<Collidable>(std::make_shared<BulletCollidable>(bullet->getId(), spaceship->getId(), sf::Rect<double>(0.0, 0.0, 4.0, 10.0)));
 	
 	auto bulletController = std::make_shared<BulletController>(bullet);
 	auto bulletView = std::make_shared<BulletGuiView>(bullet);
 
-	bullet->getComponent<Collidable>()->registerObserver(spaceshipController);
-	bullet->getComponent<Movable>()->registerObserver(collisions);
+	//bullet->getComponent<Collidable>()->registerObserver(spaceshipController);
+	//bullet->getComponent<Movable>()->registerObserver(collisions);
 
 	for(auto& alienInfo : aliens) {
-		bullet->getComponent<Collidable>()->registerObserver(alienInfo.controller);
+		//bullet->getComponent<Collidable>()->registerObserver(alienInfo.controller);
 	}
 
 	collisions->addEntity(bullet);

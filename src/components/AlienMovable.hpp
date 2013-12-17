@@ -5,7 +5,6 @@
 
 #include "Movable.hpp"
 #include "Coordinate.hpp"
-#include "models/Entity.hpp"
 
 class AlienMovable : public Movable {
 	public:

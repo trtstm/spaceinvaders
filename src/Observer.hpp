@@ -5,6 +5,8 @@
 
 class Observer {
 	public:
+		virtual ~Observer();
+
 		virtual bool notify(Message& msg) = 0;
 };
 

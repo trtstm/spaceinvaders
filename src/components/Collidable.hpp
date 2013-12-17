@@ -6,7 +6,6 @@
 
 #include "Component.hpp"
 #include "Coordinate.hpp"
-#include "models/Entity.hpp"
 
 class Collidable : public Component {
 	public:
