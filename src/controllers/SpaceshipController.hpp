@@ -15,7 +15,7 @@ class SpaceshipController : public Observer {
 		void moveLeft(double dt);
 		void moveRight(double dt);
 
-		Coordinate getLocation();
+		Coordinate getPosition();
 
 		bool isAlive() const;
 

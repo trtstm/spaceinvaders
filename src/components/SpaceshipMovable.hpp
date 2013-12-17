@@ -8,7 +8,7 @@
 
 class SpaceshipMovable : public Movable {
 	public:
-		SpaceshipMovable(int entity, Coordinate location, double speed);
+		SpaceshipMovable(int entity, Coordinate position, double speed);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);

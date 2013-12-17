@@ -5,26 +5,29 @@
 #include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
-SpaceshipGuiView::SpaceshipGuiView(std::shared_ptr<Spaceship> spaceship)
-	: spaceship(spaceship)
+SpaceshipGuiView::SpaceshipGuiView(Coordinate position)
+	: GuiView(sf::RectangleShape(sf::Vector2f(80, 40)))
 {
+	sprite.setPosition(position.x - 80 / 2, position.y - 40 / 2);
 }
 
 
 bool SpaceshipGuiView::notify(Message& msg)
 {
-	return true;
+	switch(msg.type) {
+		case MOVE:
+		{
+			auto moveMessage = static_cast<MoveMessage&>(msg);
+
+			auto position = moveMessage.newPosition;
+			sprite.setPosition(position.x - 80 / 2, position.y - 40 / 2);
+
+			break;
+		}		
+	}
 }
 
 void SpaceshipGuiView::render(sf::RenderWindow& w)
 {
-	auto& movable = spaceship->getMovable();
-
-	sf::RectangleShape rectangle(sf::Vector2f(80, 40));
-
-	Coordinate location = movable.getLocation();
-
-	rectangle.setPosition(location.x - 80 / 2, location.y - 40 / 2);
-
-	w.draw(rectangle);
+	w.draw(sprite);
 }

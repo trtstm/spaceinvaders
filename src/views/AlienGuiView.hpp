@@ -1,23 +1,21 @@
 #ifndef ALIEN_GUI_VIEW_HPP
 #define ALIEN_GUI_VIEW_HPP
 
-#include <SFML/Graphics.hpp>
-#include <memory>
-
+#include "GuiView.hpp"
 #include "Observer.hpp"
-#include "messages/Message.hpp"
-#include "models/Alien.hpp"
 
-class AlienGuiView: public Observer {
+#include "Coordinate.hpp"
+#include "messages/Message.hpp"
+
+class AlienGuiView : public GuiView, public Observer {
 	public:
-		AlienGuiView(std::shared_ptr<Alien> alien);
+		AlienGuiView(Coordinate position);
 
 		bool notify(Message& msg);
 
 		void render(sf::RenderWindow& w);
 
 	private:
-		std::shared_ptr<Alien> alien;
 };
 
 #endif

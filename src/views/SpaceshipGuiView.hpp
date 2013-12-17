@@ -4,20 +4,21 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+#include "GuiView.hpp"
 #include "Observer.hpp"
-#include "messages/Message.hpp"
-#include "models/Spaceship.hpp"
 
-class SpaceshipGuiView: public Observer {
+#include "Coordinate.hpp"
+#include "messages/Message.hpp"
+
+class SpaceshipGuiView: public GuiView, public Observer {
 	public:
-		SpaceshipGuiView(std::shared_ptr<Spaceship> spaceship);
+		SpaceshipGuiView(Coordinate position);
 
 		bool notify(Message& msg);
 
 		void render(sf::RenderWindow& w);
 
 	private:
-		std::shared_ptr<Spaceship> spaceship;
 };
 
 #endif

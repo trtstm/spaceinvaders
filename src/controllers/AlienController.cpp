@@ -11,9 +11,9 @@ AlienController::AlienController(std::shared_ptr<Alien> alien)
 {
 }
 
-Coordinate AlienController::getLocation()
+Coordinate AlienController::getPosition()
 {
-	return alien->getMovable().getLocation();
+	return alien->getMovable().getPosition();
 }
 
 bool AlienController::isAlive() const

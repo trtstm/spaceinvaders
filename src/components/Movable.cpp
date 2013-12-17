@@ -2,8 +2,8 @@
 
 #include "messages/MoveMessage.hpp"
 
-Movable::Movable(int entity, Coordinate location, double speed)
-	: Component(MOVABLE, entity), location(location), speed(speed)
+Movable::Movable(int entity, Coordinate position, double speed)
+	: Component(MOVABLE, entity), position(position), speed(speed)
 {
 }
 
@@ -13,47 +13,47 @@ Movable::~Movable()
 
 void Movable::moveLeft(double dt)
 {
-	auto newLocation = location;
-	newLocation.x -= speed * dt;
+	auto newPosition = position;
+	newPosition.x -= speed * dt;
 
-	setLocation(newLocation);
+	setPosition(newPosition);
 }
 
 void Movable::moveRight(double dt)
 {
-	auto newLocation = location;
-	newLocation.x += speed * dt;
+	auto newPosition = position;
+	newPosition.x += speed * dt;
 
-	setLocation(newLocation);
+	setPosition(newPosition);
 }
 
 void Movable::moveUp(double dt)
 {
-	auto newLocation = location;
-	newLocation.y -= speed * dt;
+	auto newPosition = position;
+	newPosition.y -= speed * dt;
 
-	setLocation(newLocation);
+	setPosition(newPosition);
 }
 
 void Movable::moveDown(double dt)
 {
-	auto newLocation = location;
-	newLocation.y += speed * dt;
+	auto newPosition = position;
+	newPosition.y += speed * dt;
 
-	setLocation(newLocation);
+	setPosition(newPosition);
 }
 
-void Movable::setLocation(Coordinate location)
+void Movable::setPosition(Coordinate position)
 {
-	auto oldLocation = this->location;
+	auto oldPosition = this->position;
 
-	this->location = location;
+	this->position = position;
 
-	MoveMessage msg(entity, oldLocation, this->location);
+	MoveMessage msg(entity, oldPosition, this->position);
 	notifyObservers(msg);
 }
 
-Coordinate Movable::getLocation() const
+Coordinate Movable::getPosition() const
 {
-	return location;
+	return position;
 }

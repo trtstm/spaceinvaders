@@ -5,26 +5,29 @@
 #include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
-BulletGuiView::BulletGuiView(std::shared_ptr<Bullet> bullet)
-	: bullet(bullet)
+BulletGuiView::BulletGuiView(Coordinate position)
+	: GuiView(sf::RectangleShape(sf::Vector2f(4, 10)))
 {
+	sprite.setPosition(position.x - 4 / 2, position.y - 10 / 2);
 }
 
 
 bool BulletGuiView::notify(Message& msg)
 {
-	return true;
+	switch(msg.type) {
+		case MOVE:
+		{
+			auto moveMessage = static_cast<MoveMessage&>(msg);
+
+			auto position = moveMessage.newPosition;
+			sprite.setPosition(position.x - 4 / 2, position.y - 10 / 2);
+
+			break;
+		}		
+	}
 }
 
 void BulletGuiView::render(sf::RenderWindow& w)
 {
-	auto& movable = bullet->getMovable();
-
-	sf::RectangleShape rectangle(sf::Vector2f(4, 10));
-
-	Coordinate location = movable.getLocation();
-
-	rectangle.setPosition(location.x - 4 / 2, location.y - 10 / 2);
-
-	w.draw(rectangle);
+	w.draw(sprite);
 }

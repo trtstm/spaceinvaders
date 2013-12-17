@@ -35,12 +35,12 @@ bool CollisionSystem::notify(Message& msg)
 				auto& subjectMovable = subject->getMovable();
 
 				auto senderRect = senderCollidable.getRect();	
-				senderRect.left = senderMovable.getLocation().x - senderRect.width / 2;
-				senderRect.top = senderMovable.getLocation().y - senderRect.height / 2;
+				senderRect.left = senderMovable.getPosition().x - senderRect.width / 2;
+				senderRect.top = senderMovable.getPosition().y - senderRect.height / 2;
 
 				auto subjectRect = subjectCollidable.getRect();	
-				subjectRect.left = subjectMovable.getLocation().x - subjectRect.width / 2;
-				subjectRect.top = subjectMovable.getLocation().y - subjectRect.height / 2;
+				subjectRect.left = subjectMovable.getPosition().x - subjectRect.width / 2;
+				subjectRect.top = subjectMovable.getPosition().y - subjectRect.height / 2;
 
 				if(senderRect.intersects(subjectRect)) {
 					senderCollidable.onCollision(subject->getId());

@@ -2,31 +2,31 @@
 
 #include "messages/MoveMessage.hpp"
 
-SpaceshipMovable::SpaceshipMovable(int entity, Coordinate location, double speed)
-	: Movable(entity, location, speed)
+SpaceshipMovable::SpaceshipMovable(int entity, Coordinate position, double speed)
+	: Movable(entity, position, speed)
 {
 }
 
 void SpaceshipMovable::moveLeft(double dt)
 {
-	auto newLocation = location;
-	newLocation.x -= speed * dt;
-	if(newLocation.x - 120 / 2 < 0) {
-		newLocation.x = 120 / 2;
+	auto newPosition = position;
+	newPosition.x -= speed * dt;
+	if(newPosition.x - 120 / 2 < 0) {
+		newPosition.x = 120 / 2;
 	}
 
-	setLocation(newLocation);
+	setPosition(newPosition);
 }
 
 void SpaceshipMovable::moveRight(double dt)
 {
-	auto newLocation = location;
-	newLocation.x += speed * dt;
-	if(newLocation.x + 120 / 2 > 800) {
-		newLocation.x = 800 - 120 / 2;
+	auto newPosition = position;
+	newPosition.x += speed * dt;
+	if(newPosition.x + 120 / 2 > 800) {
+		newPosition.x = 800 - 120 / 2;
 	}
 
-	setLocation(newLocation);
+	setPosition(newPosition);
 }
 
 void SpaceshipMovable::moveUp(double dt)

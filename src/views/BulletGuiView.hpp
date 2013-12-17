@@ -4,20 +4,21 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+#include "GuiView.hpp"
 #include "Observer.hpp"
-#include "messages/Message.hpp"
-#include "models/Bullet.hpp"
 
-class BulletGuiView : public Observer {
+#include "Coordinate.hpp"
+#include "messages/Message.hpp"
+
+class BulletGuiView : public GuiView, public Observer {
 	public:
-		BulletGuiView(std::shared_ptr<Bullet> bullet);
+		BulletGuiView(Coordinate position);
 
 		bool notify(Message& msg);
 
 		void render(sf::RenderWindow& w);
 
 	private:
-		std::shared_ptr<Bullet> bullet;
 };
 
 #endif

@@ -25,17 +25,19 @@
 SpaceInvaders::SpaceInvaders()
 	: collisions(std::make_shared<CollisionSystem>())
 {
-
 	spaceship = std::make_shared<Spaceship>(Coordinate(400,580), 800);
 	spaceshipController = std::make_shared<SpaceshipController>(spaceship);
-	spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship);
+	spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship->getMovable().getPosition());
+	spaceship->getMovable().registerObserver(spaceshipView);
 
 	collisions->addEntity(spaceship);
 
 	for(unsigned int i = 0; i < 8; i++) {
-		auto alien = std::make_shared<Alien>(Coordinate(160 + 25 + i * 60, 50));
+		auto position = Coordinate(160 + 25 + i * 60, 50);
+		auto alien = std::make_shared<Alien>(position);
 		auto alienController = std::make_shared<AlienController>(alien);
-		auto alienView = std::make_shared<AlienGuiView>(alien);
+		auto alienView = std::make_shared<AlienGuiView>(position);
+		alien->getMovable().registerObserver(alienView);
 
 		AlienInfo alienInfo;
 		alienInfo.model = alien;
@@ -65,7 +67,7 @@ void SpaceInvaders::update(double dt)
 	for(auto bulletInfo = bullets.begin(); bulletInfo != bullets.end();) {
 		bulletInfo->controller->update(dt);
 
-		if(bulletInfo->model->getMovable().getLocation().y < -50 || bulletInfo->model->getMovable().getLocation().y > 650 || bulletInfo->model->getCollidable().hasCollided()) {
+		if(bulletInfo->model->getMovable().getPosition().y < -50 || bulletInfo->model->getMovable().getPosition().y > 650 || bulletInfo->model->getCollidable().hasCollided()) {
 			collisions->removeEntity(bulletInfo->model->getId());
 			bulletInfo = bullets.erase(bulletInfo);
 		} else {
@@ -112,14 +114,15 @@ void SpaceInvaders::moveRight(double dt)
 
 void SpaceInvaders::shoot()
 {
-	auto bulletPosition = spaceshipController->getLocation();
+	auto bulletPosition = spaceshipController->getPosition();
 
 	auto bullet = std::make_shared<Bullet>(bulletPosition, 300, spaceship->getId());
 	
 	auto bulletController = std::make_shared<BulletController>(bullet);
-	auto bulletView = std::make_shared<BulletGuiView>(bullet);
+	auto bulletView = std::make_shared<BulletGuiView>(bulletPosition);
 
 	bullet->getCollidable().registerObserver(spaceshipController);
+	bullet->getMovable().registerObserver(bulletView);
 	bullet->getMovable().registerObserver(collisions);
 
 	for(auto& alienInfo : aliens) {

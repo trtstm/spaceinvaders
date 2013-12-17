@@ -21,9 +21,9 @@ void SpaceshipController::moveRight(double dt)
 	spaceship->moveRight(dt);
 }
 
-Coordinate SpaceshipController::getLocation()
+Coordinate SpaceshipController::getPosition()
 {
-	return spaceship->getMovable().getLocation();
+	return spaceship->getMovable().getPosition();
 }
 
 bool SpaceshipController::isAlive() const
