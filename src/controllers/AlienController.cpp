@@ -36,13 +36,23 @@ bool AlienController::notify(Message& msg)
 				break;
 			}
 	
-
 			auto livable = alien->getComponent<Livable>();
 			if(!livable) {
 				break;
 			}
-			std::cout << "We got hit" << std::endl;
+
 			livable->doDamage(1);
+
+			break;
+		}
+		case DIED:
+		{
+			auto diedMessage = static_cast<DiedMessage&>(msg);
+			if(diedMessage.entity != alien->getId()) {
+				break;
+			}
+	
+			std::cout << "Entity" << alien->getId() << ": died" << std::endl;
 
 			break;
 		}

@@ -7,6 +7,7 @@
 class Alien : public Entity {
 	public:
 		Alien(Coordinate location);
+		~Alien();
 
 	private:
 };

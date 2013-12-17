@@ -17,6 +17,7 @@ void CollisionSystem::removeEntity(std::shared_ptr<Entity> entity)
 
 bool CollisionSystem::notify(Message& msg)
 {
+	// The sender has to be added with the addEntity method!
 	auto sender = entities[msg.entity];
 	auto senderCollidable = sender->getComponent<Collidable>();
 	if(!senderCollidable) {

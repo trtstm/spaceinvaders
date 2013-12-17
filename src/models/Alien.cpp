@@ -8,3 +8,8 @@ Alien::Alien(Coordinate location)
 	: Entity(std::make_shared<AlienMovable>(idCounter, location))
 {
 }
+
+Alien::~Alien()
+{
+	std::cout << "Deleted alien" << std::endl;
+}
