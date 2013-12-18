@@ -8,7 +8,7 @@
 
 Spaceship::Spaceship(Coordinate location, double speed)
 	: Entity(std::make_shared<SpaceshipMovable>(idCounter, location, speed),
-			std::make_shared<Collidable>(idCounter, sf::Rect<double>(0.0, 0.0, 80.0, 40.0)),
+			std::make_shared<Collidable>(idCounter, sf::Rect<double>(0.0, 0.0, 26.0, 15.0)),
 			std::make_shared<Livable>(idCounter, 1))
 {
 }

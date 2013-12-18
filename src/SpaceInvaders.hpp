@@ -46,6 +46,8 @@ class SpaceInvaders {
 
 
 	private:
+		sf::Texture laserCannon;
+
 		std::shared_ptr<CollisionSystem> collisions;
 
 		std::shared_ptr<Spaceship> spaceship;

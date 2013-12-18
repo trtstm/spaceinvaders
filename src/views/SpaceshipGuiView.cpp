@@ -5,10 +5,11 @@
 #include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
-SpaceshipGuiView::SpaceshipGuiView(Coordinate position)
-	: GuiView(sf::RectangleShape(sf::Vector2f(80, 40)))
+SpaceshipGuiView::SpaceshipGuiView(Coordinate position, sf::Texture& texture)
+	: GuiView(sf::RectangleShape(sf::Vector2f(26, 15)))
 {
-	sprite.setPosition(position.x - 80 / 2, position.y - 40 / 2);
+	img.setTexture(texture);	
+	img.setPosition(position.x - 26 / 2, position.y - 15 / 2);
 }
 
 
@@ -20,7 +21,7 @@ bool SpaceshipGuiView::notify(Message& msg)
 			auto moveMessage = static_cast<MoveMessage&>(msg);
 
 			auto position = moveMessage.newPosition;
-			sprite.setPosition(position.x - 80 / 2, position.y - 40 / 2);
+			img.setPosition(position.x - 26 / 2, position.y - 15 / 2);
 
 			break;
 		}		
@@ -29,5 +30,5 @@ bool SpaceshipGuiView::notify(Message& msg)
 
 void SpaceshipGuiView::render(sf::RenderWindow& w)
 {
-	w.draw(sprite);
+	w.draw(img);
 }

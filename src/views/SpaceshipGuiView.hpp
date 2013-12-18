@@ -12,13 +12,14 @@
 
 class SpaceshipGuiView: public GuiView, public Observer {
 	public:
-		SpaceshipGuiView(Coordinate position);
+		SpaceshipGuiView(Coordinate position, sf::Texture& texture);
 
 		bool notify(Message& msg);
 
 		void render(sf::RenderWindow& w);
 
 	private:
+		sf::Sprite img;
 };
 
 #endif

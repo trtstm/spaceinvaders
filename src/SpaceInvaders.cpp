@@ -25,9 +25,13 @@
 SpaceInvaders::SpaceInvaders()
 	: collisions(std::make_shared<CollisionSystem>())
 {
+	if(!laserCannon.loadFromFile("../resources/lasercannon.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
 	spaceship = std::make_shared<Spaceship>(Coordinate(400,580), 800);
 	spaceshipController = std::make_shared<SpaceshipController>(spaceship);
-	spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship->getMovable().getPosition());
+	spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship->getMovable().getPosition(), laserCannon);
 	spaceship->getMovable().registerObserver(spaceshipView);
 
 	collisions->addEntity(spaceship);
