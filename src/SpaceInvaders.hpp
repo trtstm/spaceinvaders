@@ -61,6 +61,8 @@ class SpaceInvaders {
 		
 		std::vector<BulletInfo> bullets;
 		std::vector<AlienInfo> aliens;
+
+		double timer;
 };
 
 #endif

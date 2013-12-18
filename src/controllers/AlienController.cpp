@@ -7,13 +7,61 @@
 #include "messages/BulletHitMessage.hpp"
 
 AlienController::AlienController(std::shared_ptr<Alien> alien)
-	: alien(alien)
+	: alien(alien), direction(LEFT)
 {
+}
+
+void AlienController::moveLeft(double dt)
+{
+	alien->getMovable().moveLeft(dt);
+}
+
+void AlienController::moveRight(double dt)
+{
+	alien->getMovable().moveRight(dt);
+}
+
+void AlienController::moveDown(double dt)
+{
+	alien->getMovable().moveDown(dt);
 }
 
 Coordinate AlienController::getPosition()
 {
 	return alien->getMovable().getPosition();
+}
+
+
+void AlienController::setPosition(Coordinate position)
+{
+	alien->getMovable().setPosition(position);
+}
+
+Direction AlienController::getDirection()
+{
+	return direction;
+}
+
+void AlienController::setDirection(Direction dir)
+{
+	direction = dir;
+}
+
+void AlienController::update(double dt)
+{
+	switch(direction) {
+		case LEFT:
+				alien->getMovable().moveLeft(dt);
+			break;
+
+		case RIGHT:
+				alien->getMovable().moveRight(dt);
+			break;
+
+		case DOWN:
+				alien->getMovable().moveDown(dt);
+			break;
+	}
 }
 
 bool AlienController::isAlive() const

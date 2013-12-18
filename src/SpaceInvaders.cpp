@@ -23,7 +23,7 @@
 #include "components/Livable.hpp"
 
 SpaceInvaders::SpaceInvaders()
-	: collisions(std::make_shared<CollisionSystem>())
+	: collisions(std::make_shared<CollisionSystem>()), timer(0.0)
 {
 	resources.textures["lasercannon"] = sf::Texture();
 	resources.textures["invader1"] = sf::Texture();
@@ -98,9 +98,42 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
+	bool goDown = false;
+	for(auto& alienInfo : aliens) {
+		auto oldPosition = alienInfo.controller->getPosition();
+		alienInfo.controller->update(dt);
+		auto newPosition = alienInfo.controller->getPosition();
+
+		if(newPosition.x - 16/2 <= 0) {
+			goDown = true;
+		}
+		else if(newPosition.x + 16/2 >= 800) {
+			goDown = true;
+		}
+
+		alienInfo.controller->setPosition(oldPosition);
+	}
+
+	for(auto& alienInfo : aliens) {
+		if(goDown) {
+			alienInfo.controller->moveDown(1.0);
+
+			auto direction = alienInfo.controller->getDirection();
+			if(direction == LEFT) {
+				alienInfo.controller->setDirection(RIGHT);
+			} else if(direction == RIGHT) {
+				alienInfo.controller->setDirection(LEFT);
+			}
+		}
+
+		alienInfo.controller->update(dt);
+	}
+
 	if(!spaceshipController->isAlive()) {
 		std::cout << "We died" << std::endl;
 	}
+
+	timer += dt;
 }
 
 void SpaceInvaders::render(sf::RenderWindow& window)

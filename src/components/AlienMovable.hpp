@@ -10,6 +10,10 @@ class AlienMovable : public Movable {
 	public:
 		AlienMovable(int entity, Coordinate location);
 
+		void moveLeft(double dt);
+		void moveRight(double dt);
+		void moveDown(double dt);
+
 	private:
 };
 
