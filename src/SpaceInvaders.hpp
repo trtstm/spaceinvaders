@@ -39,7 +39,7 @@ class SpaceInvaders {
 		~SpaceInvaders();
 
 		void update(double dt);
-		void render(sf::RenderWindow& window);
+		void render(sf::RenderWindow& window, double dt);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);

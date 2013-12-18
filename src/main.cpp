@@ -82,7 +82,7 @@ int main()
 
 		window.clear(sf::Color::Black);
 
-		game.render(window);
+		game.render(window, dt);
 
 		sf::Text text;
 		text.setFont(font);

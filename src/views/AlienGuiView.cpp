@@ -6,9 +6,9 @@
 #include "messages/MoveMessage.hpp"
 
 AlienGuiView::AlienGuiView(Coordinate position, const Resources& resources)
-	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16)))
+	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16))), timer(0.0), curTexture("invader1")
 {
-	img.setTexture(resources.textures.at("invader1"));
+	img.setTexture(resources.textures.at(curTexture));
 	img.setPosition(position.x - 16 / 2, position.y - 16 / 2);
 }
 
@@ -28,7 +28,23 @@ bool AlienGuiView::notify(Message& msg)
 	}
 }
 
-void AlienGuiView::render(sf::RenderWindow& w)
+void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)
 {
+	if(timer >= 1.0) {
+		if(curTexture == "invader1") {
+			curTexture = "invader2";
+
+			img.setTexture(resources.textures.at(curTexture));
+		} else {
+			curTexture = "invader1";
+
+			img.setTexture(resources.textures.at(curTexture));
+		}
+
+		timer = 0.0;
+	}
+
 	w.draw(img);
+
+	timer += dt;
 }

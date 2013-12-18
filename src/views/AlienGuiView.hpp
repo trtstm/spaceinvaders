@@ -15,10 +15,14 @@ class AlienGuiView : public GuiView, public Observer {
 
 		bool notify(Message& msg);
 
-		void render(sf::RenderWindow& w);
+		void render(sf::RenderWindow& w, const Resources& resources, double dt);
 
 	private:
+		std::string curTexture;
+
 		sf::Sprite img;
+
+		double timer;
 };
 
 #endif

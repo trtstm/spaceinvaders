@@ -36,6 +36,10 @@ SpaceInvaders::SpaceInvaders()
 		std::cout << "Could not load resources" << std::endl;
 	}
 
+	if(!resources.textures["invader2"].loadFromFile("../resources/invader2.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
 	spaceship = std::make_shared<Spaceship>(Coordinate(400,580), 400);
 	spaceshipController = std::make_shared<SpaceshipController>(spaceship);
 	spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship->getMovable().getPosition(), resources);
@@ -136,7 +140,7 @@ void SpaceInvaders::update(double dt)
 	timer += dt;
 }
 
-void SpaceInvaders::render(sf::RenderWindow& window)
+void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 {
 	spaceshipView->render(window);
 
@@ -145,7 +149,7 @@ void SpaceInvaders::render(sf::RenderWindow& window)
 	}
 
 	for(auto& alienInfo : aliens) {
-		alienInfo.view->render(window);
+		alienInfo.view->render(window, resources, dt);
 	}
 }
 
