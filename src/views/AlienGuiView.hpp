@@ -7,9 +7,11 @@
 #include "Coordinate.hpp"
 #include "messages/Message.hpp"
 
+#include "Resources.hpp"
+
 class AlienGuiView : public GuiView, public Observer {
 	public:
-		AlienGuiView(Coordinate position, const sf::Texture& texture);
+		AlienGuiView(Coordinate position, const Resources& resources);
 
 		bool notify(Message& msg);
 

@@ -10,9 +10,11 @@
 #include "Coordinate.hpp"
 #include "messages/Message.hpp"
 
+#include "Resources.hpp"
+
 class SpaceshipGuiView: public GuiView, public Observer {
 	public:
-		SpaceshipGuiView(Coordinate position, const sf::Texture& texture);
+		SpaceshipGuiView(Coordinate position, const Resources& resources);
 
 		bool notify(Message& msg);
 

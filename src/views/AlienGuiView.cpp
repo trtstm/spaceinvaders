@@ -5,10 +5,10 @@
 #include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
-AlienGuiView::AlienGuiView(Coordinate position, const sf::Texture& texture)
+AlienGuiView::AlienGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16)))
 {
-	img.setTexture(texture);
+	img.setTexture(resources.textures.at("invader1"));
 	img.setPosition(position.x - 16 / 2, position.y - 16 / 2);
 }
 

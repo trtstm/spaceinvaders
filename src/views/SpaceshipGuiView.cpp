@@ -5,10 +5,10 @@
 #include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
-SpaceshipGuiView::SpaceshipGuiView(Coordinate position, const sf::Texture& texture)
+SpaceshipGuiView::SpaceshipGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(26, 15)))
 {
-	img.setTexture(texture);	
+	img.setTexture(resources.textures.at("lasercannon"));	
 	img.setPosition(position.x - 26 / 2, position.y - 15 / 2);
 }
 

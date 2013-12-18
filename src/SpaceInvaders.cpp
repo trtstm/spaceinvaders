@@ -25,17 +25,20 @@
 SpaceInvaders::SpaceInvaders()
 	: collisions(std::make_shared<CollisionSystem>())
 {
-	if(!laserCannon.loadFromFile("../resources/lasercannon.png")) {
+	resources.textures["lasercannon"] = sf::Texture();
+	resources.textures["invader1"] = sf::Texture();
+
+	if(!resources.textures["lasercannon"].loadFromFile("../resources/lasercannon.png")) {
 		std::cout << "Could not load resources" << std::endl;
 	}
 
-	if(!invader1.loadFromFile("../resources/invader1.png")) {
+	if(!resources.textures["invader1"].loadFromFile("../resources/invader1.png")) {
 		std::cout << "Could not load resources" << std::endl;
 	}
 
 	spaceship = std::make_shared<Spaceship>(Coordinate(400,580), 400);
 	spaceshipController = std::make_shared<SpaceshipController>(spaceship);
-	spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship->getMovable().getPosition(), laserCannon);
+	spaceshipView = std::make_shared<SpaceshipGuiView>(spaceship->getMovable().getPosition(), resources);
 	spaceship->getMovable().registerObserver(spaceshipView);
 
 	collisions->addEntity(spaceship);
@@ -46,7 +49,7 @@ SpaceInvaders::SpaceInvaders()
 			auto position = Coordinate(235 + i * 30, 50 + y * 30);
 			auto alien = std::make_shared<Alien>(position);
 			auto alienController = std::make_shared<AlienController>(alien);
-			auto alienView = std::make_shared<AlienGuiView>(position, invader1);
+			auto alienView = std::make_shared<AlienGuiView>(position, resources);
 			alien->getMovable().registerObserver(alienView);
 
 			AlienInfo alienInfo;

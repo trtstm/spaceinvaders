@@ -5,6 +5,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
+#include "Resources.hpp"
+
 class CollisionSystem;
 
 class Spaceship;
@@ -46,6 +48,8 @@ class SpaceInvaders {
 
 
 	private:
+		Resources resources;
+
 		sf::Texture laserCannon;
 		sf::Texture invader1;
 
