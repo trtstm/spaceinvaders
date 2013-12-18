@@ -5,10 +5,11 @@
 #include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
-AlienGuiView::AlienGuiView(Coordinate position)
-	: GuiView(sf::RectangleShape(sf::Vector2f(50, 30)))
+AlienGuiView::AlienGuiView(Coordinate position, const sf::Texture& texture)
+	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16)))
 {
-	sprite.setPosition(position.x - 50 / 2, position.y - 30 / 2);
+	img.setTexture(texture);
+	img.setPosition(position.x - 16 / 2, position.y - 16 / 2);
 }
 
 
@@ -20,7 +21,7 @@ bool AlienGuiView::notify(Message& msg)
 			auto moveMessage = static_cast<MoveMessage&>(msg);
 
 			auto position = moveMessage.newPosition;
-			sprite.setPosition(position.x - 50 / 2, position.y - 30 / 2);
+			img.setPosition(position.x - 16 / 2, position.y - 16 / 2);
 
 			break;
 		}		
@@ -29,5 +30,5 @@ bool AlienGuiView::notify(Message& msg)
 
 void AlienGuiView::render(sf::RenderWindow& w)
 {
-	w.draw(sprite);
+	w.draw(img);
 }

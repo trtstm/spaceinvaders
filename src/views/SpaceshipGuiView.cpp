@@ -5,7 +5,7 @@
 #include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
-SpaceshipGuiView::SpaceshipGuiView(Coordinate position, sf::Texture& texture)
+SpaceshipGuiView::SpaceshipGuiView(Coordinate position, const sf::Texture& texture)
 	: GuiView(sf::RectangleShape(sf::Vector2f(26, 15)))
 {
 	img.setTexture(texture);	

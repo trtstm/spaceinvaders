@@ -9,13 +9,14 @@
 
 class AlienGuiView : public GuiView, public Observer {
 	public:
-		AlienGuiView(Coordinate position);
+		AlienGuiView(Coordinate position, const sf::Texture& texture);
 
 		bool notify(Message& msg);
 
 		void render(sf::RenderWindow& w);
 
 	private:
+		sf::Sprite img;
 };
 
 #endif

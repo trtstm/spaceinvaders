@@ -8,7 +8,7 @@
 
 Alien::Alien(Coordinate location)
 	: Entity(std::make_shared<AlienMovable>(idCounter, location),
-			std::make_shared<Collidable>(idCounter, sf::Rect<double>(0.0, 0.0, 50.0, 30.0)),
+			std::make_shared<Collidable>(idCounter, sf::Rect<double>(0.0, 0.0, 16.0, 16.0)),
 			std::make_shared<Livable>(idCounter, 1))
 {
 }

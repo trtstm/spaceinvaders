@@ -47,6 +47,7 @@ class SpaceInvaders {
 
 	private:
 		sf::Texture laserCannon;
+		sf::Texture invader1;
 
 		std::shared_ptr<CollisionSystem> collisions;
 

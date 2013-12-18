@@ -12,7 +12,7 @@
 
 class SpaceshipGuiView: public GuiView, public Observer {
 	public:
-		SpaceshipGuiView(Coordinate position, sf::Texture& texture);
+		SpaceshipGuiView(Coordinate position, const sf::Texture& texture);
 
 		bool notify(Message& msg);
 
