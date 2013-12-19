@@ -102,39 +102,45 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
-	bool goDown = false;
-	for(auto& alienInfo : aliens) {
-		auto oldPosition = alienInfo.controller->getPosition();
-		alienInfo.controller->update(dt);
-		auto newPosition = alienInfo.controller->getPosition();
-
-		if(newPosition.x - 16/2 <= 0) {
-			goDown = true;
-		}
-		else if(newPosition.x + 16/2 >= 800) {
-			goDown = true;
-		}
-
-		alienInfo.controller->setPosition(oldPosition);
-	}
-
-	for(auto& alienInfo : aliens) {
-		if(goDown) {
-			alienInfo.controller->moveDown(1.0);
+	if(timer >= 1.0) {
+		bool goDown = false;
+		for(auto& alienInfo : aliens) {
+			auto oldPosition = alienInfo.controller->getPosition();
+			alienInfo.controller->update(1.0);
+			auto newPosition = alienInfo.controller->getPosition();
 
 			auto direction = alienInfo.controller->getDirection();
-			if(direction == LEFT) {
-				alienInfo.controller->setDirection(RIGHT);
-			} else if(direction == RIGHT) {
-				alienInfo.controller->setDirection(LEFT);
+
+			if(direction == LEFT && newPosition.x - 16/2 <= 0) {
+				goDown = true;
+			}
+			else if(direction == RIGHT && newPosition.x + 16/2 >= 800) {
+				goDown = true;
+			}
+
+			alienInfo.controller->setPosition(oldPosition);
+		}
+
+		for(auto& alienInfo : aliens) {
+			if(goDown) {
+				alienInfo.controller->moveDown(1.0);
+
+				auto direction = alienInfo.controller->getDirection();
+				if(direction == LEFT) {
+					alienInfo.controller->setDirection(RIGHT);
+				} else if(direction == RIGHT) {
+					alienInfo.controller->setDirection(LEFT);
+				}
+			} else {
+				alienInfo.controller->update(1.0);
 			}
 		}
 
-		alienInfo.controller->update(dt);
-	}
+		if(!spaceshipController->isAlive()) {
+			std::cout << "We died" << std::endl;
+		}
 
-	if(!spaceshipController->isAlive()) {
-		std::cout << "We died" << std::endl;
+		timer = 0.0;
 	}
 
 	timer += dt;
