@@ -28,6 +28,10 @@ SpaceInvaders::SpaceInvaders()
 		std::cout << "Could not load resources" << std::endl;
 	}
 
+	if(!resources.textures["explosion"].loadFromFile("../resources/explosion.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
 	spaceship.registerObserver(spaceshipView);
 
 	collisions.addEntity(spaceship);
@@ -151,9 +155,7 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	}
 
 	for(auto& alienInfo : aliens) {
-		if(!alienInfo->controller.isAlive()) {
-			continue;
-		}
+
 
 		alienInfo->view.render(window, resources, dt);
 	}

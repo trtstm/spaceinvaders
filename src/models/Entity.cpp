@@ -3,6 +3,7 @@
 #include "Entity.hpp"
 
 #include "messages/MoveMessage.hpp"
+#include "messages/DiedMessage.hpp"
 
 int Entity::idCounter = 0;
 
@@ -62,6 +63,12 @@ void Entity::setPosition(Coordinate newPosition)
 void Entity::doDamage(int damage)
 {
 	health -= damage;
+
+	if(health <= 0) {
+		DiedMessage msg(getId());
+
+		notifyObservers(msg);
+	}
 }
 
 sf::Rect<double> Entity::getCollisionRectangle() const
@@ -90,7 +97,7 @@ void Entity::onCollision(int collidee)
 
 void Entity::unRegisterObservers()
 {
-
+	unRegisterAll();
 }
 
 bool Entity::operator==(const Entity& e) const

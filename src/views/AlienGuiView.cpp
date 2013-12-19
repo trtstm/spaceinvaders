@@ -2,8 +2,8 @@
 
 #include "AlienGuiView.hpp"
 
-#include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
+#include "messages/DiedMessage.hpp"
 
 AlienGuiView::AlienGuiView(Coordinate position)
 	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16))), timer(0.0), curTexture("invader1")
@@ -24,13 +24,24 @@ bool AlienGuiView::notify(Message& msg)
 			img.setPosition(position.x - 16 / 2, position.y - 16 / 2);
 
 			break;
-		}		
+		}
+
+		case DIED:
+		{
+			auto& diedMsg = static_cast<DiedMessage&>(msg);
+
+			curTexture = "explosion";
+		}
 	}
 }
 
 void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)
 {
-	if(timer >= 1.0) {
+	if(curTexture == "") {
+		return;
+	}
+
+	if(timer >= 1.0 && curTexture != "explosion") {
 		if(curTexture == "invader1") {
 			curTexture = "invader2";
 		} else {
@@ -42,6 +53,10 @@ void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, doubl
 
 	img.setTexture(resources.textures.at(curTexture));
 	w.draw(img);
+
+	if(curTexture == "explosion") {
+		curTexture = "";
+	}
 
 	timer += dt;
 }

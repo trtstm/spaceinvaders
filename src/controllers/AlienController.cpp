@@ -84,10 +84,10 @@ bool AlienController::notify(Message& msg)
 	switch(msg.type) {
 		case BULLETHIT:
 		{
-			auto& moveMessage = static_cast<BulletHitMessage&>(msg);
+			auto& bulletHitMsg = static_cast<BulletHitMessage&>(msg);
 
 			// Only listen to bullets that hit us.
-			if(alien.getId() != moveMessage.subject) {
+			if(alien.getId() != bulletHitMsg.subject) {
 				break;
 			}
 
