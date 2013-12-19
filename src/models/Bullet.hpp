@@ -9,6 +9,8 @@ class Bullet : public Entity {
 		Bullet(Coordinate position = Coordinate(0, 0), int owner = -1);
 		~Bullet();
 
+		void onCollision(int collidee);
+
 		int getOwner() const;
 
 	private:

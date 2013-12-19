@@ -58,7 +58,7 @@ class SpaceInvaders {
 		SpaceshipGuiView spaceshipView;
 		
 		std::vector< std::unique_ptr<BulletInfo> > bullets;
-		std::vector<AlienInfo> aliens;
+		std::vector< std::unique_ptr<AlienInfo> > aliens;
 
 		double timer;
 };

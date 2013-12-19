@@ -26,3 +26,8 @@ Bullet& BulletController::getBullet()
 {
 	return bullet;
 }
+
+bool BulletController::isAlive() const
+{
+	return (bullet.getHealth() > 0.0);
+}

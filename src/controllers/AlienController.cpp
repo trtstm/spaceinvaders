@@ -34,7 +34,7 @@ Coordinate AlienController::getPosition()
 
 void AlienController::setPosition(Coordinate position)
 {
-	//alien->setPosition(position);
+	alien.setPosition(position);
 }
 
 Direction AlienController::getDirection()
@@ -49,7 +49,23 @@ void AlienController::setDirection(Direction dir)
 
 void AlienController::update(double dt)
 {
+	switch(direction) {
+		case LEFT:
+			alien.moveLeft(dt);
+			break;
 
+		case RIGHT:
+			alien.moveRight(dt);
+			break;
+
+		case UP:
+			alien.moveUp(dt);
+			break;
+
+		case DOWN:
+			alien.moveDown(dt);
+			break;
+	}
 }
 
 bool AlienController::isAlive() const
@@ -65,5 +81,17 @@ Alien& AlienController::getAlien()
 
 bool AlienController::notify(Message& msg)
 {
+	switch(msg.type) {
+		case BULLETHIT:
+		{
+			auto& moveMessage = static_cast<BulletHitMessage&>(msg);
 
+			// Only listen to bullets that hit us.
+			if(alien.getId() != moveMessage.subject) {
+				break;
+			}
+
+			alien.doDamage(1);
+		}
+	}
 }

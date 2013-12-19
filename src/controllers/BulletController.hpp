@@ -15,6 +15,8 @@ class BulletController {
 
 		sf::Rect<double> getCollisionRectangle() const;
 
+		bool isAlive() const;
+
 		Bullet& getBullet();
 
 	private:

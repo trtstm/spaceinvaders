@@ -40,11 +40,11 @@ SpaceInvaders::SpaceInvaders()
 			auto alienController = AlienController(alien);
 			auto alienView = AlienGuiView(position);
 
-			AlienInfo alienInfo{alienController, alienView};
-			aliens.push_back(alienInfo);
+			std::unique_ptr<AlienInfo> alienInfo(new AlienInfo{alienController, alienView});
+			aliens.push_back(std::move(alienInfo));
 
-			aliens.back().controller.getAlien().registerObserver(alienView);
-			collisions.addEntity(aliens.back().controller.getAlien());
+			aliens.back()->controller.getAlien().registerObserver(aliens.back()->view);
+			collisions.addEntity(aliens.back()->controller.getAlien());
 		}
 	}
 
@@ -56,7 +56,7 @@ SpaceInvaders::~SpaceInvaders()
 	collisions.removeEntity(spaceship.getId());
 
 	for(auto& alienInfo : aliens) {
-		alienInfo.controller.getAlien().unRegisterObservers();
+		alienInfo->controller.getAlien().unRegisterObservers();
 	}
 
 	for(auto& bulletInfo : bullets) {
@@ -73,7 +73,7 @@ void SpaceInvaders::update(double dt)
 		auto position = (*bulletInfo)->controller.getPosition();
 		auto rect = (*bulletInfo)->controller.getCollisionRectangle();
 
-		if(position.y - rect.height / 2 < 0) {
+		if(position.y - rect.height / 2 < 0 || !(*bulletInfo)->controller.isAlive()) {
 			collisions.removeEntity((*bulletInfo)->controller.getBullet().getId());
 
 			bulletInfo = bullets.erase(bulletInfo);
@@ -82,15 +82,30 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
-/*
+	for(auto& alienInfo : aliens) {
+		if(!alienInfo->controller.isAlive()) {
+			collisions.removeEntity(alienInfo->controller.getAlien().getId());
+
+			for(auto& bulletInfo : bullets) {
+				bulletInfo->controller.getBullet().unRegisterObserver(alienInfo->controller);
+			}
+		}
+	}
+
+
+
 	if(timer >= 1.0) {
 		bool goDown = false;
 		for(auto& alienInfo : aliens) {
-			auto oldPosition = alienInfo.controller.getPosition();
-			alienInfo.controller.update(1.0);
-			auto newPosition = alienInfo.controller.getPosition();
+			if(!alienInfo->controller.isAlive()) {
+				continue;
+			}
 
-			auto direction = alienInfo.controller.getDirection();
+			auto oldPosition = alienInfo->controller.getPosition();
+			alienInfo->controller.update(1.0);
+			auto newPosition = alienInfo->controller.getPosition();
+
+			auto direction = alienInfo->controller.getDirection();
 
 			if(direction == LEFT && newPosition.x - 16/2 <= 0) {
 				goDown = true;
@@ -99,32 +114,32 @@ void SpaceInvaders::update(double dt)
 				goDown = true;
 			}
 
-			alienInfo.controller.setPosition(oldPosition);
+			alienInfo->controller.setPosition(oldPosition);
 		}
 
 		for(auto& alienInfo : aliens) {
-			if(goDown) {
-				alienInfo.controller.moveDown(1.0);
+			if(!alienInfo->controller.isAlive()) {
+				continue;
+			}
 
-				auto direction = alienInfo.controller.getDirection();
+			if(goDown) {
+				alienInfo->controller.moveDown(1.0);
+
+				auto direction = alienInfo->controller.getDirection();
 				if(direction == LEFT) {
-					alienInfo.controller.setDirection(RIGHT);
+					alienInfo->controller.setDirection(RIGHT);
 				} else if(direction == RIGHT) {
-					alienInfo.controller.setDirection(LEFT);
+					alienInfo->controller.setDirection(LEFT);
 				}
 			} else {
-				alienInfo.controller.update(1.0);
+				alienInfo->controller.update(1.0);
 			}
-		}
-
-		if(!spaceshipController.isAlive()) {
-			std::cout << "We died" << std::endl;
 		}
 
 		timer = 0.0;
 	}
 
-	timer += dt;*/
+	timer += dt;
 }
 
 void SpaceInvaders::render(sf::RenderWindow& window, double dt)
@@ -136,7 +151,11 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	}
 
 	for(auto& alienInfo : aliens) {
-		alienInfo.view.render(window, resources, dt);
+		if(!alienInfo->controller.isAlive()) {
+			continue;
+		}
+
+		alienInfo->view.render(window, resources, dt);
 	}
 }
 
@@ -167,7 +186,11 @@ void SpaceInvaders::shoot()
 	//bullets.back()->controller.getBullet().registerObserver(collisions);
 
 	for(auto& alienInfo : aliens) {
-		bullets.back()->controller.getBullet().registerObserver(alienInfo.controller);
+		if(!alienInfo->controller.isAlive()) {
+			continue;
+		}
+
+		bullets.back()->controller.getBullet().registerObserver(alienInfo->controller);
 	}
 
 	collisions.addEntity(bullets.back()->controller.getBullet());

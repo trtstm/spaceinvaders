@@ -39,7 +39,8 @@ bool CollisionSystem::notify(Message& msg)
 				// Can't collide with ourself.
 				if(sender->getId() == subject->getId()) {
 					break;
-				}	
+				}
+
 
 				auto senderRect = sender->getCollisionRectangle();	
 				senderRect.left = sender->getPosition().x - senderRect.width / 2;
@@ -50,8 +51,7 @@ bool CollisionSystem::notify(Message& msg)
 				subjectRect.top = subject->getPosition().y - subjectRect.height / 2;
 
 				if(senderRect.intersects(subjectRect)) {
-					std::cout << "Collision" << std::endl;
-					//senderCollidable.onCollision(subject->getId());
+					sender->onCollision(subject->getId());
 				}
 			}
 			break;

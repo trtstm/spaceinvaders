@@ -32,6 +32,8 @@ class Entity : public Subject {
 		int getHealth() const;
 		Coordinate getPosition() const;
 		double getSpeed() const;
+
+		virtual void onCollision(int collidee);
 		
 
 		void unRegisterObservers();
