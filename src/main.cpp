@@ -20,6 +20,7 @@ std::string toString(const T& object)
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Spaceinvaders");
+	window.setFramerateLimit(60);
 
 	SpaceInvaders game;
 
@@ -27,7 +28,7 @@ int main()
 	keys.fill(false);
 
 	sf::Font font;
-	if(!font.loadFromFile("/usr/share/fonts/TTF/DejaVuSans.ttf")) {
+	if(!font.loadFromFile("../resources/DejaVuSans.ttf")) {
 		std::cerr << "Could not read fonts" << std::endl;
 		return 0;
 	}
