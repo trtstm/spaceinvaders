@@ -4,12 +4,23 @@
 #include "Entity.hpp"
 #include "Coordinate.hpp"
 
+#include "components/AlienMovable.hpp"
+#include "components/Collidable.hpp"
+#include "components/Livable.hpp"
+
 class Alien : public Entity {
 	public:
 		Alien(Coordinate location);
 		~Alien();
 
+		Movable& getMovable();
+		Collidable& getCollidable();
+		Livable& getLivable();
+
 	private:
+		AlienMovable movable;
+		Collidable collidable;
+		Livable livable;
 };
 
 #endif

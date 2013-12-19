@@ -15,12 +15,12 @@ class Component;
 
 class Entity {
 	public:
-		Entity(std::shared_ptr<Movable> movable, std::shared_ptr<Collidable> collidable, std::shared_ptr<Livable> livable);
+		Entity();
 		virtual ~Entity() ;
 
-		Movable& getMovable();
-		Collidable& getCollidable();
-		Livable& getLivable();
+		virtual Movable& getMovable() = 0;
+		virtual Collidable& getCollidable() = 0;
+		virtual Livable& getLivable() = 0;
 
 		int getId() const;
 
@@ -39,13 +39,10 @@ class Entity {
 		bool operator>=(const Entity& e) const;
 
 	protected:
-		std::shared_ptr<Movable> movable;		
-		std::shared_ptr<Collidable> collidable;		
-		std::shared_ptr<Livable> livable;		
-
 		static int idCounter;
-	private:
 		const int id;
+	private:
+
 
 		std::map< std::string, std::shared_ptr<Component> > components;
 };

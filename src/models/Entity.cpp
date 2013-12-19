@@ -2,35 +2,16 @@
 
 #include "Entity.hpp"
 
-#include "components/Movable.hpp"
-#include "components/Collidable.hpp"
-#include "components/Livable.hpp"
-
 int Entity::idCounter = 0;
 
-Entity::Entity(std::shared_ptr<Movable> movable, std::shared_ptr<Collidable> collidable, std::shared_ptr<Livable> livable)
-	: movable(movable), collidable(collidable), livable(livable), id(idCounter)
+Entity::Entity()
+	: id(idCounter)
 {
 	idCounter++;
 }
 
 Entity::~Entity()
 {
-}
-
-Movable& Entity::getMovable()
-{
-	return *movable.get();
-}
-
-Collidable& Entity::getCollidable()
-{
-	return *collidable.get();
-}
-
-Livable& Entity::getLivable()
-{
-	return *livable.get();
 }
 
 int Entity::getId() const
@@ -40,29 +21,29 @@ int Entity::getId() const
 
 void Entity::moveLeft(double dt)
 {
-	movable->moveLeft(dt);
+	getMovable().moveLeft(dt);
 }
 
 void Entity::moveRight(double dt)
 {
-	movable->moveRight(dt);
+	getMovable().moveRight(dt);
 }
 
 void Entity::moveUp(double dt)
 {
-	movable->moveUp(dt);
+	getMovable().moveUp(dt);
 }
 
 void Entity::moveDown(double dt)
 {
-	movable->moveDown(dt);
+	getMovable().moveDown(dt);
 }
 
 void Entity::unRegisterObservers()
 {
-	movable->unRegisterAll();
-	collidable->unRegisterAll();
-	livable->unRegisterAll();
+	getMovable().unRegisterAll();
+	getCollidable().unRegisterAll();
+	getLivable().unRegisterAll();
 }
 
 bool Entity::operator==(const Entity& e) const
