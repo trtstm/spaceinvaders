@@ -4,23 +4,13 @@
 #include "Entity.hpp"
 #include "Coordinate.hpp"
 
-#include "components/SpaceshipMovable.hpp"
-#include "components/Collidable.hpp"
-#include "components/Livable.hpp"
-
 class Spaceship : public Entity {
 	public:
-		Spaceship(Coordinate location = Coordinate(0, 0), double speed = 1.0);
+		Spaceship(Coordinate position = Coordinate(0, 0));
 		~Spaceship();
 
-		Movable& getMovable();
-		Collidable& getCollidable();
-		Livable& getLivable();
 
 	private:
-		SpaceshipMovable movable;
-		Collidable collidable;
-		Livable livable;
 };
 
 #endif

@@ -25,13 +25,11 @@
 #include "components/BulletCollidable.hpp"
 
 struct BulletInfo {
-	Bullet model;
 	BulletController controller;
 	BulletGuiView view;
 };
 
 struct AlienInfo {
-	Alien model;
 	AlienController controller;
 	AlienGuiView view;
 };
@@ -59,7 +57,7 @@ class SpaceInvaders {
 		SpaceshipController spaceshipController;
 		SpaceshipGuiView spaceshipView;
 		
-		std::vector<BulletInfo> bullets;
+		std::vector< std::unique_ptr<BulletInfo> > bullets;
 		std::vector<AlienInfo> aliens;
 
 		double timer;

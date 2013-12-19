@@ -4,14 +4,24 @@
 #include "components/Collidable.hpp"
 #include "messages/MoveMessage.hpp"
 
+CollisionSystem::~CollisionSystem()
+{
+}
+
 void CollisionSystem::addEntity(Entity& entity)
 {
 	entities.erase(entity.getId());
 	entities[entity.getId()] = &entity;
+
+	entity.registerObserver(*this);
 }
 
 void CollisionSystem::removeEntity(int entity)
 {
+	if(entities.count(entity) > 0) {
+		entities[entity]->unRegisterObserver(*this);
+	}
+
 	entities.erase(entity);
 }
 
@@ -19,31 +29,29 @@ bool CollisionSystem::notify(Message& msg)
 {
 	// The sender has to be added with the addEntity method!
 	auto sender = entities[msg.entity];
-	auto& senderCollidable = sender->getCollidable();
 
-	auto& senderMovable = sender->getMovable();
 	switch(msg.type) {
 		case MOVE:
 		{
 			for(auto& entity : entities) {
-				if(sender->getId() == entity.second->getId()) {
+				auto subject = entity.second;
+
+				// Can't collide with ourself.
+				if(sender->getId() == subject->getId()) {
 					break;
 				}	
 
-				auto subject = entity.second;
-				auto& subjectCollidable = subject->getCollidable();
-				auto& subjectMovable = subject->getMovable();
+				auto senderRect = sender->getCollisionRectangle();	
+				senderRect.left = sender->getPosition().x - senderRect.width / 2;
+				senderRect.top = sender->getPosition().y - senderRect.height / 2;
 
-				auto senderRect = senderCollidable.getRect();	
-				senderRect.left = senderMovable.getPosition().x - senderRect.width / 2;
-				senderRect.top = senderMovable.getPosition().y - senderRect.height / 2;
-
-				auto subjectRect = subjectCollidable.getRect();	
-				subjectRect.left = subjectMovable.getPosition().x - subjectRect.width / 2;
-				subjectRect.top = subjectMovable.getPosition().y - subjectRect.height / 2;
+				auto subjectRect = subject->getCollisionRectangle();	
+				subjectRect.left = subject->getPosition().x - subjectRect.width / 2;
+				subjectRect.top = subject->getPosition().y - subjectRect.height / 2;
 
 				if(senderRect.intersects(subjectRect)) {
-					senderCollidable.onCollision(subject->getId());
+					std::cout << "Collision" << std::endl;
+					//senderCollidable.onCollision(subject->getId());
 				}
 			}
 			break;

@@ -9,9 +9,9 @@
 SpaceInvaders::SpaceInvaders()
 	:
 		timer(0.0),
-		spaceship(Coordinate(400,580), 400),
+		spaceship(Coordinate(400,580)),
 		spaceshipController(spaceship),
-		spaceshipView(spaceship.getMovable().getPosition())
+		spaceshipView(spaceship.getPosition())
 {
 	resources.textures["lasercannon"] = sf::Texture();
 	resources.textures["invader1"] = sf::Texture();
@@ -28,7 +28,7 @@ SpaceInvaders::SpaceInvaders()
 		std::cout << "Could not load resources" << std::endl;
 	}
 
-	spaceship.getMovable().registerObserver(spaceshipView);
+	spaceship.registerObserver(spaceshipView);
 
 	collisions.addEntity(spaceship);
 
@@ -39,37 +39,50 @@ SpaceInvaders::SpaceInvaders()
 			auto alien = Alien(position);
 			auto alienController = AlienController(alien);
 			auto alienView = AlienGuiView(position);
-			alien.getMovable().registerObserver(alienView);
 
-			AlienInfo alienInfo{alien, alienController, alienView};
-
-
+			AlienInfo alienInfo{alienController, alienView};
 			aliens.push_back(alienInfo);
-			collisions.addEntity(alien);
+
+			aliens.back().controller.getAlien().registerObserver(alienView);
+			collisions.addEntity(aliens.back().controller.getAlien());
 		}
 	}
+
 }
 
 SpaceInvaders::~SpaceInvaders()
 {
 	spaceship.unRegisterObservers();
+	collisions.removeEntity(spaceship.getId());
 
 	for(auto& alienInfo : aliens) {
-		alienInfo.model.unRegisterObservers();
+		alienInfo.controller.getAlien().unRegisterObservers();
 	}
 
 	for(auto& bulletInfo : bullets) {
-		bulletInfo.model.unRegisterObservers();
+		bulletInfo->controller.getBullet().unRegisterObservers();
 	}
 }
 
 void SpaceInvaders::update(double dt)
 {
+
 	for(auto bulletInfo = bullets.begin(); bulletInfo != bullets.end();) {
-		bulletInfo->controller.update(dt);
+		(*bulletInfo)->controller.update(dt);
 
-	}/*
+		auto position = (*bulletInfo)->controller.getPosition();
+		auto rect = (*bulletInfo)->controller.getCollisionRectangle();
 
+		if(position.y - rect.height / 2 < 0) {
+			collisions.removeEntity((*bulletInfo)->controller.getBullet().getId());
+
+			bulletInfo = bullets.erase(bulletInfo);
+		} else {
+			bulletInfo++;
+		}
+	}
+
+/*
 	if(timer >= 1.0) {
 		bool goDown = false;
 		for(auto& alienInfo : aliens) {
@@ -119,7 +132,7 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	spaceshipView.render(window, resources, dt);
 
 	for(auto& bulletInfo : bullets) {
-		bulletInfo.view.render(window);
+		bulletInfo->view.render(window);
 	}
 
 	for(auto& alienInfo : aliens) {
@@ -141,22 +154,22 @@ void SpaceInvaders::shoot()
 {
 	auto bulletPosition = spaceshipController.getPosition();
 
-	auto bullet = Bullet(bulletPosition, 300, spaceship.getId());
-	auto bulletController = BulletController(bullet);
+	auto bulletController = BulletController(Bullet(bulletPosition, spaceship.getId()));
 	auto bulletView = BulletGuiView(bulletPosition);
 
-	BulletInfo info{bullet, bulletController, bulletView};
+	std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
+	bullets.push_back(std::move(info));
 
-	bullets.push_back(info);
+	bullets.back()->controller.getBullet().registerObserver(bullets.back()->view);
 
-	bullets.back().model.getCollidable().registerObserver(spaceshipController);
-	bullets.back().model.getMovable().registerObserver(bullets.back().view);
-	bullets.back().model.getMovable().registerObserver(collisions);
+	//bullets.back().controller.getBullet().registerObserver(spaceshipController);
+
+	//bullets.back()->controller.getBullet().registerObserver(collisions);
 
 	for(auto& alienInfo : aliens) {
-		bullets.back().model.getCollidable().registerObserver(alienInfo.controller);
+		bullets.back()->controller.getBullet().registerObserver(alienInfo.controller);
 	}
 
-	collisions.addEntity(bullets.back().model);
+	collisions.addEntity(bullets.back()->controller.getBullet());
 
 }

@@ -4,8 +4,8 @@
 
 #include "messages/CollisionMessage.hpp"
 
-Collidable::Collidable(int entity, sf::Rect<double> rect)
-	: Component(COLLIDABLE, entity), rect(rect), collided(false)
+Collidable::Collidable(sf::Rect<double> rect)
+	: Component(COLLIDABLE), rect(rect), collided(false)
 {
 }
 
@@ -17,7 +17,7 @@ void Collidable::onCollision(int subject)
 {
 	collided = true;
 
-	CollisionMessage msg(entity);
+	CollisionMessage msg(0);
 	notifyObservers(msg);
 }
 

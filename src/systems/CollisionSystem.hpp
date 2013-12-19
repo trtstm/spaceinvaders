@@ -8,6 +8,8 @@
 
 class CollisionSystem : public Observer {
 	public:
+		~CollisionSystem();
+
 		void addEntity(Entity& entity);
 		void removeEntity(int entity);
 

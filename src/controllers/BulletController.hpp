@@ -7,12 +7,18 @@
 
 class BulletController {
 	public:
-		BulletController(Bullet& bullet);
+		BulletController(Bullet bullet);
 
 		void update(double dt);
 
+		Coordinate getPosition() const;
+
+		sf::Rect<double> getCollisionRectangle() const;
+
+		Bullet& getBullet();
+
 	private:
-		Bullet* bullet;
+		Bullet bullet;
 		
 };
 

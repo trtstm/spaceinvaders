@@ -4,8 +4,8 @@
 
 #include "messages/DiedMessage.hpp"
 
-Livable::Livable(int entity, int health)
-	: Component(LIVABLE, entity), health(health)
+Livable::Livable(int health)
+	: Component(LIVABLE), health(health)
 {
 }
 
@@ -18,7 +18,7 @@ void Livable::doDamage(int damage)
 	health -= damage;
 
 	if(health <= 0) {
-		DiedMessage msg(entity);
+		DiedMessage msg(0);
 		notifyObservers(msg);
 	}
 }

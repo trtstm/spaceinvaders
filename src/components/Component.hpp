@@ -9,12 +9,11 @@ enum ComponentType {MOVABLE, COLLIDABLE, LIVABLE};
 
 class Component : public Subject {
 	public:
-		Component(ComponentType type, int entity);
+		Component(ComponentType type);
 		virtual ~Component() = 0;
 
 	protected:
 		ComponentType type;
-		int entity;
 };
 
 #endif

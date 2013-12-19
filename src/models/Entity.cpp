@@ -2,10 +2,12 @@
 
 #include "Entity.hpp"
 
+#include "messages/MoveMessage.hpp"
+
 int Entity::idCounter = 0;
 
-Entity::Entity()
-	: id(idCounter)
+Entity::Entity(int health, Coordinate position, double speed, sf::Rect<double> collisionRectangle)
+	: id(idCounter), health(health), position(position), speed(speed), collisionRectangle(collisionRectangle)
 {
 	idCounter++;
 }
@@ -21,31 +23,70 @@ int Entity::getId() const
 
 void Entity::moveLeft(double dt)
 {
-	getMovable().moveLeft(dt);
+	auto newPosition = position;
+	newPosition.x -= speed * dt;
+	setPosition(newPosition);
 }
 
 void Entity::moveRight(double dt)
 {
-	getMovable().moveRight(dt);
+	auto newPosition = position;
+	newPosition.x += speed * dt;
+	setPosition(newPosition);
 }
 
 void Entity::moveUp(double dt)
 {
-	std::cout << "!" << std::endl;
-	getMovable().moveUp(dt);
-	std::cout << "!" << std::endl;
+	auto newPosition = position;
+	newPosition.y -= speed * dt;
+	setPosition(newPosition);
 }
 
 void Entity::moveDown(double dt)
 {
-	getMovable().moveDown(dt);
+	auto newPosition = position;
+	newPosition.y += speed * dt;
+	setPosition(newPosition);
+}
+
+void Entity::setPosition(Coordinate newPosition)
+{
+	MoveMessage msg(id, position, newPosition);
+	
+	position = newPosition;
+
+	notifyObservers(msg);
+}
+
+
+void Entity::doDamage(int damage)
+{
+	health -= damage;
+}
+
+sf::Rect<double> Entity::getCollisionRectangle() const
+{
+	return collisionRectangle;
+}
+
+int Entity::getHealth() const
+{
+	return health;
+}
+
+Coordinate Entity::getPosition() const
+{
+	return position;
+}
+
+double Entity::getSpeed() const
+{
+	return speed;
 }
 
 void Entity::unRegisterObservers()
 {
-	getMovable().unRegisterAll();
-	getCollidable().unRegisterAll();
-	getLivable().unRegisterAll();
+
 }
 
 bool Entity::operator==(const Entity& e) const

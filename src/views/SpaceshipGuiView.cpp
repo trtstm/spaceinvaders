@@ -30,7 +30,9 @@ bool SpaceshipGuiView::notify(Message& msg)
 
 void SpaceshipGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)
 {
-	img.setTexture(resources.textures.at("lasercannon"));
+	if(!img.getTexture()) {
+		img.setTexture(resources.textures.at("lasercannon"));
+	}
 
 	w.draw(img);
 }

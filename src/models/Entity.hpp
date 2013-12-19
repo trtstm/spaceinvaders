@@ -5,22 +5,17 @@
 #include <map>
 #include <string>
 #include <memory>
-#include <typeinfo>
+#include <SFML/Graphics/Rect.hpp>
 
-#include "components/Movable.hpp"
-#include "components/Collidable.hpp"
-#include "components/Livable.hpp"
+#include "Subject.hpp"
+#include "Coordinate.hpp"
 
 class Component;
 
-class Entity {
+class Entity : public Subject {
 	public:
-		Entity();
+		Entity(int health, Coordinate position, double speed, sf::Rect<double> collisionRectangle);
 		virtual ~Entity() ;
-
-		virtual Movable& getMovable() = 0;
-		virtual Collidable& getCollidable() = 0;
-		virtual Livable& getLivable() = 0;
 
 		int getId() const;
 
@@ -28,6 +23,16 @@ class Entity {
 		void moveRight(double dt);
 		void moveUp(double dt);
 		void moveDown(double dt);
+		void setPosition(Coordinate newPosition);
+
+		void doDamage(int damage);
+		
+		sf::Rect<double> getCollisionRectangle() const;
+
+		int getHealth() const;
+		Coordinate getPosition() const;
+		double getSpeed() const;
+		
 
 		void unRegisterObservers();
 		
@@ -39,10 +44,16 @@ class Entity {
 		bool operator>=(const Entity& e) const;
 
 	protected:
+
+	private:
 		static int idCounter;
 		int id;
-	private:
 
+		int health;
+		Coordinate position;
+		double speed;
+		sf::Rect<double> collisionRectangle;
+		
 
 		std::map< std::string, std::shared_ptr<Component> > components;
 };

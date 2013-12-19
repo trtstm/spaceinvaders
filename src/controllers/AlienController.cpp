@@ -6,35 +6,35 @@
 #include "messages/DiedMessage.hpp"
 #include "messages/BulletHitMessage.hpp"
 
-AlienController::AlienController(Alien& alien)
-	: alien(&alien), direction(LEFT)
+AlienController::AlienController(Alien alien)
+	: alien(alien), direction(LEFT)
 {
 }
 
 void AlienController::moveLeft(double dt)
 {
-	alien->getMovable().moveLeft(dt);
+	alien.moveLeft(dt);
 }
 
 void AlienController::moveRight(double dt)
 {
-	alien->getMovable().moveRight(dt);
+	alien.moveRight(dt);
 }
 
 void AlienController::moveDown(double dt)
 {
-	alien->getMovable().moveDown(dt);
+	alien.moveDown(dt);
 }
 
 Coordinate AlienController::getPosition()
 {
-	return alien->getMovable().getPosition();
+	return alien.getPosition();
 }
 
 
 void AlienController::setPosition(Coordinate position)
 {
-	alien->getMovable().setPosition(position);
+	//alien->setPosition(position);
 }
 
 Direction AlienController::getDirection()
@@ -49,54 +49,21 @@ void AlienController::setDirection(Direction dir)
 
 void AlienController::update(double dt)
 {
-	switch(direction) {
-		case LEFT:
-				alien->getMovable().moveLeft(dt);
-			break;
 
-		case RIGHT:
-				alien->getMovable().moveRight(dt);
-			break;
-
-		case DOWN:
-				alien->getMovable().moveDown(dt);
-			break;
-	}
 }
 
 bool AlienController::isAlive() const
 {
-	auto& livable = alien->getLivable();
 
-	return (livable.getHealth() > 0.0);
+	return (alien.getHealth() > 0.0);
+}
+
+Alien& AlienController::getAlien()
+{
+	return alien;
 }
 
 bool AlienController::notify(Message& msg)
 {
-	switch(msg.type) {
-		case BULLETHIT:
-		{
-			auto bulletHitMessage = static_cast<BulletHitMessage&>(msg);
-			if(bulletHitMessage.subject != alien->getId()) {
-				break;
-			}
-	
-			auto& livable = alien->getLivable();
 
-			livable.doDamage(1);
-
-			break;
-		}
-		case DIED:
-		{
-			auto diedMessage = static_cast<DiedMessage&>(msg);
-			if(diedMessage.entity != alien->getId()) {
-				break;
-			}
-	
-			std::cout << "Entity" << alien->getId() << ": died" << std::endl;
-
-			break;
-		}
-	};
 }

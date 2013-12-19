@@ -12,7 +12,7 @@ enum Direction {LEFT, RIGHT, UP, DOWN};
 
 class AlienController : public Observer {
 	public:
-		AlienController(Alien& alien);
+		AlienController(Alien alien);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
@@ -28,10 +28,12 @@ class AlienController : public Observer {
 
 		bool isAlive() const;
 
+		Alien& getAlien();
+
 		bool notify(Message& msg);
 
 	private:
-		Alien* alien;
+		Alien alien;
 
 		Direction direction;
 		

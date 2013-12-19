@@ -7,7 +7,7 @@
 
 class Livable : public Component {
 	public:
-		Livable(int entity, int health);
+		Livable(int health);
 		virtual ~Livable();		
 
 		void doDamage(int damage);

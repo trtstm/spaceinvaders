@@ -30,7 +30,7 @@ bool AlienGuiView::notify(Message& msg)
 
 void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)
 {
-	if(timer >= 1.0) {
+	if(timer == 0.0) {
 		if(curTexture == "invader1") {
 			curTexture = "invader2";
 
@@ -41,7 +41,9 @@ void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, doubl
 			img.setTexture(resources.textures.at(curTexture));
 		}
 
-		timer = 0.0;
+		if(timer >= 1.0) {
+			timer = 0.0;
+		}
 	}
 
 	w.draw(img);
