@@ -4,10 +4,10 @@
 #include "components/Collidable.hpp"
 #include "messages/MoveMessage.hpp"
 
-void CollisionSystem::addEntity(std::shared_ptr<Entity> entity)
+void CollisionSystem::addEntity(Entity& entity)
 {
-	entities.erase(entity->getId());
-	entities[entity->getId()] = entity;
+	entities.erase(entity.getId());
+	entities[entity.getId()] = &entity;
 }
 
 void CollisionSystem::removeEntity(int entity)

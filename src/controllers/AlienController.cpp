@@ -6,8 +6,8 @@
 #include "messages/DiedMessage.hpp"
 #include "messages/BulletHitMessage.hpp"
 
-AlienController::AlienController(std::shared_ptr<Alien> alien)
-	: alien(alien), direction(LEFT)
+AlienController::AlienController(Alien& alien)
+	: alien(&alien), direction(LEFT)
 {
 }
 

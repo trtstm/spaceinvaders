@@ -4,17 +4,16 @@
 
 Subject::~Subject()
 {
-	std::cout << "Deleted subject" << std::endl;
 }
 
-void Subject::registerObserver(std::shared_ptr<Observer> observer)
+void Subject::registerObserver(Observer& observer)
 {
-	observers.insert(observer);
+	observers.insert(&observer);
 }
 
-void Subject::unRegisterObserver(std::shared_ptr<Observer> observer)
+void Subject::unRegisterObserver(Observer& observer)
 {
-	observers.erase(observer);
+	observers.erase(&observer);
 }
 
 void Subject::unRegisterAll()

@@ -10,7 +10,7 @@
 
 class Alien : public Entity {
 	public:
-		Alien(Coordinate location);
+		Alien(Coordinate location = Coordinate(0, 0));
 		~Alien();
 
 		Movable& getMovable();

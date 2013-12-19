@@ -10,7 +10,7 @@
 
 class Bullet : public Entity {
 	public:
-		Bullet(Coordinate location, double speed, int owner);
+		Bullet(Coordinate location = Coordinate(0, 0), double speed = 1.0, int owner = -1);
 		~Bullet();
 
 		int getOwner() const;

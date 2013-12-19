@@ -16,7 +16,6 @@ Alien::Alien(Coordinate location)
 
 Alien::~Alien()
 {
-	std::cout << "Deleted alien" << std::endl;
 }
 
 Movable& Alien::getMovable()

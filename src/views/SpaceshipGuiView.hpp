@@ -14,11 +14,12 @@
 
 class SpaceshipGuiView: public GuiView, public Observer {
 	public:
-		SpaceshipGuiView(Coordinate position, const Resources& resources);
+		SpaceshipGuiView() {}
+		SpaceshipGuiView(Coordinate position);
 
 		bool notify(Message& msg);
 
-		void render(sf::RenderWindow& w);
+		void render(sf::RenderWindow& w, const Resources& resources, double dt);
 
 	private:
 		sf::Sprite img;

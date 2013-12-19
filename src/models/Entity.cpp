@@ -31,7 +31,9 @@ void Entity::moveRight(double dt)
 
 void Entity::moveUp(double dt)
 {
+	std::cout << "!" << std::endl;
 	getMovable().moveUp(dt);
+	std::cout << "!" << std::endl;
 }
 
 void Entity::moveDown(double dt)

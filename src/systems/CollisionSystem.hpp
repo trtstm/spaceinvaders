@@ -8,13 +8,13 @@
 
 class CollisionSystem : public Observer {
 	public:
-		void addEntity(std::shared_ptr<Entity> entity);
+		void addEntity(Entity& entity);
 		void removeEntity(int entity);
 
 		bool notify(Message& msg);
 
 	private:
-		std::map< int, std::shared_ptr<Entity> > entities;
+		std::map< int, Entity* > entities;
 };
 
 #endif

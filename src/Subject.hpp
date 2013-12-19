@@ -11,15 +11,15 @@ class Subject {
 	public:
 		virtual ~Subject();
 
-		void registerObserver(std::shared_ptr<Observer> observer);
-		void unRegisterObserver(std::shared_ptr<Observer> observer);
+		void registerObserver(Observer& observer);
+		void unRegisterObserver(Observer& observer);
 
 		void unRegisterAll();
 
 		void notifyObservers(Message& msg);
 
 	private:
-		std::set< std::shared_ptr<Observer> > observers;
+		std::set<Observer*> observers;
 };
 
 #endif

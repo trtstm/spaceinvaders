@@ -7,12 +7,12 @@
 
 class BulletController {
 	public:
-		BulletController(std::shared_ptr<Bullet> bullet);
+		BulletController(Bullet& bullet);
 
 		void update(double dt);
 
 	private:
-		std::shared_ptr<Bullet> bullet;
+		Bullet* bullet;
 		
 };
 

@@ -12,7 +12,7 @@
 
 class BulletGuiView : public GuiView, public Observer {
 	public:
-		BulletGuiView(Coordinate position);
+		BulletGuiView(Coordinate position = Coordinate(0,0));
 
 		bool notify(Message& msg);
 

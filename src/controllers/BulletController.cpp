@@ -2,8 +2,8 @@
 
 #include "components/Movable.hpp"
 
-BulletController::BulletController(std::shared_ptr<Bullet> bullet)
-	: bullet(bullet)
+BulletController::BulletController(Bullet& bullet)
+	: bullet(&bullet)
 {
 }
 

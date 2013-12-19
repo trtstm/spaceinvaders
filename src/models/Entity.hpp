@@ -40,7 +40,7 @@ class Entity {
 
 	protected:
 		static int idCounter;
-		const int id;
+		int id;
 	private:
 
 

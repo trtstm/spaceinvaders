@@ -5,6 +5,7 @@
 
 class GuiView {
 	public:
+		GuiView() {}
 		GuiView(sf::RectangleShape sprite);
 		virtual ~GuiView();
 

@@ -7,30 +7,33 @@
 
 #include "Resources.hpp"
 
-class CollisionSystem;
+#include "systems/CollisionSystem.hpp"
 
-class Spaceship;
-class Alien;
-class Bullet;
+#include "models/Spaceship.hpp"
+#include "views/SpaceshipGuiView.hpp"
+#include "controllers/SpaceshipController.hpp"
+#include "components/SpaceshipMovable.hpp"
 
-class SpaceshipController;
-class AlienController;
-class BulletController;
+#include "models/Alien.hpp"
+#include "views/AlienGuiView.hpp"
+#include "controllers/AlienController.hpp"
+#include "components/AlienMovable.hpp"
 
-class SpaceshipGuiView;
-class AlienGuiView;
-class BulletGuiView;
+#include "models/Bullet.hpp"
+#include "views/BulletGuiView.hpp"
+#include "controllers/BulletController.hpp"
+#include "components/BulletCollidable.hpp"
 
 struct BulletInfo {
-	std::shared_ptr<Bullet> model;
-	std::shared_ptr<BulletController> controller;
-	std::shared_ptr<BulletGuiView> view;
+	Bullet model;
+	BulletController controller;
+	BulletGuiView view;
 };
 
 struct AlienInfo {
-	std::shared_ptr<Alien> model;
-	std::shared_ptr<AlienController> controller;
-	std::shared_ptr<AlienGuiView> view;
+	Alien model;
+	AlienController controller;
+	AlienGuiView view;
 };
 
 class SpaceInvaders {
@@ -50,14 +53,11 @@ class SpaceInvaders {
 	private:
 		Resources resources;
 
-		sf::Texture laserCannon;
-		sf::Texture invader1;
+		CollisionSystem collisions;
 
-		std::shared_ptr<CollisionSystem> collisions;
-
-		std::shared_ptr<Spaceship> spaceship;
-		std::shared_ptr<SpaceshipController> spaceshipController;
-		std::shared_ptr<SpaceshipGuiView> spaceshipView;
+		Spaceship spaceship;
+		SpaceshipController spaceshipController;
+		SpaceshipGuiView spaceshipView;
 		
 		std::vector<BulletInfo> bullets;
 		std::vector<AlienInfo> aliens;

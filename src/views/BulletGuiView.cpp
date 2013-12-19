@@ -25,6 +25,8 @@ bool BulletGuiView::notify(Message& msg)
 			break;
 		}		
 	}
+
+	return false;
 }
 
 void BulletGuiView::render(sf::RenderWindow& w)

@@ -6,8 +6,8 @@
 #include "messages/DiedMessage.hpp"
 #include "messages/BulletHitMessage.hpp"
 
-SpaceshipController::SpaceshipController(std::shared_ptr<Spaceship> spaceship)
-	: spaceship(spaceship)
+SpaceshipController::SpaceshipController(Spaceship& spaceship)
+	: spaceship(&spaceship)
 {
 }
 

@@ -10,7 +10,7 @@
 
 class Spaceship : public Entity {
 	public:
-		Spaceship(Coordinate location, double speed);
+		Spaceship(Coordinate location = Coordinate(0, 0), double speed = 1.0);
 		~Spaceship();
 
 		Movable& getMovable();
