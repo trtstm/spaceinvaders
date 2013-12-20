@@ -5,5 +5,6 @@ SET(SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/SpaceshipGuiView.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/AlienGuiView.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BulletGuiView.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BunkerGuiView.cpp
 	PARENT_SCOPE)
 

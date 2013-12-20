@@ -24,6 +24,9 @@
 #include "controllers/BulletController.hpp"
 #include "components/BulletCollidable.hpp"
 
+#include "models/Bunker.hpp"
+#include "views/BunkerGuiView.hpp"
+
 struct BulletInfo {
 	BulletController controller;
 	BulletGuiView view;
@@ -32,6 +35,11 @@ struct BulletInfo {
 struct AlienInfo {
 	AlienController controller;
 	AlienGuiView view;
+};
+
+struct BunkerInfo {
+	Bunker model;
+	BunkerGuiView view;
 };
 
 class SpaceInvaders {
@@ -59,6 +67,7 @@ class SpaceInvaders {
 		
 		std::vector< std::unique_ptr<BulletInfo> > bullets;
 		std::vector< std::unique_ptr<AlienInfo> > aliens;
+		std::vector< std::unique_ptr<BunkerInfo> > bunkers;
 
 		double timer;
 };

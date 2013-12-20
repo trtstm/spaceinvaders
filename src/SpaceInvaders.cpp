@@ -32,6 +32,18 @@ SpaceInvaders::SpaceInvaders()
 		std::cout << "Could not load resources" << std::endl;
 	}
 
+	if(!resources.textures["blockleft"].loadFromFile("../resources/blockleft.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!resources.textures["blockmiddle"].loadFromFile("../resources/blockmiddle.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!resources.textures["blockright"].loadFromFile("../resources/blockright.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
 	spaceship.registerObserver(spaceshipView);
 
 	collisions.addEntity(spaceship);
@@ -52,6 +64,13 @@ SpaceInvaders::SpaceInvaders()
 		}
 	}
 
+	Coordinate bunkerPos(400, 300);
+	auto bunker = Bunker(bunkerPos);
+	auto bunkerView = BunkerGuiView(bunkerPos);
+	std::unique_ptr<BunkerInfo> bunkerInfo(new BunkerInfo{bunker, bunkerView});
+	bunkers.push_back(std::move(bunkerInfo));
+	collisions.addEntity(bunkers.back()->model);
+	
 }
 
 SpaceInvaders::~SpaceInvaders()
@@ -65,6 +84,10 @@ SpaceInvaders::~SpaceInvaders()
 
 	for(auto& bulletInfo : bullets) {
 		bulletInfo->controller.getBullet().unRegisterObservers();
+	}
+
+	for(auto& bunkerInfo : bunkers) {
+		bunkerInfo->model.unRegisterObservers();
 	}
 }
 
@@ -155,9 +178,11 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	}
 
 	for(auto& alienInfo : aliens) {
-
-
 		alienInfo->view.render(window, resources, dt);
+	}
+
+	for(auto& bunkerInfo : bunkers) {
+		bunkerInfo->view.render(window, resources, dt);
 	}
 }
 
@@ -193,6 +218,10 @@ void SpaceInvaders::shoot()
 		}
 
 		bullets.back()->controller.getBullet().registerObserver(alienInfo->controller);
+	}
+
+	for(auto& bunkerInfo : bunkers) {
+		bullets.back()->controller.getBullet().registerObserver(bunkerInfo->view);
 	}
 
 	collisions.addEntity(bullets.back()->controller.getBullet());
