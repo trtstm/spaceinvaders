@@ -63,6 +63,9 @@ class SpaceInvaders {
 		void alienShoot();
 
 		Resources loadResources();
+		void loadAliens(double speed);
+
+		unsigned int aliveAliens() const;
 
 		Resources resources;
 
@@ -70,6 +73,8 @@ class SpaceInvaders {
 		ScoreSystem score;
 
 		ScoreView scoreView;
+
+		unsigned int level;
 
 		Spaceship spaceship;
 		SpaceshipController spaceshipController;

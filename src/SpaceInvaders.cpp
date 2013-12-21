@@ -12,6 +12,7 @@
 SpaceInvaders::SpaceInvaders()
 	:
 		timer(0.0),
+		level(1),
 		resources(loadResources()),
 		spaceship(Coordinate(400,580)),
 		spaceshipController(spaceship),
@@ -24,24 +25,7 @@ SpaceInvaders::SpaceInvaders()
 
 	collisions.addEntity(spaceship);
 
-
-	for(unsigned int y = 0; y < 5; y++) {
-		aliens.push_back( std::vector< std::unique_ptr<AlienInfo> >() );
-
-		for(unsigned int i = 0; i < 11; i++) {
-			auto position = Coordinate(235 + i * 30, 50 + y * 30);
-			auto alien = Alien(position);
-			auto alienController = AlienController(alien);
-			auto alienView = AlienGuiView(position, resources);
-
-			std::unique_ptr<AlienInfo> alienInfo(new AlienInfo{alienController, alienView});
-			aliens[y].push_back(std::move(alienInfo));
-
-			aliens[y].back()->controller.getAlien().registerObserver(aliens[y].back()->view);
-			collisions.addEntity(aliens[y].back()->controller.getAlien());
-			aliens[y].back()->controller.getAlien().registerObserver(score);
-		}
-	}
+	loadAliens(16);
 
 	Coordinate bunkerPos(400, 300);
 	auto bunker = Bunker(bunkerPos);
@@ -69,6 +53,39 @@ SpaceInvaders::~SpaceInvaders()
 
 	for(auto& bunkerInfo : bunkers) {
 		bunkerInfo->model.unRegisterObservers();
+	}
+}
+
+void SpaceInvaders::loadAliens(double speed)
+{
+	for(auto& row : aliens) {
+		for(auto& alienInfo : row) {
+			for(auto& bulletInfo : bullets) {
+				bulletInfo->controller.getBullet().unRegisterObserver(alienInfo->controller);
+			}
+
+			collisions.removeEntity(alienInfo->controller.getAlien().getId());
+		}
+	}
+
+	aliens.clear();
+
+	for(unsigned int y = 0; y < 5; y++) {
+		aliens.push_back( std::vector< std::unique_ptr<AlienInfo> >() );
+
+		for(unsigned int i = 0; i < 11; i++) {
+			auto position = Coordinate(235 + i * 30, 50 + y * 30);
+			auto alien = Alien(position, speed);
+			auto alienController = AlienController(alien);
+			auto alienView = AlienGuiView(position, resources);
+
+			std::unique_ptr<AlienInfo> alienInfo(new AlienInfo{alienController, alienView});
+			aliens[y].push_back(std::move(alienInfo));
+
+			aliens[y].back()->controller.getAlien().registerObserver(aliens[y].back()->view);
+			collisions.addEntity(aliens[y].back()->controller.getAlien());
+			aliens[y].back()->controller.getAlien().registerObserver(score);
+		}
 	}
 }
 
@@ -113,6 +130,12 @@ Resources SpaceInvaders::loadResources()
 
 void SpaceInvaders::update(double dt)
 {
+	if(aliveAliens() == 0) {
+		level++;
+
+		loadAliens(16.0 + 8.0 * level);
+	}
+
 	for(auto bulletInfo = bullets.begin(); bulletInfo != bullets.end();) {
 		(*bulletInfo)->controller.update(dt);
 
@@ -153,7 +176,7 @@ void SpaceInvaders::update(double dt)
 			}
 
 			auto oldPosition = alienInfo->controller.getPosition();
-			alienInfo->controller.update(1.0);
+			alienInfo->controller.update(dt);
 			auto newPosition = alienInfo->controller.getPosition();
 
 			auto direction = alienInfo->controller.getDirection();
@@ -191,6 +214,21 @@ void SpaceInvaders::update(double dt)
 	}
 
 	timer += dt;
+}
+
+unsigned int SpaceInvaders::aliveAliens() const
+{
+	unsigned int counter = 0;
+
+	for(auto& row : aliens) {
+		for(auto& alienInfo : row) {
+			if(alienInfo->controller.isAlive()) {
+				counter++;
+			}
+		}
+	}
+
+	return counter;
 }
 
 void SpaceInvaders::render(sf::RenderWindow& window, double dt)

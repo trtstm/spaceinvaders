@@ -19,10 +19,10 @@ class Entity : public Subject {
 
 		int getId() const;
 
-		void moveLeft(double dt);
-		void moveRight(double dt);
-		void moveUp(double dt);
-		void moveDown(double dt);
+		virtual void moveLeft(double dt);
+		virtual void moveRight(double dt);
+		virtual void moveUp(double dt);
+		virtual void moveDown(double dt);
 		void setPosition(Coordinate newPosition);
 
 		void doDamage(int damage);

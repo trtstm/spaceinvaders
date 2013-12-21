@@ -6,8 +6,10 @@
 
 class Alien : public Entity {
 	public:
-		Alien(Coordinate position = Coordinate(0, 0));
+		Alien(Coordinate position = Coordinate(0, 0), double speed = 16);
 		~Alien();
+
+		void moveDown(double dt);
 
 	private:
 };

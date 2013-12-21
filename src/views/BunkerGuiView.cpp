@@ -26,7 +26,6 @@ bool BunkerGuiView::notify(Message& msg)
 		case BULLETHIT:
 		{
 			auto& bulletHitMsg = static_cast<BulletHitMessage&>(msg);
-			std::cout << "HIT" << std::endl;
 		}
 	}
 }
