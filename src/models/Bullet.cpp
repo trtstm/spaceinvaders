@@ -4,8 +4,8 @@
 
 #include "messages/BulletHitMessage.hpp"
 
-Bullet::Bullet(Coordinate position, int owner)
-	: Entity(1, position, 300, sf::Rect<double>(0.0, 0.0, 4.0, 10.0)), owner(owner)
+Bullet::Bullet(Coordinate position, double speed, int owner)
+	: Entity(1, position, speed, sf::Rect<double>(0.0, 0.0, 4.0, 10.0)), owner(owner)
 {
 }
 

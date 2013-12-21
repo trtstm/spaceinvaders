@@ -1,3 +1,6 @@
+#include <cstdlib>
+#include <ctime>
+
 #include "SpaceInvaders.hpp"
 
 #include "systems/CollisionSystem.hpp"
@@ -15,6 +18,7 @@ SpaceInvaders::SpaceInvaders()
 		spaceshipView(spaceship.getPosition(), resources),
 		scoreView(resources)
 {
+	std::srand(std::time(0));
 
 	spaceship.registerObserver(spaceshipView);
 
@@ -137,52 +141,53 @@ void SpaceInvaders::update(double dt)
 	}
 
 	if(timer >= 1.0) {
-		bool goDown = false;
-		for(auto& row : aliens) {
-			for(auto& alienInfo : row) {
-				if(!alienInfo->controller.isAlive()) {
-					continue;
-				}
+		alienShoot();
+		timer = 0.0;
+	}
 
-				auto oldPosition = alienInfo->controller.getPosition();
-				alienInfo->controller.update(1.0);
-				auto newPosition = alienInfo->controller.getPosition();
+	bool goDown = false;
+	for(auto& row : aliens) {
+		for(auto& alienInfo : row) {
+			if(!alienInfo->controller.isAlive()) {
+				continue;
+			}
+
+			auto oldPosition = alienInfo->controller.getPosition();
+			alienInfo->controller.update(1.0);
+			auto newPosition = alienInfo->controller.getPosition();
+
+			auto direction = alienInfo->controller.getDirection();
+
+			if(direction == LEFT && newPosition.x - 16/2 <= 0) {
+				goDown = true;
+			}
+			else if(direction == RIGHT && newPosition.x + 16/2 >= 800) {
+				goDown = true;
+			}
+
+			alienInfo->controller.setPosition(oldPosition);
+		}
+	}
+
+	for(auto& row : aliens) {
+		for(auto& alienInfo : row) {
+			if(!alienInfo->controller.isAlive()) {
+				continue;
+			}
+
+			if(goDown) {
+				alienInfo->controller.moveDown(1.0);
 
 				auto direction = alienInfo->controller.getDirection();
-
-				if(direction == LEFT && newPosition.x - 16/2 <= 0) {
-					goDown = true;
+				if(direction == LEFT) {
+					alienInfo->controller.setDirection(RIGHT);
+				} else if(direction == RIGHT) {
+					alienInfo->controller.setDirection(LEFT);
 				}
-				else if(direction == RIGHT && newPosition.x + 16/2 >= 800) {
-					goDown = true;
-				}
-
-				alienInfo->controller.setPosition(oldPosition);
+			} else {
+				alienInfo->controller.update(dt);
 			}
 		}
-
-		for(auto& row : aliens) {
-			for(auto& alienInfo : row) {
-				if(!alienInfo->controller.isAlive()) {
-					continue;
-				}
-
-				if(goDown) {
-					alienInfo->controller.moveDown(1.0);
-
-					auto direction = alienInfo->controller.getDirection();
-					if(direction == LEFT) {
-						alienInfo->controller.setDirection(RIGHT);
-					} else if(direction == RIGHT) {
-						alienInfo->controller.setDirection(LEFT);
-					}
-				} else {
-					alienInfo->controller.update(1.0);
-				}
-			}
-		}
-
-		timer = 0.0;
 	}
 
 	timer += dt;
@@ -221,8 +226,37 @@ void SpaceInvaders::moveRight(double dt)
 
 void SpaceInvaders::alienShoot()
 {
-	for(auto y = aliens.size() -1; y >= 0; y--) {
+	std::vector<AlienInfo*> possibleAliens;
+	for(auto x = 0; x < aliens[0].size(); x++) {
+		// Get the alien at the lowest row in this column.
 
+		for(auto y = 0; y < aliens.size(); y++) {
+			if(aliens[aliens.size() - y - 1][x]->controller.isAlive()) {
+				possibleAliens.push_back(aliens[aliens.size() - y - 1][x].get());
+				break;
+			}
+		}
+	}
+
+	if(possibleAliens.size() == 0) {
+		return;
+	}
+
+	// Should these aliens shoot?
+	auto shouldShoot = ((std::rand() % 3) == 0);
+
+	if(shouldShoot) {
+		auto randX = std::rand() % possibleAliens.size();
+
+		auto bulletPosition = possibleAliens[randX]->controller.getPosition();
+
+		auto bulletController = BulletController(Bullet(bulletPosition, -300, possibleAliens[randX]->controller.getAlien().getId()));
+		auto bulletView = BulletGuiView(bulletPosition);
+
+		std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
+		bullets.push_back(std::move(info));
+
+		bullets.back()->controller.getBullet().registerObserver(bullets.back()->view);
 	}
 }
 
@@ -230,7 +264,7 @@ void SpaceInvaders::shoot()
 {
 	auto bulletPosition = spaceshipController.getPosition();
 
-	auto bulletController = BulletController(Bullet(bulletPosition, spaceship.getId()));
+	auto bulletController = BulletController(Bullet(bulletPosition, 300, spaceship.getId()));
 	auto bulletView = BulletGuiView(bulletPosition);
 
 	std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
