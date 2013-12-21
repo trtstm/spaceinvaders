@@ -7,6 +7,8 @@
 
 struct Resources {
 	std::map<std::string, sf::Texture> textures;
+	std::map<std::string, sf::Font> fonts;
+
 };
 
 #endif

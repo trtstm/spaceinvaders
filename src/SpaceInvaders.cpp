@@ -44,6 +44,10 @@ SpaceInvaders::SpaceInvaders()
 		std::cout << "Could not load resources" << std::endl;
 	}
 
+	if(!resources.fonts["default"].loadFromFile("../resources/DejaVuSans.ttf")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
 	spaceship.registerObserver(spaceshipView);
 
 	collisions.addEntity(spaceship);
@@ -61,6 +65,7 @@ SpaceInvaders::SpaceInvaders()
 
 			aliens.back()->controller.getAlien().registerObserver(aliens.back()->view);
 			collisions.addEntity(aliens.back()->controller.getAlien());
+			aliens.back()->controller.getAlien().registerObserver(score);
 		}
 	}
 
@@ -172,6 +177,8 @@ void SpaceInvaders::update(double dt)
 void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 {
 	spaceshipView.render(window, resources, dt);
+
+	scoreView.render(window, resources, score.getScore());
 
 	for(auto& bulletInfo : bullets) {
 		bulletInfo->view.render(window);

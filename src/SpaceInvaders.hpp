@@ -8,6 +8,9 @@
 #include "Resources.hpp"
 
 #include "systems/CollisionSystem.hpp"
+#include "systems/ScoreSystem.hpp"
+
+#include "views/ScoreView.hpp"
 
 #include "models/Spaceship.hpp"
 #include "views/SpaceshipGuiView.hpp"
@@ -60,6 +63,9 @@ class SpaceInvaders {
 		Resources resources;
 
 		CollisionSystem collisions;
+		ScoreSystem score;
+
+		ScoreView scoreView;
 
 		Spaceship spaceship;
 		SpaceshipController spaceshipController;

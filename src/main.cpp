@@ -2,20 +2,11 @@
 #include <SFML/System/Clock.hpp>
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <memory>
 #include <array>
 
 #include "SpaceInvaders.hpp"
-
-template <class T>
-std::string toString(const T& object)
-{
-	std::ostringstream ss;
-	ss << object;
-
-	return ss.str();
-}
+#include "helpers.hpp"
 
 int main()
 {

@@ -1,4 +1,5 @@
 SET(SRC ${SRC}
 	${CMAKE_CURRENT_SOURCE_DIR}/CollisionSystem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ScoreSystem.cpp
 	PARENT_SCOPE)
 
