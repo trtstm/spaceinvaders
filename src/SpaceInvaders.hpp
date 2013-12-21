@@ -59,8 +59,9 @@ class SpaceInvaders {
 
 		void shoot();
 
-
 	private:
+		void alienShoot();
+
 		Resources loadResources();
 
 		Resources resources;
@@ -75,7 +76,7 @@ class SpaceInvaders {
 		SpaceshipGuiView spaceshipView;
 		
 		std::vector< std::unique_ptr<BulletInfo> > bullets;
-		std::vector< std::unique_ptr<AlienInfo> > aliens;
+		std::vector< std::vector< std::unique_ptr<AlienInfo>  >  > aliens;
 		std::vector< std::unique_ptr<BunkerInfo> > bunkers;
 
 		double timer;

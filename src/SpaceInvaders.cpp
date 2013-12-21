@@ -22,6 +22,8 @@ SpaceInvaders::SpaceInvaders()
 
 
 	for(unsigned int y = 0; y < 5; y++) {
+		aliens.push_back( std::vector< std::unique_ptr<AlienInfo> >() );
+
 		for(unsigned int i = 0; i < 11; i++) {
 			auto position = Coordinate(235 + i * 30, 50 + y * 30);
 			auto alien = Alien(position);
@@ -29,11 +31,11 @@ SpaceInvaders::SpaceInvaders()
 			auto alienView = AlienGuiView(position, resources);
 
 			std::unique_ptr<AlienInfo> alienInfo(new AlienInfo{alienController, alienView});
-			aliens.push_back(std::move(alienInfo));
+			aliens[y].push_back(std::move(alienInfo));
 
-			aliens.back()->controller.getAlien().registerObserver(aliens.back()->view);
-			collisions.addEntity(aliens.back()->controller.getAlien());
-			aliens.back()->controller.getAlien().registerObserver(score);
+			aliens[y].back()->controller.getAlien().registerObserver(aliens[y].back()->view);
+			collisions.addEntity(aliens[y].back()->controller.getAlien());
+			aliens[y].back()->controller.getAlien().registerObserver(score);
 		}
 	}
 
@@ -51,8 +53,10 @@ SpaceInvaders::~SpaceInvaders()
 	spaceship.unRegisterObservers();
 	collisions.removeEntity(spaceship.getId());
 
-	for(auto& alienInfo : aliens) {
-		alienInfo->controller.getAlien().unRegisterObservers();
+	for(auto& row : aliens) {
+		for(auto& alienInfo : row) {
+			alienInfo->controller.getAlien().unRegisterObservers();
+		}
 	}
 
 	for(auto& bulletInfo : bullets) {
@@ -105,7 +109,6 @@ Resources SpaceInvaders::loadResources()
 
 void SpaceInvaders::update(double dt)
 {
-
 	for(auto bulletInfo = bullets.begin(); bulletInfo != bullets.end();) {
 		(*bulletInfo)->controller.update(dt);
 
@@ -121,57 +124,61 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
-	for(auto& alienInfo : aliens) {
-		if(!alienInfo->controller.isAlive()) {
-			collisions.removeEntity(alienInfo->controller.getAlien().getId());
+	for(auto& row : aliens) {
+		for(auto& alienInfo : row) {
+			if(!alienInfo->controller.isAlive()) {
+				collisions.removeEntity(alienInfo->controller.getAlien().getId());
 
-			for(auto& bulletInfo : bullets) {
-				bulletInfo->controller.getBullet().unRegisterObserver(alienInfo->controller);
+				for(auto& bulletInfo : bullets) {
+					bulletInfo->controller.getBullet().unRegisterObserver(alienInfo->controller);
+				}
 			}
 		}
 	}
 
-
-
 	if(timer >= 1.0) {
 		bool goDown = false;
-		for(auto& alienInfo : aliens) {
-			if(!alienInfo->controller.isAlive()) {
-				continue;
-			}
+		for(auto& row : aliens) {
+			for(auto& alienInfo : row) {
+				if(!alienInfo->controller.isAlive()) {
+					continue;
+				}
 
-			auto oldPosition = alienInfo->controller.getPosition();
-			alienInfo->controller.update(1.0);
-			auto newPosition = alienInfo->controller.getPosition();
-
-			auto direction = alienInfo->controller.getDirection();
-
-			if(direction == LEFT && newPosition.x - 16/2 <= 0) {
-				goDown = true;
-			}
-			else if(direction == RIGHT && newPosition.x + 16/2 >= 800) {
-				goDown = true;
-			}
-
-			alienInfo->controller.setPosition(oldPosition);
-		}
-
-		for(auto& alienInfo : aliens) {
-			if(!alienInfo->controller.isAlive()) {
-				continue;
-			}
-
-			if(goDown) {
-				alienInfo->controller.moveDown(1.0);
+				auto oldPosition = alienInfo->controller.getPosition();
+				alienInfo->controller.update(1.0);
+				auto newPosition = alienInfo->controller.getPosition();
 
 				auto direction = alienInfo->controller.getDirection();
-				if(direction == LEFT) {
-					alienInfo->controller.setDirection(RIGHT);
-				} else if(direction == RIGHT) {
-					alienInfo->controller.setDirection(LEFT);
+
+				if(direction == LEFT && newPosition.x - 16/2 <= 0) {
+					goDown = true;
 				}
-			} else {
-				alienInfo->controller.update(1.0);
+				else if(direction == RIGHT && newPosition.x + 16/2 >= 800) {
+					goDown = true;
+				}
+
+				alienInfo->controller.setPosition(oldPosition);
+			}
+		}
+
+		for(auto& row : aliens) {
+			for(auto& alienInfo : row) {
+				if(!alienInfo->controller.isAlive()) {
+					continue;
+				}
+
+				if(goDown) {
+					alienInfo->controller.moveDown(1.0);
+
+					auto direction = alienInfo->controller.getDirection();
+					if(direction == LEFT) {
+						alienInfo->controller.setDirection(RIGHT);
+					} else if(direction == RIGHT) {
+						alienInfo->controller.setDirection(LEFT);
+					}
+				} else {
+					alienInfo->controller.update(1.0);
+				}
 			}
 		}
 
@@ -191,8 +198,10 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 		bulletInfo->view.render(window);
 	}
 
-	for(auto& alienInfo : aliens) {
-		alienInfo->view.render(window, resources, dt);
+	for(auto& row : aliens) {
+		for(auto& alienInfo : row) {
+			alienInfo->view.render(window, resources, dt);
+		}
 	}
 
 	for(auto& bunkerInfo : bunkers) {
@@ -208,6 +217,13 @@ void SpaceInvaders::moveLeft(double dt)
 void SpaceInvaders::moveRight(double dt)
 {
 	spaceshipController.moveRight(dt);
+}
+
+void SpaceInvaders::alienShoot()
+{
+	for(auto y = aliens.size() -1; y >= 0; y--) {
+
+	}
 }
 
 void SpaceInvaders::shoot()
@@ -226,12 +242,14 @@ void SpaceInvaders::shoot()
 
 	//bullets.back()->controller.getBullet().registerObserver(collisions);
 
-	for(auto& alienInfo : aliens) {
-		if(!alienInfo->controller.isAlive()) {
-			continue;
-		}
+	for(auto& row : aliens) {
+		for(auto& alienInfo : row) {
+			if(!alienInfo->controller.isAlive()) {
+				continue;
+			}
 
-		bullets.back()->controller.getBullet().registerObserver(alienInfo->controller);
+			bullets.back()->controller.getBullet().registerObserver(alienInfo->controller);
+		}
 	}
 
 	for(auto& bunkerInfo : bunkers) {
