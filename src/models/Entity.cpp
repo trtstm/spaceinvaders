@@ -56,7 +56,7 @@ void Entity::setPosition(Coordinate newPosition)
 	
 	position = newPosition;
 
-	notifyObservers(msg);
+	notifyMove(msg);
 }
 
 
@@ -67,7 +67,7 @@ void Entity::doDamage(int damage)
 	if(health <= 0) {
 		DiedMessage msg(getId());
 
-		notifyObservers(msg);
+		notifyDied(msg);
 	}
 }
 

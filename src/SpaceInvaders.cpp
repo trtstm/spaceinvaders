@@ -21,7 +21,7 @@ SpaceInvaders::SpaceInvaders()
 {
 	std::srand(std::time(0));
 
-	spaceship.registerObserver(spaceshipView);
+	spaceship.registerMove(spaceshipView);
 
 	collisions.addEntity(spaceship);
 
@@ -61,7 +61,7 @@ void SpaceInvaders::loadAliens(double speed)
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
 			for(auto& bulletInfo : bullets) {
-				bulletInfo->controller.getBullet().unRegisterObserver(alienInfo->controller);
+				bulletInfo->controller.getBullet().unRegisterCollision(alienInfo->controller);
 			}
 
 			collisions.removeEntity(alienInfo->controller.getAlien().getId());
@@ -82,9 +82,10 @@ void SpaceInvaders::loadAliens(double speed)
 			std::unique_ptr<AlienInfo> alienInfo(new AlienInfo{alienController, alienView});
 			aliens[y].push_back(std::move(alienInfo));
 
-			aliens[y].back()->controller.getAlien().registerObserver(aliens[y].back()->view);
+			aliens[y].back()->controller.getAlien().registerMove(aliens[y].back()->view);
+			aliens[y].back()->controller.getAlien().registerDied(aliens[y].back()->view);
 			collisions.addEntity(aliens[y].back()->controller.getAlien());
-			aliens[y].back()->controller.getAlien().registerObserver(score);
+			aliens[y].back()->controller.getAlien().registerDied(score);
 		}
 	}
 }
@@ -157,7 +158,7 @@ void SpaceInvaders::update(double dt)
 				collisions.removeEntity(alienInfo->controller.getAlien().getId());
 
 				for(auto& bulletInfo : bullets) {
-					bulletInfo->controller.getBullet().unRegisterObserver(alienInfo->controller);
+					bulletInfo->controller.getBullet().unRegisterCollision(alienInfo->controller);
 				}
 			}
 		}
@@ -294,7 +295,7 @@ void SpaceInvaders::alienShoot()
 		std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
 		bullets.push_back(std::move(info));
 
-		bullets.back()->controller.getBullet().registerObserver(bullets.back()->view);
+		bullets.back()->controller.getBullet().registerMove(bullets.back()->view);
 	}
 }
 
@@ -308,7 +309,7 @@ void SpaceInvaders::shoot()
 	std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
 	bullets.push_back(std::move(info));
 
-	bullets.back()->controller.getBullet().registerObserver(bullets.back()->view);
+	bullets.back()->controller.getBullet().registerMove(bullets.back()->view);
 
 	//bullets.back().controller.getBullet().registerObserver(spaceshipController);
 
@@ -320,14 +321,14 @@ void SpaceInvaders::shoot()
 				continue;
 			}
 
-			bullets.back()->controller.getBullet().registerObserver(alienInfo->controller);
+			bullets.back()->controller.getBullet().registerCollision(alienInfo->controller);
 		}
 	}
 
 	for(auto& bunkerInfo : bunkers) {
-		bullets.back()->controller.getBullet().registerObserver(bunkerInfo->view);
+		bullets.back()->controller.getBullet().registerCollision(bunkerInfo->view);
 	}
 
-	collisions.addEntity(bullets.back()->controller.getBullet());
+	collisions.addEntity(bullets.back()->controller.getBullet(), true);
 
 }

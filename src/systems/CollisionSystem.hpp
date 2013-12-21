@@ -10,7 +10,7 @@ class CollisionSystem : public Observer {
 	public:
 		~CollisionSystem();
 
-		void addEntity(Entity& entity);
+		void addEntity(Entity& entity, bool registerMove = false);
 		void removeEntity(int entity);
 
 		bool notify(Message& msg);

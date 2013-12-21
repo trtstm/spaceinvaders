@@ -6,25 +6,60 @@ Subject::~Subject()
 {
 }
 
-void Subject::registerObserver(Observer& observer)
-{
-	observers.insert(&observer);
-}
-
-void Subject::unRegisterObserver(Observer& observer)
-{
-	observers.erase(&observer);
-}
-
 void Subject::unRegisterAll()
 {
-	observers.clear();
+	move.clear();
+	collision.clear();
+	died.clear();
+}
+
+void Subject::registerMove(Observer& observer)
+{
+	move.insert(&observer);
+}
+
+void Subject::unRegisterMove(Observer& observer)
+{
+	move.erase(&observer);
 }
   
-void Subject::notifyObservers(Message& msg)
+void Subject::registerCollision(Observer& observer)
 {
-	for(auto& observer : observers) {
+	collision.insert(&observer);
+}
+
+void Subject::unRegisterCollision(Observer& observer)
+{
+	collision.erase(&observer);
+}
+
+void Subject::registerDied(Observer& observer)
+{
+	died.insert(&observer);
+}
+
+void Subject::unRegisterDied(Observer& observer)
+{
+	died.erase(&observer);
+}
+
+void Subject::notifyMove(Message& msg)
+{
+	for(auto& observer : move) {
 		observer->notify(msg);
 	}
 }
 
+void Subject::notifyCollision(Message& msg)
+{
+	for(auto& observer : collision) {
+		observer->notify(msg);
+	}
+}
+
+void Subject::notifyDied(Message& msg)
+{
+	for(auto& observer : died) {
+		observer->notify(msg);
+	}
+}

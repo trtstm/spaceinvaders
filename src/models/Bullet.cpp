@@ -17,7 +17,7 @@ void Bullet::onCollision(int collidee)
 {
 	if(owner != collidee) {
 		auto msg = BulletHitMessage(getId(), collidee);
-		notifyObservers(msg);
+		notifyCollision(msg);
 
 		doDamage(1);
 	}

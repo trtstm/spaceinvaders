@@ -8,18 +8,20 @@ CollisionSystem::~CollisionSystem()
 {
 }
 
-void CollisionSystem::addEntity(Entity& entity)
+void CollisionSystem::addEntity(Entity& entity, bool registerMove)
 {
 	entities.erase(entity.getId());
 	entities[entity.getId()] = &entity;
 
-	entity.registerObserver(*this);
+	if(registerMove) {
+		entity.registerMove(*this);
+	}
 }
 
 void CollisionSystem::removeEntity(int entity)
 {
 	if(entities.count(entity) > 0) {
-		entities[entity]->unRegisterObserver(*this);
+		entities[entity]->unRegisterMove(*this);
 	}
 
 	entities.erase(entity);
