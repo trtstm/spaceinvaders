@@ -5,10 +5,10 @@
 #include "messages/MoveMessage.hpp"
 #include "messages/DiedMessage.hpp"
 
-AlienGuiView::AlienGuiView(Coordinate position)
+AlienGuiView::AlienGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16))), timer(0.0), curTexture("invader1")
 {
-	//img.setTexture(resources.textures.at(curTexture));
+	img.setTexture(resources.textures.at(curTexture));
 	img.setPosition(position.x - 16 / 2, position.y - 16 / 2);
 }
 
@@ -48,10 +48,10 @@ void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, doubl
 			curTexture = "invader1";
 		}
 
+		img.setTexture(resources.textures.at(curTexture));
 		timer = 0.0;
 	}
 
-	img.setTexture(resources.textures.at(curTexture));
 	w.draw(img);
 
 	if(curTexture == "explosion") {

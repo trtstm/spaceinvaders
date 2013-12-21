@@ -14,8 +14,7 @@
 
 class SpaceshipGuiView: public GuiView, public Observer {
 	public:
-		SpaceshipGuiView() {}
-		SpaceshipGuiView(Coordinate position);
+		SpaceshipGuiView(Coordinate position, const Resources& resources);
 
 		bool notify(Message& msg);
 

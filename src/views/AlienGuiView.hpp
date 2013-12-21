@@ -11,7 +11,7 @@
 
 class AlienGuiView : public GuiView, public Observer {
 	public:
-		AlienGuiView(Coordinate position);
+		AlienGuiView(Coordinate position, const Resources& resources);
 
 		bool notify(Message& msg);
 

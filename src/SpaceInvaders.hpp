@@ -50,6 +50,7 @@ class SpaceInvaders {
 		SpaceInvaders();
 		~SpaceInvaders();
 
+
 		void update(double dt);
 		void render(sf::RenderWindow& window, double dt);
 
@@ -60,6 +61,8 @@ class SpaceInvaders {
 
 
 	private:
+		Resources loadResources();
+
 		Resources resources;
 
 		CollisionSystem collisions;

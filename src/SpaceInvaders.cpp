@@ -9,44 +9,12 @@
 SpaceInvaders::SpaceInvaders()
 	:
 		timer(0.0),
+		resources(loadResources()),
 		spaceship(Coordinate(400,580)),
 		spaceshipController(spaceship),
-		spaceshipView(spaceship.getPosition())
+		spaceshipView(spaceship.getPosition(), resources),
+		scoreView(resources)
 {
-	resources.textures["lasercannon"] = sf::Texture();
-	resources.textures["invader1"] = sf::Texture();
-
-	if(!resources.textures["lasercannon"].loadFromFile("../resources/lasercannon.png")) {
-		std::cout << "Could not load resources" << std::endl;
-	}
-
-	if(!resources.textures["invader1"].loadFromFile("../resources/invader1.png")) {
-		std::cout << "Could not load resources" << std::endl;
-	}
-
-	if(!resources.textures["invader2"].loadFromFile("../resources/invader2.png")) {
-		std::cout << "Could not load resources" << std::endl;
-	}
-
-	if(!resources.textures["explosion"].loadFromFile("../resources/explosion.png")) {
-		std::cout << "Could not load resources" << std::endl;
-	}
-
-	if(!resources.textures["blockleft"].loadFromFile("../resources/blockleft.png")) {
-		std::cout << "Could not load resources" << std::endl;
-	}
-
-	if(!resources.textures["blockmiddle"].loadFromFile("../resources/blockmiddle.png")) {
-		std::cout << "Could not load resources" << std::endl;
-	}
-
-	if(!resources.textures["blockright"].loadFromFile("../resources/blockright.png")) {
-		std::cout << "Could not load resources" << std::endl;
-	}
-
-	if(!resources.fonts["default"].loadFromFile("../resources/DejaVuSans.ttf")) {
-		std::cout << "Could not load resources" << std::endl;
-	}
 
 	spaceship.registerObserver(spaceshipView);
 
@@ -58,7 +26,7 @@ SpaceInvaders::SpaceInvaders()
 			auto position = Coordinate(235 + i * 30, 50 + y * 30);
 			auto alien = Alien(position);
 			auto alienController = AlienController(alien);
-			auto alienView = AlienGuiView(position);
+			auto alienView = AlienGuiView(position, resources);
 
 			std::unique_ptr<AlienInfo> alienInfo(new AlienInfo{alienController, alienView});
 			aliens.push_back(std::move(alienInfo));
@@ -94,6 +62,45 @@ SpaceInvaders::~SpaceInvaders()
 	for(auto& bunkerInfo : bunkers) {
 		bunkerInfo->model.unRegisterObservers();
 	}
+}
+
+Resources SpaceInvaders::loadResources()
+{
+	Resources rsc;
+
+	if(!rsc.textures["lasercannon"].loadFromFile("../resources/lasercannon.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["invader1"].loadFromFile("../resources/invader1.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["invader2"].loadFromFile("../resources/invader2.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["explosion"].loadFromFile("../resources/explosion.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["blockleft"].loadFromFile("../resources/blockleft.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["blockmiddle"].loadFromFile("../resources/blockmiddle.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["blockright"].loadFromFile("../resources/blockright.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.fonts["default"].loadFromFile("../resources/DejaVuSans.ttf")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	return rsc;
 }
 
 void SpaceInvaders::update(double dt)
