@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
 
 #include "Resources.hpp"
 
@@ -28,9 +29,18 @@
 #include "models/Bunker.hpp"
 #include "views/BunkerGuiView.hpp"
 
+#include "models/Spaceship.hpp"
+#include "controllers/SpaceshipController.hpp"
+#include "views/SpaceshipGuiView.hpp"
+
 struct BulletInfo {
 	BulletController controller;
 	BulletGuiView view;
+};
+
+struct SpaceshipInfo {
+	SpaceshipController controller;
+	SpaceshipGuiView view;
 };
 
 struct AlienInfo {
@@ -63,6 +73,8 @@ class SpaceInvaders {
 		Resources loadResources();
 		void loadAliens(double speed);
 
+		SpaceshipInfo loadSpaceshipInfo();
+
 		unsigned int aliveAliens() const;
 
 		Resources resources;
@@ -82,6 +94,9 @@ class SpaceInvaders {
 		std::vector< std::unique_ptr<BulletInfo> > bullets;
 		std::vector< std::vector< std::unique_ptr<AlienInfo>  >  > aliens;
 		std::vector< std::unique_ptr<BunkerInfo> > bunkers;
+
+		sf::Clock spaceshipClock;
+		SpaceshipInfo spaceshipInfo;
 
 		double timer;
 };

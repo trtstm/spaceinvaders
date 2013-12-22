@@ -18,12 +18,12 @@ SpaceInvaders::SpaceInvaders()
 		laserCannonController(laserCannon),
 		laserCannonView(laserCannon.getPosition(), resources),
 		scoreView(resources),
-		levelView(resources)
+		levelView(resources),
+		spaceshipInfo(loadSpaceshipInfo())
 {
 	std::srand(std::time(0));
 
 	laserCannon.registerMove(laserCannonView);
-
 	collisions.addEntity(laserCannon);
 
 	loadAliens(16);
@@ -34,13 +34,15 @@ SpaceInvaders::SpaceInvaders()
 	std::unique_ptr<BunkerInfo> bunkerInfo(new BunkerInfo{bunker, bunkerView});
 	bunkers.push_back(std::move(bunkerInfo));
 	collisions.addEntity(bunkers.back()->model);
-	
+
+	spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
+	spaceshipInfo.controller.getSpaceship().registerDied(score);
+	collisions.addEntity(spaceshipInfo.controller.getSpaceship());
 }
 
 SpaceInvaders::~SpaceInvaders()
 {
 	laserCannon.unRegisterObservers();
-	collisions.removeEntity(laserCannon.getId());
 
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
@@ -75,7 +77,7 @@ void SpaceInvaders::loadAliens(double speed)
 		aliens.push_back( std::vector< std::unique_ptr<AlienInfo> >() );
 
 		for(unsigned int i = 0; i < 11; i++) {
-			auto position = Coordinate(235 + i * 30, 50 + y * 30);
+			auto position = Coordinate(235 + i * 30, 100 + y * 30);
 			auto alien = Alien(position, speed);
 			auto alienController = AlienController(alien);
 			auto alienView = AlienGuiView(position, resources);
@@ -89,6 +91,18 @@ void SpaceInvaders::loadAliens(double speed)
 			aliens[y].back()->controller.getAlien().registerDied(score);
 		}
 	}
+}
+
+SpaceshipInfo SpaceInvaders::loadSpaceshipInfo()
+{
+	auto position = Coordinate(-50.0, 50);
+	auto spaceship = Spaceship(position);
+	auto spaceshipController = SpaceshipController(spaceship);
+	auto spaceshipView = SpaceshipGuiView(position, resources);
+
+	SpaceshipInfo info{spaceshipController, spaceshipView};
+
+	return info;
 }
 
 Resources SpaceInvaders::loadResources()
@@ -136,6 +150,22 @@ Resources SpaceInvaders::loadResources()
 
 void SpaceInvaders::update(double dt)
 {
+	if(spaceshipInfo.controller.isAlive() && spaceshipInfo.controller.getPosition().x < 800 + spaceshipInfo.controller.getSpaceship().getCollisionRectangle().width) {
+		spaceshipInfo.controller.moveRight(dt);
+		spaceshipClock.restart();
+	}
+
+	if(spaceshipClock.getElapsedTime().asSeconds() >= 10) {
+		collisions.removeEntity(spaceshipInfo.controller.getSpaceship().getId());
+		spaceshipInfo = loadSpaceshipInfo();
+
+		spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
+		spaceshipInfo.controller.getSpaceship().registerDied(score);
+		collisions.addEntity(spaceshipInfo.controller.getSpaceship());
+
+		spaceshipClock.restart();
+	}
+
 	if(aliveAliens() == 0) {
 		level++;
 
@@ -160,8 +190,6 @@ void SpaceInvaders::update(double dt)
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
 			if(!alienInfo->controller.isAlive()) {
-				collisions.removeEntity(alienInfo->controller.getAlien().getId());
-
 				for(auto& bulletInfo : bullets) {
 					bulletInfo->controller.getBullet().unRegisterCollision(alienInfo->controller);
 				}
@@ -239,6 +267,7 @@ unsigned int SpaceInvaders::aliveAliens() const
 
 void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 {
+
 	laserCannonView.render(window, resources, dt);
 
 	scoreView.render(window, resources, score.getScore());
@@ -256,6 +285,10 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 
 	for(auto& bunkerInfo : bunkers) {
 		bunkerInfo->view.render(window, resources, dt);
+	}
+
+	if(spaceshipInfo.controller.isAlive()) {
+		spaceshipInfo.view.render(window, resources);
 	}
 }
 
@@ -334,6 +367,8 @@ void SpaceInvaders::shoot()
 	for(auto& bunkerInfo : bunkers) {
 		bullets.back()->controller.getBullet().registerCollision(bunkerInfo->view);
 	}
+
+	bullets.back()->controller.getBullet().registerCollision(spaceshipInfo.controller);
 
 	collisions.addEntity(bullets.back()->controller.getBullet(), true);
 

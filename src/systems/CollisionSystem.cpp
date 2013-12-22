@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "CollisionSystem.hpp"
-#include "components/Collidable.hpp"
 #include "messages/MoveMessage.hpp"
+#include "messages/DiedMessage.hpp"
 
 CollisionSystem::~CollisionSystem()
 {
@@ -16,12 +16,15 @@ void CollisionSystem::addEntity(Entity& entity, bool registerMove)
 	if(registerMove) {
 		entity.registerMove(*this);
 	}
+
+	entity.registerDied(*this);
 }
 
 void CollisionSystem::removeEntity(int entity)
 {
 	if(entities.count(entity) > 0) {
 		entities[entity]->unRegisterMove(*this);
+		entities[entity]->unRegisterDied(*this);
 	}
 
 	entities.erase(entity);
@@ -43,7 +46,6 @@ bool CollisionSystem::notify(Message& msg)
 					break;
 				}
 
-
 				auto senderRect = sender->getCollisionRectangle();	
 				senderRect.left = sender->getPosition().x - senderRect.width / 2;
 				senderRect.top = sender->getPosition().y - senderRect.height / 2;
@@ -56,6 +58,12 @@ bool CollisionSystem::notify(Message& msg)
 					sender->onCollision(subject->getId());
 				}
 			}
+			break;
+		}
+
+		case DIED:
+		{
+			removeEntity(sender->getId());
 			break;
 		}
 	}
