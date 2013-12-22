@@ -25,4 +25,6 @@ bool ScoreSystem::notify(Message& msg)
 			break;
 		}
 	}
+
+	return true;
 }

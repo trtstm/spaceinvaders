@@ -6,9 +6,6 @@
 #include "systems/CollisionSystem.hpp"
 #include "Coordinate.hpp"
 
-#include "components/Collidable.hpp"
-#include "components/Livable.hpp"
-
 SpaceInvaders::SpaceInvaders()
 	:
 		timer(0.0),
@@ -153,6 +150,8 @@ void SpaceInvaders::update(double dt)
 	if(spaceshipInfo.controller.isAlive() && spaceshipInfo.controller.getPosition().x < 800 + spaceshipInfo.controller.getSpaceship().getCollisionRectangle().width) {
 		spaceshipInfo.controller.moveRight(dt);
 		spaceshipClock.restart();
+	} else {
+		collisions.removeEntity(spaceshipInfo.controller.getSpaceship().getId());
 	}
 
 	if(spaceshipClock.getElapsedTime().asSeconds() >= 10) {
@@ -206,6 +205,7 @@ void SpaceInvaders::update(double dt)
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
 			if(!alienInfo->controller.isAlive()) {
+				collisions.removeEntity(alienInfo->controller.getAlien().getId());
 				continue;
 			}
 

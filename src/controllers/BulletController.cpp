@@ -1,7 +1,5 @@
 #include "BulletController.hpp"
 
-#include "components/Movable.hpp"
-
 BulletController::BulletController(Bullet bullet)
 	: bullet(bullet)
 {

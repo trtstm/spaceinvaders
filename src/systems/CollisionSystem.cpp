@@ -16,18 +16,14 @@ void CollisionSystem::addEntity(Entity& entity, bool registerMove)
 	if(registerMove) {
 		entity.registerMove(*this);
 	}
-
-	entity.registerDied(*this);
 }
 
 void CollisionSystem::removeEntity(int entity)
 {
 	if(entities.count(entity) > 0) {
 		entities[entity]->unRegisterMove(*this);
-		entities[entity]->unRegisterDied(*this);
+		entities.erase(entity);
 	}
-
-	entities.erase(entity);
 }
 
 bool CollisionSystem::notify(Message& msg)
@@ -58,12 +54,6 @@ bool CollisionSystem::notify(Message& msg)
 					sender->onCollision(subject->getId());
 				}
 			}
-			break;
-		}
-
-		case DIED:
-		{
-			removeEntity(sender->getId());
 			break;
 		}
 	}

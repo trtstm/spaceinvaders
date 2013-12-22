@@ -45,21 +45,42 @@ void Subject::unRegisterDied(Observer& observer)
 
 void Subject::notifyMove(Message& msg)
 {
-	for(auto& observer : move) {
-		observer->notify(msg);
+	for(auto observer = move.begin(); observer != move.end();) {
+		if(!(*observer)->notify(msg)) {
+			observer = move.erase(observer);
+
+			unRegisterCollision(*(*observer));
+			unRegisterDied(*(*observer));
+		} else {
+			observer++;
+		}
 	}
 }
 
 void Subject::notifyCollision(Message& msg)
 {
-	for(auto& observer : collision) {
-		observer->notify(msg);
+	for(auto observer = collision.begin(); observer != collision.end();) {
+		if(!(*observer)->notify(msg)) {
+			observer = collision.erase(observer);
+
+			unRegisterMove(*(*observer));
+			unRegisterDied(*(*observer));
+		} else {
+			observer++;
+		}
 	}
 }
 
 void Subject::notifyDied(Message& msg)
 {
-	for(auto& observer : died) {
-		observer->notify(msg);
+	for(auto observer = died.begin(); observer != died.end();) {
+		if(!(*observer)->notify(msg)) {
+			observer = died.erase(observer);
+
+			unRegisterMove(*(*observer));
+			unRegisterCollision(*(*observer));
+		} else {
+			observer++;
+		}
 	}
 }

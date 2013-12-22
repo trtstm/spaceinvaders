@@ -69,4 +69,6 @@ bool SpaceshipController::notify(Message& msg)
 			spaceship.doDamage(1);
 		}
 	}
+
+	return true;
 }

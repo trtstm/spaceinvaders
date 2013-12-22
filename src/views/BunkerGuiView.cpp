@@ -28,6 +28,8 @@ bool BunkerGuiView::notify(Message& msg)
 			auto& bulletHitMsg = static_cast<BulletHitMessage&>(msg);
 		}
 	}
+
+	return true;
 }
 
 void BunkerGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)

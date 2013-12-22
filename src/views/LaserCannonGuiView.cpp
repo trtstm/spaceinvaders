@@ -2,7 +2,6 @@
 
 #include "LaserCannonGuiView.hpp"
 
-#include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
 LaserCannonGuiView::LaserCannonGuiView(Coordinate position, const Resources& resources)
@@ -26,6 +25,8 @@ bool LaserCannonGuiView::notify(Message& msg)
 			break;
 		}		
 	}
+
+	return true;
 }
 
 void LaserCannonGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)

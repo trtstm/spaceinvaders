@@ -33,6 +33,8 @@ bool AlienGuiView::notify(Message& msg)
 			curTexture = "explosion";
 		}
 	}
+
+	return true;
 }
 
 void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)

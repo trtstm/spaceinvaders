@@ -1,8 +1,5 @@
 #include "AlienController.hpp"
 
-#include "components/Movable.hpp"
-#include "components/Livable.hpp"
-
 #include "messages/DiedMessage.hpp"
 #include "messages/BulletHitMessage.hpp"
 
@@ -98,4 +95,6 @@ bool AlienController::notify(Message& msg)
 			alien.doDamage(1);
 		}
 	}
+
+	return true;
 }

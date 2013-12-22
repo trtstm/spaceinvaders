@@ -26,6 +26,8 @@ bool SpaceshipGuiView::notify(Message& msg)
 			break;
 		}
 	}
+
+	return true;
 }
 
 void SpaceshipGuiView::render(sf::RenderWindow& w, const Resources& resources)

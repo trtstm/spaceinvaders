@@ -2,7 +2,6 @@
 
 #include "BulletGuiView.hpp"
 
-#include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
 BulletGuiView::BulletGuiView(Coordinate position)
@@ -26,7 +25,7 @@ bool BulletGuiView::notify(Message& msg)
 		}		
 	}
 
-	return false;
+	return true;
 }
 
 void BulletGuiView::render(sf::RenderWindow& w)
