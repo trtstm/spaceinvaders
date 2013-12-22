@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "SpaceshipGuiView.hpp"
+#include "LaserCannonGuiView.hpp"
 
 #include "components/Movable.hpp"
 #include "messages/MoveMessage.hpp"
 
-SpaceshipGuiView::SpaceshipGuiView(Coordinate position, const Resources& resources)
+LaserCannonGuiView::LaserCannonGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(26, 15)))
 {
 	img.setTexture(resources.textures.at("lasercannon"));	
@@ -13,7 +13,7 @@ SpaceshipGuiView::SpaceshipGuiView(Coordinate position, const Resources& resourc
 }
 
 
-bool SpaceshipGuiView::notify(Message& msg)
+bool LaserCannonGuiView::notify(Message& msg)
 {
 	switch(msg.type) {
 		case MOVE:
@@ -28,7 +28,7 @@ bool SpaceshipGuiView::notify(Message& msg)
 	}
 }
 
-void SpaceshipGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)
+void LaserCannonGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)
 {
 	w.draw(img);
 }

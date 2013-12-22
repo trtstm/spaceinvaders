@@ -13,20 +13,17 @@
 #include "views/ScoreView.hpp"
 #include "views/LevelView.hpp"
 
-#include "models/Spaceship.hpp"
-#include "views/SpaceshipGuiView.hpp"
-#include "controllers/SpaceshipController.hpp"
-#include "components/SpaceshipMovable.hpp"
+#include "models/LaserCannon.hpp"
+#include "views/LaserCannonGuiView.hpp"
+#include "controllers/LaserCannonController.hpp"
 
 #include "models/Alien.hpp"
 #include "views/AlienGuiView.hpp"
 #include "controllers/AlienController.hpp"
-#include "components/AlienMovable.hpp"
 
 #include "models/Bullet.hpp"
 #include "views/BulletGuiView.hpp"
 #include "controllers/BulletController.hpp"
-#include "components/BulletCollidable.hpp"
 
 #include "models/Bunker.hpp"
 #include "views/BunkerGuiView.hpp"
@@ -78,9 +75,9 @@ class SpaceInvaders {
 
 		unsigned int level;
 
-		Spaceship spaceship;
-		SpaceshipController spaceshipController;
-		SpaceshipGuiView spaceshipView;
+		LaserCannon laserCannon;
+		LaserCannonController laserCannonController;
+		LaserCannonGuiView laserCannonView;
 		
 		std::vector< std::unique_ptr<BulletInfo> > bullets;
 		std::vector< std::vector< std::unique_ptr<AlienInfo>  >  > aliens;

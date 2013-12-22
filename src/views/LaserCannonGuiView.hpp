@@ -1,5 +1,5 @@
-#ifndef SPACESHIP_GUI_VIEW_HPP
-#define SPACESHIP_GUI_VIEW_HPP
+#ifndef LASER_CANNON_GUI_VIEW_HPP
+#define LASER_CANNON_GUI_VIEW_HPP
 
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -12,9 +12,9 @@
 
 #include "Resources.hpp"
 
-class SpaceshipGuiView: public GuiView, public Observer {
+class LaserCannonGuiView : public GuiView, public Observer {
 	public:
-		SpaceshipGuiView(Coordinate position, const Resources& resources);
+		LaserCannonGuiView(Coordinate position, const Resources& resources);
 
 		bool notify(Message& msg);
 

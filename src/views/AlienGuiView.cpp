@@ -52,11 +52,12 @@ void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, doubl
 		timer = 0.0;
 	}
 
-	w.draw(img);
-
 	if(curTexture == "explosion") {
+		img.setTexture(resources.textures.at(curTexture));
 		curTexture = "";
 	}
+
+	w.draw(img);
 
 	timer += dt;
 }

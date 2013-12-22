@@ -14,17 +14,17 @@ SpaceInvaders::SpaceInvaders()
 		timer(0.0),
 		level(1),
 		resources(loadResources()),
-		spaceship(Coordinate(400,580)),
-		spaceshipController(spaceship),
-		spaceshipView(spaceship.getPosition(), resources),
+		laserCannon(Coordinate(400,580)),
+		laserCannonController(laserCannon),
+		laserCannonView(laserCannon.getPosition(), resources),
 		scoreView(resources),
 		levelView(resources)
 {
 	std::srand(std::time(0));
 
-	spaceship.registerMove(spaceshipView);
+	laserCannon.registerMove(laserCannonView);
 
-	collisions.addEntity(spaceship);
+	collisions.addEntity(laserCannon);
 
 	loadAliens(16);
 
@@ -39,8 +39,8 @@ SpaceInvaders::SpaceInvaders()
 
 SpaceInvaders::~SpaceInvaders()
 {
-	spaceship.unRegisterObservers();
-	collisions.removeEntity(spaceship.getId());
+	laserCannon.unRegisterObservers();
+	collisions.removeEntity(laserCannon.getId());
 
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
@@ -96,6 +96,10 @@ Resources SpaceInvaders::loadResources()
 	Resources rsc;
 
 	if(!rsc.textures["lasercannon"].loadFromFile("../resources/lasercannon.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["spaceship"].loadFromFile("../resources/spaceship.png")) {
 		std::cout << "Could not load resources" << std::endl;
 	}
 
@@ -235,7 +239,7 @@ unsigned int SpaceInvaders::aliveAliens() const
 
 void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 {
-	spaceshipView.render(window, resources, dt);
+	laserCannonView.render(window, resources, dt);
 
 	scoreView.render(window, resources, score.getScore());
 	levelView.render(window, resources, level);
@@ -257,12 +261,12 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 
 void SpaceInvaders::moveLeft(double dt)
 {
-	spaceshipController.moveLeft(dt);
+	laserCannonController.moveLeft(dt);
 }
 
 void SpaceInvaders::moveRight(double dt)
 {
-	spaceshipController.moveRight(dt);
+	laserCannonController.moveRight(dt);
 }
 
 void SpaceInvaders::alienShoot()
@@ -303,9 +307,9 @@ void SpaceInvaders::alienShoot()
 
 void SpaceInvaders::shoot()
 {
-	auto bulletPosition = spaceshipController.getPosition();
+	auto bulletPosition = laserCannonController.getPosition();
 
-	auto bulletController = BulletController(Bullet(bulletPosition, 300, spaceship.getId()));
+	auto bulletController = BulletController(Bullet(bulletPosition, 300, laserCannon.getId()));
 	auto bulletView = BulletGuiView(bulletPosition);
 
 	std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
@@ -313,7 +317,7 @@ void SpaceInvaders::shoot()
 
 	bullets.back()->controller.getBullet().registerMove(bullets.back()->view);
 
-	//bullets.back().controller.getBullet().registerObserver(spaceshipController);
+	//bullets.back().controller.getBullet().registerObserver(LaserCannonController);
 
 	//bullets.back()->controller.getBullet().registerObserver(collisions);
 

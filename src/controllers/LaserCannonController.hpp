@@ -1,16 +1,16 @@
-#ifndef SPACESHIP_CONTROLLER_HPP
-#define SPACESHIP_CONTROLLER_HPP
+#ifndef LASER_CANNON_CONTROLLER_HPP
+#define LASER_CANNON_CONTROLLER_HPP
 
 #include <memory>
 
-#include "models/Spaceship.hpp"
+#include "models/LaserCannon.hpp"
 #include "messages/Message.hpp"
 #include "Observer.hpp"
 #include "Coordinate.hpp"
 
-class SpaceshipController : public Observer {
+class LaserCannonController : public Observer {
 	public:
-		SpaceshipController(Spaceship& spaceship);
+		LaserCannonController(LaserCannon& laserCannon);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
@@ -22,7 +22,7 @@ class SpaceshipController : public Observer {
 		bool notify(Message& msg);
 
 	private:
-		Spaceship* spaceship;
+		LaserCannon* laserCannon;
 		
 };
 
