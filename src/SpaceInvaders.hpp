@@ -11,6 +11,7 @@
 #include "systems/ScoreSystem.hpp"
 
 #include "views/ScoreView.hpp"
+#include "views/LevelView.hpp"
 
 #include "models/Spaceship.hpp"
 #include "views/SpaceshipGuiView.hpp"
@@ -73,6 +74,7 @@ class SpaceInvaders {
 		ScoreSystem score;
 
 		ScoreView scoreView;
+		LevelView levelView;
 
 		unsigned int level;
 

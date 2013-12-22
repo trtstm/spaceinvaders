@@ -17,7 +17,8 @@ SpaceInvaders::SpaceInvaders()
 		spaceship(Coordinate(400,580)),
 		spaceshipController(spaceship),
 		spaceshipView(spaceship.getPosition(), resources),
-		scoreView(resources)
+		scoreView(resources),
+		levelView(resources)
 {
 	std::srand(std::time(0));
 
@@ -237,6 +238,7 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	spaceshipView.render(window, resources, dt);
 
 	scoreView.render(window, resources, score.getScore());
+	levelView.render(window, resources, level);
 
 	for(auto& bulletInfo : bullets) {
 		bulletInfo->view.render(window);
