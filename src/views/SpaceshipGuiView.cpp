@@ -25,6 +25,9 @@ bool SpaceshipGuiView::notify(Message& msg)
 
 			break;
 		}
+
+		default:
+			break;
 	}
 
 	return true;
@@ -32,5 +35,7 @@ bool SpaceshipGuiView::notify(Message& msg)
 
 void SpaceshipGuiView::render(sf::RenderWindow& w, const Resources& resources)
 {
+	(void)resources;
+
 	w.draw(img);
 }

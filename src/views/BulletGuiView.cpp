@@ -22,7 +22,10 @@ bool BulletGuiView::notify(Message& msg)
 			sprite.setPosition(position.x - 4 / 2, position.y - 10 / 2);
 
 			break;
-		}		
+		}
+
+		default:
+			break;
 	}
 
 	return true;

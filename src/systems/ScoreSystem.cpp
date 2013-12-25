@@ -18,12 +18,13 @@ bool ScoreSystem::notify(Message& msg)
 	switch(msg.type) {
 		case DIED:
 		{
-			auto& diedMsg = static_cast<DiedMessage&>(msg);
-
 			score++;
 
 			break;
 		}
+
+		default:
+			break;
 	}
 
 	return true;

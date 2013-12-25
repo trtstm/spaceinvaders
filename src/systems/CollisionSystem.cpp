@@ -56,6 +56,9 @@ bool CollisionSystem::notify(Message& msg)
 			}
 			break;
 		}
+
+		default:
+			break;
 	}
 
 	return true;

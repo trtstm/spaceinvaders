@@ -23,7 +23,10 @@ bool LaserCannonGuiView::notify(Message& msg)
 			img.setPosition(position.x - 26 / 2, position.y - 15 / 2);
 
 			break;
-		}		
+		}
+
+		default:
+			break;
 	}
 
 	return true;
@@ -31,5 +34,8 @@ bool LaserCannonGuiView::notify(Message& msg)
 
 void LaserCannonGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)
 {
+	(void)resources;
+	(void)dt;
+
 	w.draw(img);
 }

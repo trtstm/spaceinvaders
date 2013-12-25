@@ -77,28 +77,29 @@ class SpaceInvaders {
 
 		unsigned int aliveAliens() const;
 
-		Resources resources;
-
-		CollisionSystem collisions;
-		ScoreSystem score;
-
-		ScoreView scoreView;
-		LevelView levelView;
-
+		double timer;
 		unsigned int level;
+
+		Resources resources;
 
 		LaserCannon laserCannon;
 		LaserCannonController laserCannonController;
 		LaserCannonGuiView laserCannonView;
+
+		ScoreView scoreView;
+		LevelView levelView;
+
+		CollisionSystem collisions;
+		ScoreSystem score;
+
+		SpaceshipInfo spaceshipInfo;
 		
 		std::vector< std::unique_ptr<BulletInfo> > bullets;
 		std::vector< std::vector< std::unique_ptr<AlienInfo>  >  > aliens;
 		std::vector< std::unique_ptr<BunkerInfo> > bunkers;
 
 		sf::Clock spaceshipClock;
-		SpaceshipInfo spaceshipInfo;
 
-		double timer;
 };
 
 #endif

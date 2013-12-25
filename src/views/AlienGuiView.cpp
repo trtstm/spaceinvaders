@@ -6,7 +6,7 @@
 #include "messages/DiedMessage.hpp"
 
 AlienGuiView::AlienGuiView(Coordinate position, const Resources& resources)
-	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16))), timer(0.0), curTexture("invader1")
+	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16))), curTexture("invader1"), timer(0.0)
 {
 	img.setTexture(resources.textures.at(curTexture));
 	img.setPosition(position.x - 16 / 2, position.y - 16 / 2);
@@ -28,10 +28,11 @@ bool AlienGuiView::notify(Message& msg)
 
 		case DIED:
 		{
-			auto& diedMsg = static_cast<DiedMessage&>(msg);
-
 			curTexture = "explosion";
 		}
+
+		default:
+			break;
 	}
 
 	return true;

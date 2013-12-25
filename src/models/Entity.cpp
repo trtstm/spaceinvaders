@@ -93,6 +93,7 @@ double Entity::getSpeed() const
 
 void Entity::onCollision(int collidee)
 {
+	(void)collidee;
 }
 
 void Entity::unRegisterObservers()

@@ -36,7 +36,7 @@ void SpaceshipController::setPosition(Coordinate position)
 
 void SpaceshipController::update(double dt)
 {
-
+	(void)dt;
 }
 
 bool SpaceshipController::isAlive() const
@@ -68,6 +68,9 @@ bool SpaceshipController::notify(Message& msg)
 
 			spaceship.doDamage(1);
 		}
+
+		default:
+			break;
 	}
 
 	return true;

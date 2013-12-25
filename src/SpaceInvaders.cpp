@@ -305,10 +305,10 @@ void SpaceInvaders::moveRight(double dt)
 void SpaceInvaders::alienShoot()
 {
 	std::vector<AlienInfo*> possibleAliens;
-	for(auto x = 0; x < aliens[0].size(); x++) {
+	for(unsigned int x = 0; x < aliens[0].size(); x++) {
 		// Get the alien at the lowest row in this column.
 
-		for(auto y = 0; y < aliens.size(); y++) {
+		for(unsigned int y = 0; y < aliens.size(); y++) {
 			if(aliens[aliens.size() - y - 1][x]->controller.isAlive()) {
 				possibleAliens.push_back(aliens[aliens.size() - y - 1][x].get());
 				break;

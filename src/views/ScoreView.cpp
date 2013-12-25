@@ -12,6 +12,8 @@ ScoreView::ScoreView(const Resources& resources)
 
 void ScoreView::render(sf::RenderWindow& w, const Resources& resources, int score)
 {
+	(void)resources;
+
 	text.setString(toString(score));
 	w.draw(text);
 }

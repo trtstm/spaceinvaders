@@ -94,6 +94,9 @@ bool AlienController::notify(Message& msg)
 
 			alien.doDamage(1);
 		}
+
+		default:
+			break;
 	}
 
 	return true;

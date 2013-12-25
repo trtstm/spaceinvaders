@@ -19,10 +19,10 @@ class AlienGuiView : public GuiView, public Observer {
 
 	private:
 		std::string curTexture;
+		double timer;
 
 		sf::Sprite img;
 
-		double timer;
 };
 
 #endif

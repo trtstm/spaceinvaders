@@ -30,6 +30,7 @@ bool LaserCannonController::isAlive() const
 
 bool LaserCannonController::notify(Message& msg)
 {
+	(void)msg;
 
 	return true;
 }
