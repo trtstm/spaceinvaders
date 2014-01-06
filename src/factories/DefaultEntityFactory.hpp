@@ -6,6 +6,8 @@
 class DefaultEntityFactory : public EntityFactory {
 	public:
 		Spaceship* newSpaceship(const Coordinate& position);
+		LaserCannon* newLaserCannon(const Coordinate& position);
+		Alien* newAlien(const Coordinate& position, double speed);
 };
 
 #endif

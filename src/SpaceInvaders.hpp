@@ -86,7 +86,7 @@ class SpaceInvaders {
 
 		Resources resources;
 
-		LaserCannon laserCannon;
+		LaserCannon* laserCannon;
 		LaserCannonController laserCannonController;
 		LaserCannonGuiView laserCannonView;
 

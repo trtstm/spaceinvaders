@@ -1,5 +1,4 @@
 SET(SRC ${SRC}
-	${CMAKE_CURRENT_SOURCE_DIR}/EntityFactory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DefaultEntityFactory.cpp
 	PARENT_SCOPE)
 

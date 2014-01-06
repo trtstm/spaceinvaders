@@ -12,17 +12,17 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<EntityFactory> factory)
 		timer(0.0),
 		level(1),
 		resources(loadResources()),
-		laserCannon(Coordinate(400,580)),
+		laserCannon(factory->newLaserCannon(Coordinate(400,580))),
 		laserCannonController(laserCannon),
-		laserCannonView(laserCannon.getPosition(), resources),
+		laserCannonView(laserCannon->getPosition(), resources),
 		scoreView(resources),
 		levelView(resources),
 		spaceshipInfo(loadSpaceshipInfo())
 {
 	std::srand(std::time(0));
 
-	laserCannon.registerMove(laserCannonView);
-	collisions.addEntity(laserCannon);
+	laserCannon->registerMove(laserCannonView);
+	collisions.addEntity(*laserCannon);
 
 	loadAliens(16);
 
@@ -40,7 +40,7 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<EntityFactory> factory)
 
 SpaceInvaders::~SpaceInvaders()
 {
-	laserCannon.unRegisterObservers();
+	laserCannon->unRegisterObservers();
 
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
@@ -76,7 +76,7 @@ void SpaceInvaders::loadAliens(double speed)
 
 		for(unsigned int i = 0; i < 11; i++) {
 			auto position = Coordinate(235 + i * 30, 100 + y * 30);
-			auto alien = Alien(position, speed);
+			auto alien = factory->newAlien(position, speed);
 			auto alienController = AlienController(alien);
 			auto alienView = AlienGuiView(position, resources);
 
@@ -343,7 +343,7 @@ void SpaceInvaders::shoot()
 {
 	auto bulletPosition = laserCannonController.getPosition();
 
-	auto bulletController = BulletController(Bullet(bulletPosition, 300, laserCannon.getId()));
+	auto bulletController = BulletController(Bullet(bulletPosition, 300, laserCannon->getId()));
 	auto bulletView = BulletGuiView(bulletPosition);
 
 	std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});

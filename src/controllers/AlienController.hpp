@@ -12,7 +12,7 @@ enum Direction {LEFT, RIGHT, UP, DOWN};
 
 class AlienController : public Observer {
 	public:
-		AlienController(Alien alien);
+		AlienController(Alien* alien);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
@@ -33,7 +33,7 @@ class AlienController : public Observer {
 		bool notify(Message& msg);
 
 	private:
-		Alien alien;
+		std::shared_ptr<Alien> alien;
 
 		Direction direction;
 		

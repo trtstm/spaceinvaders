@@ -3,8 +3,8 @@
 #include "messages/DiedMessage.hpp"
 #include "messages/BulletHitMessage.hpp"
 
-LaserCannonController::LaserCannonController(LaserCannon& laserCannon)
-	: laserCannon(&laserCannon)
+LaserCannonController::LaserCannonController(LaserCannon* laserCannon)
+	: laserCannon(laserCannon)
 {
 }
 

@@ -10,7 +10,7 @@
 
 class LaserCannonController : public Observer {
 	public:
-		LaserCannonController(LaserCannon& laserCannon);
+		LaserCannonController(LaserCannon* laserCannon);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
@@ -22,7 +22,7 @@ class LaserCannonController : public Observer {
 		bool notify(Message& msg);
 
 	private:
-		LaserCannon* laserCannon;
+		std::shared_ptr<LaserCannon> laserCannon;
 		
 };
 
