@@ -6,8 +6,9 @@
 #include "systems/CollisionSystem.hpp"
 #include "Coordinate.hpp"
 
-SpaceInvaders::SpaceInvaders()
+SpaceInvaders::SpaceInvaders(std::shared_ptr<EntityFactory> factory)
 	:
+		factory(factory),
 		timer(0.0),
 		level(1),
 		resources(loadResources()),
@@ -93,7 +94,7 @@ void SpaceInvaders::loadAliens(double speed)
 SpaceshipInfo SpaceInvaders::loadSpaceshipInfo()
 {
 	auto position = Coordinate(-50.0, 50);
-	auto spaceship = Spaceship(position);
+	auto spaceship = factory->newSpaceship(position);
 	auto spaceshipController = SpaceshipController(spaceship);
 	auto spaceshipView = SpaceshipGuiView(position, resources);
 

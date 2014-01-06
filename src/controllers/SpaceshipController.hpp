@@ -10,7 +10,7 @@
 
 class SpaceshipController : public Observer {
 	public:
-		SpaceshipController(Spaceship spaceship);
+		SpaceshipController(Spaceship* spaceship);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
@@ -28,7 +28,7 @@ class SpaceshipController : public Observer {
 		bool notify(Message& msg);
 
 	private:
-		Spaceship spaceship;
+		std::shared_ptr<Spaceship> spaceship;
 		
 };
 

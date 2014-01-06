@@ -33,6 +33,8 @@
 #include "controllers/SpaceshipController.hpp"
 #include "views/SpaceshipGuiView.hpp"
 
+#include "factories/DefaultEntityFactory.hpp"
+
 struct BulletInfo {
 	BulletController controller;
 	BulletGuiView view;
@@ -55,7 +57,7 @@ struct BunkerInfo {
 
 class SpaceInvaders {
 	public:
-		SpaceInvaders();
+		SpaceInvaders(std::shared_ptr<EntityFactory> factory = std::make_shared<DefaultEntityFactory>());
 		~SpaceInvaders();
 
 
@@ -76,6 +78,8 @@ class SpaceInvaders {
 		SpaceshipInfo loadSpaceshipInfo();
 
 		unsigned int aliveAliens() const;
+
+		std::shared_ptr<EntityFactory> factory;
 
 		double timer;
 		unsigned int level;
