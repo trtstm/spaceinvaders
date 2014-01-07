@@ -68,7 +68,7 @@ void SpaceInvaders::loadAliens(double speed)
 {
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
-			collisions.removeEntity(alienInfo->controller.getAlien().getId());
+			collisions.removeEntity(alienInfo->controller.getAlien());
 		}
 	}
 
@@ -188,11 +188,11 @@ void SpaceInvaders::update(double dt)
 		spaceshipInfo.controller.moveRight(dt);
 		spaceshipClock.restart();
 	} else {
-		collisions.removeEntity(spaceshipInfo.controller.getSpaceship().getId());
+		collisions.removeEntity(spaceshipInfo.controller.getSpaceship());
 	}
 
 	if(spaceshipClock.getElapsedTime().asSeconds() >= 10) {
-		collisions.removeEntity(spaceshipInfo.controller.getSpaceship().getId());
+		collisions.removeEntity(spaceshipInfo.controller.getSpaceship());
 		spaceshipInfo = loadSpaceshipInfo();
 
 		spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
@@ -215,7 +215,7 @@ void SpaceInvaders::update(double dt)
 		auto rect = (*bulletInfo)->controller.getCollisionRectangle();
 
 		if(position.y - rect.height / 2 < 0 || !(*bulletInfo)->controller.isAlive()) {
-			collisions.removeEntity((*bulletInfo)->controller.getBullet().getId());
+			collisions.removeEntity((*bulletInfo)->controller.getBullet());
 
 			bulletInfo = bullets.erase(bulletInfo);
 		} else {
@@ -232,7 +232,7 @@ void SpaceInvaders::update(double dt)
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
 			if(!alienInfo->controller.isAlive()) {
-				collisions.removeEntity(alienInfo->controller.getAlien().getId());
+				collisions.removeEntity(alienInfo->controller.getAlien());
 				continue;
 			}
 
@@ -276,15 +276,15 @@ void SpaceInvaders::update(double dt)
 
 	for(auto& bunkerInfo : bunkers) {
 		if(bunkerInfo->modelLeft.getHealth() <= 0) {
-			collisions.removeEntity(bunkerInfo->modelLeft.getId());
+			collisions.removeEntity(bunkerInfo->modelLeft);
 		}
 
 		if(bunkerInfo->modelRight.getHealth() <= 0) {
-			collisions.removeEntity(bunkerInfo->modelRight.getId());
+			collisions.removeEntity(bunkerInfo->modelRight);
 		}
 
 		if(bunkerInfo->modelMiddle.getHealth() <= 0) {
-			collisions.removeEntity(bunkerInfo->modelMiddle.getId());
+			collisions.removeEntity(bunkerInfo->modelMiddle);
 		}
 	}
 
