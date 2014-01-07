@@ -1,5 +1,5 @@
-#ifndef BUNKER_GUI_VIEW_HPP
-#define BUNKER_GUI_VIEW_HPP
+#ifndef BUNKER_MIDDLE_GUI_VIEW_HPP
+#define BUNKER_MIDDLE_GUI_VIEW_HPP
 
 #include <string>
 
@@ -11,23 +11,20 @@
 
 #include "Resources.hpp"
 
-struct ImgInfo {
-	std::string texture;
-	sf::Sprite img;
-};
-
-class BunkerGuiView : public GuiView, public Observer {
+class BunkerMiddleGuiView : public GuiView, public Observer {
 	public:
-		BunkerGuiView(Coordinate position);
+		BunkerMiddleGuiView(Coordinate position, const Resources& resources);
 
 		bool notify(Message& msg);
 
 		void render(sf::RenderWindow& w, const Resources& resources, double dt);
 
 	private:
-		ImgInfo sprite1;
-		ImgInfo sprite2;
-		ImgInfo sprite3;
+		sf::Sprite img1;
+		sf::Sprite img2;
+		sf::Sprite img3;
+
+		int curImage;
 
 		double timer;
 };

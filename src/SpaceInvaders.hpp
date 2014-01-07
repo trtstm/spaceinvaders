@@ -26,8 +26,12 @@
 #include "views/BulletGuiView.hpp"
 #include "controllers/BulletController.hpp"
 
-#include "models/Bunker.hpp"
-#include "views/BunkerGuiView.hpp"
+#include "models/BunkerLeft.hpp"
+#include "views/BunkerLeftGuiView.hpp"
+#include "models/BunkerMiddle.hpp"
+#include "views/BunkerMiddleGuiView.hpp"
+#include "models/BunkerRight.hpp"
+#include "views/BunkerRightGuiView.hpp"
 
 #include "models/Spaceship.hpp"
 #include "controllers/SpaceshipController.hpp"
@@ -51,8 +55,14 @@ struct AlienInfo {
 };
 
 struct BunkerInfo {
-	Bunker model;
-	BunkerGuiView view;
+	BunkerLeft modelLeft;
+	BunkerLeftGuiView viewLeft;
+
+	BunkerMiddle modelMiddle;
+	BunkerMiddleGuiView viewMiddle;
+
+	BunkerRight modelRight;
+	BunkerRightGuiView viewRight;
 };
 
 enum State { PLAYING, PAUSE, GAMEOVER };
@@ -74,6 +84,8 @@ class SpaceInvaders {
 		bool shouldStop() const;
 
 	private:
+		BunkerInfo* newBunkerInfo(const Coordinate position) const;
+
 		void alienShoot();
 
 		Resources loadResources();

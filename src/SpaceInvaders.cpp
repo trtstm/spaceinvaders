@@ -27,12 +27,16 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<EntityFactory> factory)
 
 	loadAliens(16);
 
-	/*Coordinate bunkerPos(400, 300);
-	auto bunker = Bunker(bunkerPos);
-	auto bunkerView = BunkerGuiView(bunkerPos);
-	std::unique_ptr<BunkerInfo> bunkerInfo(new BunkerInfo{bunker, bunkerView});
-	bunkers.push_back(std::move(bunkerInfo));
-	collisions.addEntity(bunkers.back()->model);*/
+	for(unsigned int i = 0; i < 3; i++) {
+		std::unique_ptr<BunkerInfo> bunker1(newBunkerInfo(Coordinate(133 + i * 266, 500)));
+		bunkers.push_back(std::move(bunker1));
+		bunkers.back()->modelLeft.registerCollision(bunkers.back()->viewLeft);
+		bunkers.back()->modelMiddle.registerCollision(bunkers.back()->viewMiddle);
+		bunkers.back()->modelRight.registerCollision(bunkers.back()->viewRight);
+		collisions.addEntity(bunkers.back()->modelLeft);
+		collisions.addEntity(bunkers.back()->modelMiddle);
+		collisions.addEntity(bunkers.back()->modelRight);
+	}
 
 	spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
 	spaceshipInfo.controller.getSpaceship().registerDied(score);
@@ -54,7 +58,9 @@ SpaceInvaders::~SpaceInvaders()
 	}
 
 	for(auto& bunkerInfo : bunkers) {
-		bunkerInfo->model.unRegisterObservers();
+		bunkerInfo->modelLeft.unRegisterObservers();
+		bunkerInfo->modelMiddle.unRegisterObservers();
+		bunkerInfo->modelRight.unRegisterObservers();
 	}
 }
 
@@ -124,15 +130,39 @@ Resources SpaceInvaders::loadResources()
 		std::cout << "Could not load resources" << std::endl;
 	}
 
-	if(!rsc.textures["blockleft"].loadFromFile("../resources/blockleft.png")) {
+	if(!rsc.textures["bunkerleft1"].loadFromFile("../resources/bunkerleft1.png")) {
 		std::cout << "Could not load resources" << std::endl;
 	}
 
-	if(!rsc.textures["blockmiddle"].loadFromFile("../resources/blockmiddle.png")) {
+	if(!rsc.textures["bunkerleft2"].loadFromFile("../resources/bunkerleft2.png")) {
 		std::cout << "Could not load resources" << std::endl;
 	}
 
-	if(!rsc.textures["blockright"].loadFromFile("../resources/blockright.png")) {
+	if(!rsc.textures["bunkerleft3"].loadFromFile("../resources/bunkerleft3.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["bunkermiddle1"].loadFromFile("../resources/bunkermiddle1.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["bunkermiddle2"].loadFromFile("../resources/bunkermiddle2.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["bunkermiddle3"].loadFromFile("../resources/bunkermiddle3.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["bunkerright1"].loadFromFile("../resources/bunkerright1.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["bunkerright2"].loadFromFile("../resources/bunkerright2.png")) {
+		std::cout << "Could not load resources" << std::endl;
+	}
+
+	if(!rsc.textures["bunkerright3"].loadFromFile("../resources/bunkerright3.png")) {
 		std::cout << "Could not load resources" << std::endl;
 	}
 
@@ -244,6 +274,20 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
+	for(auto& bunkerInfo : bunkers) {
+		if(bunkerInfo->modelLeft.getHealth() <= 0) {
+			collisions.removeEntity(bunkerInfo->modelLeft.getId());
+		}
+
+		if(bunkerInfo->modelRight.getHealth() <= 0) {
+			collisions.removeEntity(bunkerInfo->modelRight.getId());
+		}
+
+		if(bunkerInfo->modelMiddle.getHealth() <= 0) {
+			collisions.removeEntity(bunkerInfo->modelMiddle.getId());
+		}
+	}
+
 	timer += dt;
 }
 
@@ -281,7 +325,17 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	}
 
 	for(auto& bunkerInfo : bunkers) {
-		bunkerInfo->view.render(window, resources, dt);
+		if(bunkerInfo->modelLeft.getHealth() > 0) {
+			bunkerInfo->viewLeft.render(window, resources, dt);
+		}
+
+		if(bunkerInfo->modelRight.getHealth() > 0) {
+			bunkerInfo->viewRight.render(window, resources, dt);
+		}
+
+		if(bunkerInfo->modelMiddle.getHealth() > 0) {
+			bunkerInfo->viewMiddle.render(window, resources, dt);
+		}
 	}
 
 	if(spaceshipInfo.controller.isAlive()) {
@@ -297,6 +351,32 @@ void SpaceInvaders::moveLeft(double dt)
 void SpaceInvaders::moveRight(double dt)
 {
 	laserCannonController.moveRight(dt);
+}
+
+BunkerInfo* SpaceInvaders::newBunkerInfo(const Coordinate position) const
+{
+	Coordinate bunkerLeftPos = position;
+	bunkerLeftPos.x -= 42.0 / 2.0 - 10.0 / 2.0;
+	bunkerLeftPos.y -= 32.0 / 2.0;
+
+	auto bunkerLeft = BunkerLeft(bunkerLeftPos);
+	auto bunkerLeftView = BunkerLeftGuiView(bunkerLeftPos, resources);
+
+	Coordinate bunkerMiddlePos = bunkerLeftPos;
+	bunkerMiddlePos.x += 16;
+	bunkerMiddlePos.y -= 2.0;
+	auto bunkerMiddle = BunkerMiddle(bunkerMiddlePos);
+	auto bunkerMiddleView = BunkerMiddleGuiView(bunkerMiddlePos, resources);
+
+	Coordinate bunkerRightPos = position;
+	bunkerRightPos.x += 42.0 / 2.0 - 10.0 / 2.0;
+	bunkerRightPos.y -= 32.0 / 2.0;
+	auto bunkerRight = BunkerRight(bunkerRightPos);
+	auto bunkerRightView = BunkerRightGuiView(bunkerRightPos, resources);
+
+	auto bunkerInfo = new BunkerInfo{bunkerLeft, bunkerLeftView, bunkerMiddle, bunkerMiddleView, bunkerRight, bunkerRightView};
+
+	return bunkerInfo;
 }
 
 void SpaceInvaders::alienShoot()
