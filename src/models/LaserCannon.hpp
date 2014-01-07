@@ -9,6 +9,7 @@ class LaserCannon : public Entity {
 		LaserCannon(Coordinate position = Coordinate(0, 0));
 		~LaserCannon();
 
+		void onCollision(const Entity* entity);
 
 	private:
 };

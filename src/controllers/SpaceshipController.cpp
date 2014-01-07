@@ -1,8 +1,5 @@
 #include "SpaceshipController.hpp"
 
-#include "messages/DiedMessage.hpp"
-#include "messages/BulletHitMessage.hpp"
-
 SpaceshipController::SpaceshipController(Spaceship* spaceship)
 	: spaceship(spaceship)
 {
@@ -48,30 +45,4 @@ bool SpaceshipController::isAlive() const
 Spaceship& SpaceshipController::getSpaceship()
 {
 	return *spaceship;
-}
-
-bool SpaceshipController::notify(Message& msg)
-{
-	switch(msg.type) {
-		case BULLETHIT:
-		{
-			if(!isAlive()) {
-				break;
-			}
-
-			auto& bulletHitMsg = static_cast<BulletHitMessage&>(msg);
-
-			// Only listen to bullets that hit us.
-			if(spaceship->getId() != bulletHitMsg.subject) {
-				break;
-			}
-
-			spaceship->doDamage(1);
-		}
-
-		default:
-			break;
-	}
-
-	return true;
 }

@@ -75,29 +75,3 @@ Alien& AlienController::getAlien()
 {
 	return *alien;
 }
-
-bool AlienController::notify(Message& msg)
-{
-	switch(msg.type) {
-		case BULLETHIT:
-		{
-			auto& bulletHitMsg = static_cast<BulletHitMessage&>(msg);
-
-			// Only listen to bullets that hit us.
-			if(alien->getId() != bulletHitMsg.subject) {
-				break;
-			}
-
-			if(!isAlive()) {
-				break;
-			}
-
-			alien->doDamage(1);
-		}
-
-		default:
-			break;
-	}
-
-	return true;
-}

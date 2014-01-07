@@ -51,7 +51,8 @@ bool CollisionSystem::notify(Message& msg)
 				subjectRect.top = subject->getPosition().y - subjectRect.height / 2;
 
 				if(senderRect.intersects(subjectRect)) {
-					sender->onCollision(subject->getId());
+					sender->onCollision(subject);
+					subject->onCollision(sender);
 				}
 			}
 			break;

@@ -5,10 +5,9 @@
 
 #include "models/LaserCannon.hpp"
 #include "messages/Message.hpp"
-#include "Observer.hpp"
 #include "Coordinate.hpp"
 
-class LaserCannonController : public Observer {
+class LaserCannonController {
 	public:
 		LaserCannonController(LaserCannon* laserCannon);
 
@@ -18,8 +17,6 @@ class LaserCannonController : public Observer {
 		Coordinate getPosition();
 
 		bool isAlive() const;
-
-		bool notify(Message& msg);
 
 	private:
 		std::shared_ptr<LaserCannon> laserCannon;

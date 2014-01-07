@@ -25,7 +25,7 @@ int main()
 	}
 
 	sf::Clock clock;
-	while(window.isOpen()) {
+	while(window.isOpen() && !game.shouldStop()) {
 		sf::Event event;
         while(window.pollEvent(event)) {
 			switch(event.type) {

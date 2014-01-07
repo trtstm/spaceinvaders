@@ -10,12 +10,12 @@
 #include "Subject.hpp"
 #include "Coordinate.hpp"
 
-class Component;
+enum EntityType { BULLET, LASERCANNON, ALIEN, SPACESHIP, BUNKER };
 
 class Entity : public Subject {
 	public:
-		Entity(int health, Coordinate position, double speed, sf::Rect<double> collisionRectangle);
-		virtual ~Entity() ;
+		Entity(EntityType type, int health, Coordinate position, double speed, sf::Rect<double> collisionRectangle);
+		virtual ~Entity();
 
 		int getId() const;
 
@@ -29,11 +29,12 @@ class Entity : public Subject {
 		
 		sf::Rect<double> getCollisionRectangle() const;
 
+		EntityType getType() const;
 		int getHealth() const;
 		Coordinate getPosition() const;
 		double getSpeed() const;
 
-		virtual void onCollision(int collidee);
+		virtual void onCollision(const Entity* entity);
 		
 
 		void unRegisterObservers();
@@ -51,13 +52,11 @@ class Entity : public Subject {
 		static int idCounter;
 		int id;
 
+		EntityType type;
 		int health;
 		Coordinate position;
 		double speed;
 		sf::Rect<double> collisionRectangle;
-		
-
-		std::map< std::string, std::shared_ptr<Component> > components;
 };
 
 #endif

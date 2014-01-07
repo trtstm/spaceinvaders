@@ -8,6 +8,7 @@
 
 SpaceInvaders::SpaceInvaders(std::shared_ptr<EntityFactory> factory)
 	:
+		state(PLAYING),
 		factory(factory),
 		timer(0.0),
 		level(1),
@@ -26,12 +27,12 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<EntityFactory> factory)
 
 	loadAliens(16);
 
-	Coordinate bunkerPos(400, 300);
+	/*Coordinate bunkerPos(400, 300);
 	auto bunker = Bunker(bunkerPos);
 	auto bunkerView = BunkerGuiView(bunkerPos);
 	std::unique_ptr<BunkerInfo> bunkerInfo(new BunkerInfo{bunker, bunkerView});
 	bunkers.push_back(std::move(bunkerInfo));
-	collisions.addEntity(bunkers.back()->model);
+	collisions.addEntity(bunkers.back()->model);*/
 
 	spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
 	spaceshipInfo.controller.getSpaceship().registerDied(score);
@@ -61,10 +62,6 @@ void SpaceInvaders::loadAliens(double speed)
 {
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
-			for(auto& bulletInfo : bullets) {
-				bulletInfo->controller.getBullet().unRegisterCollision(alienInfo->controller);
-			}
-
 			collisions.removeEntity(alienInfo->controller.getAlien().getId());
 		}
 	}
@@ -148,6 +145,15 @@ Resources SpaceInvaders::loadResources()
 
 void SpaceInvaders::update(double dt)
 {
+	if(state == PAUSE || state == GAMEOVER) {
+		return;
+	}
+
+	if(!laserCannonController.isAlive()) {
+		state = GAMEOVER;
+		return;
+	}
+
 	if(spaceshipInfo.controller.isAlive() && spaceshipInfo.controller.getPosition().x < 800 + spaceshipInfo.controller.getSpaceship().getCollisionRectangle().width) {
 		spaceshipInfo.controller.moveRight(dt);
 		spaceshipClock.restart();
@@ -184,16 +190,6 @@ void SpaceInvaders::update(double dt)
 			bulletInfo = bullets.erase(bulletInfo);
 		} else {
 			bulletInfo++;
-		}
-	}
-
-	for(auto& row : aliens) {
-		for(auto& alienInfo : row) {
-			if(!alienInfo->controller.isAlive()) {
-				for(auto& bulletInfo : bullets) {
-					bulletInfo->controller.getBullet().unRegisterCollision(alienInfo->controller);
-				}
-			}
 		}
 	}
 
@@ -336,6 +332,7 @@ void SpaceInvaders::alienShoot()
 		bullets.push_back(std::move(info));
 
 		bullets.back()->controller.getBullet().registerMove(bullets.back()->view);
+		collisions.addEntity(bullets.back()->controller.getBullet(), true);
 	}
 }
 
@@ -350,27 +347,15 @@ void SpaceInvaders::shoot()
 	bullets.push_back(std::move(info));
 
 	bullets.back()->controller.getBullet().registerMove(bullets.back()->view);
-
-	//bullets.back().controller.getBullet().registerObserver(LaserCannonController);
-
-	//bullets.back()->controller.getBullet().registerObserver(collisions);
-
-	for(auto& row : aliens) {
-		for(auto& alienInfo : row) {
-			if(!alienInfo->controller.isAlive()) {
-				continue;
-			}
-
-			bullets.back()->controller.getBullet().registerCollision(alienInfo->controller);
-		}
-	}
-
-	for(auto& bunkerInfo : bunkers) {
-		bullets.back()->controller.getBullet().registerCollision(bunkerInfo->view);
-	}
-
-	bullets.back()->controller.getBullet().registerCollision(spaceshipInfo.controller);
-
 	collisions.addEntity(bullets.back()->controller.getBullet(), true);
 
+}
+
+bool SpaceInvaders::shouldStop() const
+{
+	if(state == GAMEOVER) {
+		return true;
+	}
+
+	return false;
 }

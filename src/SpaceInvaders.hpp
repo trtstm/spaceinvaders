@@ -55,6 +55,8 @@ struct BunkerInfo {
 	BunkerGuiView view;
 };
 
+enum State { PLAYING, PAUSE, GAMEOVER };
+
 class SpaceInvaders {
 	public:
 		SpaceInvaders(std::shared_ptr<EntityFactory> factory = std::make_shared<DefaultEntityFactory>());
@@ -69,6 +71,8 @@ class SpaceInvaders {
 
 		void shoot();
 
+		bool shouldStop() const;
+
 	private:
 		void alienShoot();
 
@@ -78,6 +82,8 @@ class SpaceInvaders {
 		SpaceshipInfo loadSpaceshipInfo();
 
 		unsigned int aliveAliens() const;
+
+		State state;
 
 		std::shared_ptr<EntityFactory> factory;
 

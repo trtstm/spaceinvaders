@@ -5,7 +5,7 @@
 #include "messages/BulletHitMessage.hpp"
 
 Bullet::Bullet(Coordinate position, double speed, int owner)
-	: Entity(1, position, speed, sf::Rect<double>(0.0, 0.0, 4.0, 10.0)), owner(owner)
+	: Entity(BULLET, 1, position, speed, sf::Rect<double>(0.0, 0.0, 4.0, 10.0)), owner(owner)
 {
 }
 
@@ -13,10 +13,10 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::onCollision(int collidee)
+void Bullet::onCollision(const Entity* entity)
 {
-	if(owner != collidee) {
-		auto msg = BulletHitMessage(getId(), collidee);
+	if(owner != entity->getId()) {
+		auto msg = BulletHitMessage(getId(), entity->getId());
 		notifyCollision(msg);
 
 		doDamage(1);

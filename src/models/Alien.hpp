@@ -11,6 +11,8 @@ class Alien : public Entity {
 
 		void moveDown(double dt);
 
+		void onCollision(const Entity* entity);
+
 	private:
 };
 

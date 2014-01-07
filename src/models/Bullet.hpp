@@ -9,7 +9,7 @@ class Bullet : public Entity {
 		Bullet(Coordinate position = Coordinate(0, 0), double speed = 0.0, int owner = -1);
 		~Bullet();
 
-		void onCollision(int collidee);
+		void onCollision(const Entity* entity);
 
 		int getOwner() const;
 

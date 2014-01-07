@@ -27,10 +27,3 @@ bool LaserCannonController::isAlive() const
 {
 	return (laserCannon->getHealth() > 0.0);
 }
-
-bool LaserCannonController::notify(Message& msg)
-{
-	(void)msg;
-
-	return true;
-}

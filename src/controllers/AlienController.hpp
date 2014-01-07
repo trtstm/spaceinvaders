@@ -10,7 +10,7 @@
 
 enum Direction {LEFT, RIGHT, UP, DOWN};
 
-class AlienController : public Observer {
+class AlienController {
 	public:
 		AlienController(Alien* alien);
 
@@ -29,8 +29,6 @@ class AlienController : public Observer {
 		bool isAlive() const;
 
 		Alien& getAlien();
-
-		bool notify(Message& msg);
 
 	private:
 		std::shared_ptr<Alien> alien;

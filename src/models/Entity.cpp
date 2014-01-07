@@ -7,8 +7,8 @@
 
 int Entity::idCounter = 0;
 
-Entity::Entity(int health, Coordinate position, double speed, sf::Rect<double> collisionRectangle)
-	: id(idCounter), health(health), position(position), speed(speed), collisionRectangle(collisionRectangle)
+Entity::Entity(EntityType type, int health, Coordinate position, double speed, sf::Rect<double> collisionRectangle)
+	: id(idCounter), type(type), health(health), position(position), speed(speed), collisionRectangle(collisionRectangle)
 {
 	idCounter++;
 }
@@ -76,6 +76,11 @@ sf::Rect<double> Entity::getCollisionRectangle() const
 	return collisionRectangle;
 }
 
+EntityType Entity::getType() const
+{
+	return type;
+}
+
 int Entity::getHealth() const
 {
 	return health;
@@ -91,9 +96,9 @@ double Entity::getSpeed() const
 	return speed;
 }
 
-void Entity::onCollision(int collidee)
+void Entity::onCollision(const Entity* entity)
 {
-	(void)collidee;
+	(void)entity;
 }
 
 void Entity::unRegisterObservers()

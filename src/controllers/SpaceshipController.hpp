@@ -5,10 +5,9 @@
 
 #include "models/Spaceship.hpp"
 #include "messages/Message.hpp"
-#include "Observer.hpp"
 #include "Coordinate.hpp"
 
-class SpaceshipController : public Observer {
+class SpaceshipController {
 	public:
 		SpaceshipController(Spaceship* spaceship);
 
@@ -24,8 +23,6 @@ class SpaceshipController : public Observer {
 		bool isAlive() const;
 
 		Spaceship& getSpaceship();
-
-		bool notify(Message& msg);
 
 	private:
 		std::shared_ptr<Spaceship> spaceship;

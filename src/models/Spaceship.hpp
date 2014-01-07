@@ -9,6 +9,8 @@ class Spaceship : public Entity {
 		Spaceship(Coordinate position = Coordinate(0, 0), double speed = 100);
 		~Spaceship();
 
+		void onCollision(const Entity* entity);
+
 	private:
 };
 
