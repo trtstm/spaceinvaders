@@ -23,7 +23,7 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<EntityFactory> factory)
 	std::srand(std::time(0));
 
 	laserCannon->registerMove(laserCannonView);
-	collisions.addEntity(*laserCannon);
+	collisions.addEntity(*laserCannon, true);
 
 	loadAliens(16);
 
@@ -82,7 +82,7 @@ void SpaceInvaders::loadAliens(double speed)
 
 			aliens[y].back()->controller.getAlien().registerMove(aliens[y].back()->view);
 			aliens[y].back()->controller.getAlien().registerDied(aliens[y].back()->view);
-			collisions.addEntity(aliens[y].back()->controller.getAlien());
+			collisions.addEntity(aliens[y].back()->controller.getAlien(), true);
 			aliens[y].back()->controller.getAlien().registerDied(score);
 		}
 	}

@@ -25,6 +25,9 @@ void LaserCannon::onCollision(const Entity* entity)
 		this->doDamage(1);
 		this->setPosition(Coordinate(400,580));
 	}
+	else if(entity->getType() == ALIEN) {
+		this->doDamage(this->getHealth());
+	}
 
 
 }
