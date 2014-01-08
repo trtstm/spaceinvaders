@@ -69,18 +69,51 @@ enum State { PLAYING, PAUSE, GAMEOVER };
 
 class SpaceInvaders {
 	public:
+		/**
+		* @param factory The factory to use.
+		*/
 		SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory = std::make_shared<Factory::DefaultEntityFactory>());
 		~SpaceInvaders();
 
-
+		/**
+		* Iterate the game once.
+		*
+		* @param dt The delta time.
+		*/
 		void update(double dt);
+
+		/**
+		* Render the game
+		*
+		* @param window The window to render to.
+		* @param dt The delta time.
+		*/
 		void render(sf::RenderWindow& window, double dt);
 
+		/**
+		* Move the lasercannon left.
+		*
+		* @param dt The delta time.
+		*/
 		void moveLeft(double dt);
+
+		/**
+		* Move the lasercannon right.
+		*
+		* @param dt The delta time.
+		*/
 		void moveRight(double dt);
 
+		/**
+		* Let the lasercannon shoot.
+		*/
 		void shoot();
 
+		/**
+		* Checks if the game has ended.
+		*
+		* @return True if game has ended, false otherwise.
+		*/
 		bool shouldStop() const;
 
 	private:

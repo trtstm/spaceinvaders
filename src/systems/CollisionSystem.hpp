@@ -35,6 +35,7 @@ class CollisionSystem : public Observer {
 		* Notify the system that something happend.
 		*
 		* @param msg The message.
+		* @return False if the subject should remove us from the observer list, else true.
 		*/
 		bool notify(Message::Message& msg);
 
