@@ -7,7 +7,7 @@ class Observer {
 	public:
 		virtual ~Observer();
 
-		virtual bool notify(Message& msg) = 0;
+		virtual bool notify(Message::Message& msg) = 0;
 };
 
 #endif

@@ -7,9 +7,11 @@
 #include "messages/Message.hpp"
 #include "Coordinate.hpp"
 
+namespace Controller {
+
 class LaserCannonController {
 	public:
-		LaserCannonController(LaserCannon* laserCannon);
+		LaserCannonController(Model::LaserCannon* laserCannon);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
@@ -19,8 +21,10 @@ class LaserCannonController {
 		bool isAlive() const;
 
 	private:
-		std::shared_ptr<LaserCannon> laserCannon;
+		std::shared_ptr<Model::LaserCannon> laserCannon;
 		
 };
+
+}
 
 #endif

@@ -2,6 +2,8 @@
 
 #include "messages/DiedMessage.hpp"
 
+namespace System {
+
 ScoreSystem::ScoreSystem()
 	: score(0)
 {
@@ -13,10 +15,10 @@ int ScoreSystem::getScore() const
 	return score;
 }
 
-bool ScoreSystem::notify(Message& msg)
+bool ScoreSystem::notify(Message::Message& msg)
 {
 	switch(msg.type) {
-		case DIED:
+		case Message::DIED:
 		{
 			score++;
 
@@ -28,4 +30,6 @@ bool ScoreSystem::notify(Message& msg)
 	}
 
 	return true;
+}
+
 }

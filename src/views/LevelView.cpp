@@ -2,6 +2,8 @@
 
 #include "helpers.hpp"
 
+namespace View {
+
 LevelView::LevelView(const Resources& resources)
 {
 	text.setFont(resources.fonts.at("default"));
@@ -18,3 +20,4 @@ void LevelView::render(sf::RenderWindow& w, const Resources& resources, unsigned
 	w.draw(text);
 }
 
+}

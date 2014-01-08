@@ -2,6 +2,8 @@
 
 #include "helpers.hpp"
 
+namespace View {
+
 ScoreView::ScoreView(const Resources& resources)
 {
 	text.setFont(resources.fonts.at("default"));
@@ -18,3 +20,4 @@ void ScoreView::render(sf::RenderWindow& w, const Resources& resources, int scor
 	w.draw(text);
 }
 
+}

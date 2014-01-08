@@ -10,27 +10,31 @@
 #include "models/Spaceship.hpp"
 #include "models/LaserCannon.hpp"
 
+namespace System {
+
 class CollisionSystem : public Observer {
 	public:
 		~CollisionSystem();
 
-		void addEntity(Entity& entity, bool registerMove = false);
-		void removeEntity(Entity& entity);
+		void addEntity(Model::Entity& entity, bool registerMove = false);
+		void removeEntity(Model::Entity& entity);
 
-		bool notify(Message& msg);
+		bool notify(Message::Message& msg);
 
 	private:
-		bool hasCollision(Entity* sender, Entity* subject);
+		bool hasCollision(Model::Entity* sender, Model::Entity* subject);
 
-		Entity* findEntity(int id);
+		Model::Entity* findEntity(int id);
 
-		std::map< int, Bullet* > bullets;
-		std::map< int, Alien* > aliens;
-		std::map< int, Spaceship* > spaceships;
-		std::map< int, LaserCannon* > laserCannons;
-		std::map< int, Entity* > bunkers;
+		std::map< int, Model::Bullet* > bullets;
+		std::map< int, Model::Alien* > aliens;
+		std::map< int, Model::Spaceship* > spaceships;
+		std::map< int, Model::LaserCannon* > laserCannons;
+		std::map< int, Model::Entity* > bunkers;
 
-		std::map< int, Entity* > rest;
+		std::map< int, Model::Entity* > rest;
 };
+
+}
 
 #endif

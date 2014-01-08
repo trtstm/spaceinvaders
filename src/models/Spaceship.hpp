@@ -4,6 +4,8 @@
 #include "Entity.hpp"
 #include "Coordinate.hpp"
 
+namespace Model {
+
 class Spaceship : public Entity {
 	public:
 		Spaceship(Coordinate position = Coordinate(0, 0), double speed = 100);
@@ -13,5 +15,7 @@ class Spaceship : public Entity {
 
 	private:
 };
+
+}
 
 #endif

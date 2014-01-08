@@ -9,11 +9,13 @@
 
 #include "Resources.hpp"
 
+namespace View {
+
 class AlienGuiView : public GuiView, public Observer {
 	public:
 		AlienGuiView(Coordinate position, const Resources& resources);
 
-		bool notify(Message& msg);
+		bool notify(Message::Message& msg);
 
 		void render(sf::RenderWindow& w, const Resources& resources, double dt);
 
@@ -24,5 +26,7 @@ class AlienGuiView : public GuiView, public Observer {
 		sf::Sprite img;
 
 };
+
+}
 
 #endif

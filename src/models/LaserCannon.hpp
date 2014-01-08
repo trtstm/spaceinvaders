@@ -4,6 +4,8 @@
 #include "Entity.hpp"
 #include "Coordinate.hpp"
 
+namespace Model {
+
 class LaserCannon : public Entity {
 	public:
 		LaserCannon(Coordinate position = Coordinate(0, 0));
@@ -13,5 +15,7 @@ class LaserCannon : public Entity {
 
 	private:
 };
+
+}
 
 #endif

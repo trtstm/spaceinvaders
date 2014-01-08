@@ -8,11 +8,13 @@
 #include "Observer.hpp"
 #include "Coordinate.hpp"
 
+namespace Controller {
+
 enum Direction {LEFT, RIGHT, UP, DOWN};
 
 class AlienController {
 	public:
-		AlienController(Alien* alien);
+		AlienController(Model::Alien* alien);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
@@ -28,13 +30,15 @@ class AlienController {
 
 		bool isAlive() const;
 
-		Alien& getAlien();
+		Model::Alien& getAlien();
 
 	private:
-		std::shared_ptr<Alien> alien;
+		std::shared_ptr<Model::Alien> alien;
 
 		Direction direction;
 		
 };
+
+}
 
 #endif

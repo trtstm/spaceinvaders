@@ -3,6 +3,8 @@
 
 #include <memory>
 
+namespace Message {
+
 enum MessageType {MOVE, COLLISION, BULLETHIT, DIED, DELETEENTITY};
 
 class Message {
@@ -13,5 +15,7 @@ class Message {
 		MessageType type;
 		int entity;
 };
+
+}
 
 #endif

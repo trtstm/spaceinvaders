@@ -40,36 +40,36 @@
 #include "factories/DefaultEntityFactory.hpp"
 
 struct BulletInfo {
-	BulletController controller;
-	BulletGuiView view;
+	Controller::BulletController controller;
+	View::BulletGuiView view;
 };
 
 struct SpaceshipInfo {
-	SpaceshipController controller;
-	SpaceshipGuiView view;
+	Controller::SpaceshipController controller;
+	View::SpaceshipGuiView view;
 };
 
 struct AlienInfo {
-	AlienController controller;
-	AlienGuiView view;
+	Controller::AlienController controller;
+	View::AlienGuiView view;
 };
 
 struct BunkerInfo {
-	BunkerLeft modelLeft;
-	BunkerLeftGuiView viewLeft;
+	Model::BunkerLeft modelLeft;
+	View::BunkerLeftGuiView viewLeft;
 
-	BunkerMiddle modelMiddle;
-	BunkerMiddleGuiView viewMiddle;
+	Model::BunkerMiddle modelMiddle;
+	View::BunkerMiddleGuiView viewMiddle;
 
-	BunkerRight modelRight;
-	BunkerRightGuiView viewRight;
+	Model::BunkerRight modelRight;
+	View::BunkerRightGuiView viewRight;
 };
 
 enum State { PLAYING, PAUSE, GAMEOVER };
 
 class SpaceInvaders {
 	public:
-		SpaceInvaders(std::shared_ptr<EntityFactory> factory = std::make_shared<DefaultEntityFactory>());
+		SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory = std::make_shared<Factory::DefaultEntityFactory>());
 		~SpaceInvaders();
 
 
@@ -97,22 +97,22 @@ class SpaceInvaders {
 
 		State state;
 
-		std::shared_ptr<EntityFactory> factory;
+		std::shared_ptr<Factory::EntityFactory> factory;
 
 		double timer;
 		unsigned int level;
 
 		Resources resources;
 
-		LaserCannon* laserCannon;
-		LaserCannonController laserCannonController;
-		LaserCannonGuiView laserCannonView;
+		Model::LaserCannon* laserCannon;
+		Controller::LaserCannonController laserCannonController;
+		View::LaserCannonGuiView laserCannonView;
 
-		ScoreView scoreView;
-		LevelView levelView;
+		View::ScoreView scoreView;
+		View::LevelView levelView;
 
-		CollisionSystem collisions;
-		ScoreSystem score;
+		System::CollisionSystem collisions;
+		System::ScoreSystem score;
 
 		SpaceshipInfo spaceshipInfo;
 		

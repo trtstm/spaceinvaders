@@ -10,6 +10,8 @@
 #include "Subject.hpp"
 #include "Coordinate.hpp"
 
+namespace Model {
+
 enum EntityType { BULLET, LASERCANNON, ALIEN, SPACESHIP, BUNKER };
 
 class Entity : public Subject {
@@ -58,5 +60,7 @@ class Entity : public Subject {
 		double speed;
 		sf::Rect<double> collisionRectangle;
 };
+
+}
 
 #endif

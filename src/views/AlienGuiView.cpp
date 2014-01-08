@@ -5,6 +5,8 @@
 #include "messages/MoveMessage.hpp"
 #include "messages/DiedMessage.hpp"
 
+namespace View {
+
 AlienGuiView::AlienGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16))), curTexture("invader1"), timer(0.0)
 {
@@ -13,12 +15,12 @@ AlienGuiView::AlienGuiView(Coordinate position, const Resources& resources)
 }
 
 
-bool AlienGuiView::notify(Message& msg)
+bool AlienGuiView::notify(Message::Message& msg)
 {
 	switch(msg.type) {
-		case MOVE:
+		case Message::MOVE:
 		{
-			auto moveMessage = static_cast<MoveMessage&>(msg);
+			auto moveMessage = static_cast<Message::MoveMessage&>(msg);
 
 			auto position = moveMessage.newPosition;
 			img.setPosition(position.x - 16 / 2, position.y - 16 / 2);
@@ -26,7 +28,7 @@ bool AlienGuiView::notify(Message& msg)
 			break;
 		}
 
-		case DIED:
+		case Message::DIED:
 		{
 			curTexture = "explosion";
 		}
@@ -63,4 +65,6 @@ void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, doubl
 	w.draw(img);
 
 	timer += dt;
+}
+
 }

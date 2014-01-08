@@ -1,20 +1,20 @@
 #include "DefaultEntityFactory.hpp"
 
-#include "models/Spaceship.hpp"
-#include "models/LaserCannon.hpp"
-#include "models/Alien.hpp"
+namespace Factory {
 
-Spaceship* DefaultEntityFactory::newSpaceship(const Coordinate& position)
+Model::Spaceship* DefaultEntityFactory::newSpaceship(const Coordinate& position)
 {
-	return new Spaceship(position);
+	return new Model::Spaceship(position);
 }
 
-LaserCannon* DefaultEntityFactory::newLaserCannon(const Coordinate& position)
+Model::LaserCannon* DefaultEntityFactory::newLaserCannon(const Coordinate& position)
 {
-	return new LaserCannon(position);
+	return new Model::LaserCannon(position);
 }
 
-Alien* DefaultEntityFactory::newAlien(const Coordinate& position, double speed)
+Model::Alien* DefaultEntityFactory::newAlien(const Coordinate& position, double speed)
 {
-	return new Alien(position, speed);
+	return new Model::Alien(position, speed);
+}
+
 }

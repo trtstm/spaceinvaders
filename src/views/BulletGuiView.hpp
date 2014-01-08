@@ -10,15 +10,19 @@
 #include "Coordinate.hpp"
 #include "messages/Message.hpp"
 
+namespace View {
+
 class BulletGuiView : public GuiView, public Observer {
 	public:
 		BulletGuiView(Coordinate position = Coordinate(0,0));
 
-		bool notify(Message& msg);
+		bool notify(Message::Message& msg);
 
 		void render(sf::RenderWindow& w);
 
 	private:
 };
+
+}
 
 #endif

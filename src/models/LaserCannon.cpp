@@ -4,6 +4,8 @@
 
 #include "Bullet.hpp"
 
+namespace Model {
+
 LaserCannon::LaserCannon(Coordinate position)
 	: Entity(LASERCANNON, 3, position, 400, sf::Rect<double>(0.0, 0.0, 26.0, 15.0))
 {
@@ -28,6 +30,6 @@ void LaserCannon::onCollision(const Entity* entity)
 	else if(entity->getType() == ALIEN) {
 		this->doDamage(this->getHealth());
 	}
-
+}
 
 }

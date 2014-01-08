@@ -7,9 +7,11 @@
 #include "messages/Message.hpp"
 #include "Coordinate.hpp"
 
+namespace Controller {
+
 class SpaceshipController {
 	public:
-		SpaceshipController(Spaceship* spaceship);
+		SpaceshipController(Model::Spaceship* spaceship);
 
 		void moveLeft(double dt);
 		void moveRight(double dt);
@@ -22,11 +24,13 @@ class SpaceshipController {
 
 		bool isAlive() const;
 
-		Spaceship& getSpaceship();
+		Model::Spaceship& getSpaceship();
 
 	private:
-		std::shared_ptr<Spaceship> spaceship;
+		std::shared_ptr<Model::Spaceship> spaceship;
 		
 };
+
+}
 
 #endif

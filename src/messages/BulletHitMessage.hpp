@@ -6,11 +6,15 @@
 #include "Message.hpp"
 #include "models/Entity.hpp"
 
+namespace Message {
+
 class BulletHitMessage : public Message {
 	public:
 		BulletHitMessage(int entity, int subject);
 
 		int subject;
 };
+
+}
 
 #endif

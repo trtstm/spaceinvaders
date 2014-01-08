@@ -5,6 +5,8 @@
 
 #include "Resources.hpp"
 
+namespace View {
+
 class LevelView {
 	public:
 		LevelView(const Resources& resources);
@@ -14,5 +16,7 @@ class LevelView {
 	private:
 		sf::Text text;
 };
+
+}
 
 #endif

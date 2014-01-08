@@ -5,6 +5,8 @@
 
 #include "Resources.hpp"
 
+namespace View {
+
 class ScoreView {
 	public:
 		ScoreView(const Resources& resources);
@@ -14,5 +16,7 @@ class ScoreView {
 	private:
 		sf::Text text;
 };
+
+}
 
 #endif

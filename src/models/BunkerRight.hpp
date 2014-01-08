@@ -1,17 +1,17 @@
-#ifndef BUNKER_RIGHT_H 
-#define BUNKER_RIGHT_H
+#ifndef BUNKER_RIGHT_HPP
+#define BUNKER_RIGHT_HPP
 
-#include "Entity.hpp"
+#include "BunkerBlock.hpp"
 #include "Coordinate.hpp"
 
-class BunkerRight : public Entity {
+namespace Model {
+
+class BunkerRight : public BunkerBlock {
 	public:
 		BunkerRight(Coordinate position = Coordinate(0, 0));
 		~BunkerRight();
-
-		void onCollision(const Entity* entity);
-
-	private:
 };
+
+}
 
 #endif

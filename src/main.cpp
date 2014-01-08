@@ -11,7 +11,7 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Spaceinvaders");
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(30);
 
 	SpaceInvaders game;
 

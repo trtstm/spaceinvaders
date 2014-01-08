@@ -3,11 +3,15 @@
 
 #include "EntityFactory.hpp"
 
+namespace Factory {
+
 class DefaultEntityFactory : public EntityFactory {
 	public:
-		Spaceship* newSpaceship(const Coordinate& position);
-		LaserCannon* newLaserCannon(const Coordinate& position);
-		Alien* newAlien(const Coordinate& position, double speed);
+		Model::Spaceship* newSpaceship(const Coordinate& position);
+		Model::LaserCannon* newLaserCannon(const Coordinate& position);
+		Model::Alien* newAlien(const Coordinate& position, double speed);
 };
+
+}
 
 #endif

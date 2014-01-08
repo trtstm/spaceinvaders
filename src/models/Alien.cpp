@@ -2,6 +2,8 @@
 
 #include "Bullet.hpp"
 
+namespace Model {
+
 Alien::Alien(Coordinate position, double speed)
 	: Entity(ALIEN, 1, position, speed, sf::Rect<double>(0.0, 0.0, 16.0, 16.0))
 {
@@ -31,5 +33,7 @@ void Alien::onCollision(const Entity* entity)
 		this->doDamage(1);
 	}
 
+
+}
 
 }

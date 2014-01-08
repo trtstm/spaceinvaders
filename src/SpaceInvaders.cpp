@@ -6,7 +6,7 @@
 #include "systems/CollisionSystem.hpp"
 #include "Coordinate.hpp"
 
-SpaceInvaders::SpaceInvaders(std::shared_ptr<EntityFactory> factory)
+SpaceInvaders::SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory)
 	:
 		state(PLAYING),
 		factory(factory),
@@ -80,8 +80,8 @@ void SpaceInvaders::loadAliens(double speed)
 		for(unsigned int i = 0; i < 11; i++) {
 			auto position = Coordinate(235 + i * 30, 100 + y * 30);
 			auto alien = factory->newAlien(position, speed);
-			auto alienController = AlienController(alien);
-			auto alienView = AlienGuiView(position, resources);
+			auto alienController = Controller::AlienController(alien);
+			auto alienView = View::AlienGuiView(position, resources);
 
 			std::unique_ptr<AlienInfo> alienInfo(new AlienInfo{alienController, alienView});
 			aliens[y].push_back(std::move(alienInfo));
@@ -98,8 +98,8 @@ SpaceshipInfo SpaceInvaders::loadSpaceshipInfo()
 {
 	auto position = Coordinate(-50.0, 50);
 	auto spaceship = factory->newSpaceship(position);
-	auto spaceshipController = SpaceshipController(spaceship);
-	auto spaceshipView = SpaceshipGuiView(position, resources);
+	auto spaceshipController = Controller::SpaceshipController(spaceship);
+	auto spaceshipView = View::SpaceshipGuiView(position, resources);
 
 	SpaceshipInfo info{spaceshipController, spaceshipView};
 
@@ -242,10 +242,10 @@ void SpaceInvaders::update(double dt)
 
 			auto direction = alienInfo->controller.getDirection();
 
-			if(direction == LEFT && newPosition.x - 16/2 <= 0) {
+			if(direction == Controller::LEFT && newPosition.x - 16/2 <= 0) {
 				goDown = true;
 			}
-			else if(direction == RIGHT && newPosition.x + 16/2 >= 800) {
+			else if(direction == Controller::RIGHT && newPosition.x + 16/2 >= 800) {
 				goDown = true;
 			}
 
@@ -263,10 +263,10 @@ void SpaceInvaders::update(double dt)
 				alienInfo->controller.moveDown(1.0);
 
 				auto direction = alienInfo->controller.getDirection();
-				if(direction == LEFT) {
-					alienInfo->controller.setDirection(RIGHT);
-				} else if(direction == RIGHT) {
-					alienInfo->controller.setDirection(LEFT);
+				if(direction == Controller::LEFT) {
+					alienInfo->controller.setDirection(Controller::RIGHT);
+				} else if(direction == Controller::RIGHT) {
+					alienInfo->controller.setDirection(Controller::LEFT);
 				}
 			} else {
 				alienInfo->controller.update(dt);
@@ -359,20 +359,20 @@ BunkerInfo* SpaceInvaders::newBunkerInfo(const Coordinate position) const
 	bunkerLeftPos.x -= 42.0 / 2.0 - 10.0 / 2.0;
 	bunkerLeftPos.y -= 32.0 / 2.0;
 
-	auto bunkerLeft = BunkerLeft(bunkerLeftPos);
-	auto bunkerLeftView = BunkerLeftGuiView(bunkerLeftPos, resources);
+	auto bunkerLeft = Model::BunkerLeft(bunkerLeftPos);
+	auto bunkerLeftView = View::BunkerLeftGuiView(bunkerLeftPos, resources);
 
 	Coordinate bunkerMiddlePos = bunkerLeftPos;
 	bunkerMiddlePos.x += 16;
 	bunkerMiddlePos.y -= 2.0;
-	auto bunkerMiddle = BunkerMiddle(bunkerMiddlePos);
-	auto bunkerMiddleView = BunkerMiddleGuiView(bunkerMiddlePos, resources);
+	auto bunkerMiddle = Model::BunkerMiddle(bunkerMiddlePos);
+	auto bunkerMiddleView = View::BunkerMiddleGuiView(bunkerMiddlePos, resources);
 
 	Coordinate bunkerRightPos = position;
 	bunkerRightPos.x += 42.0 / 2.0 - 10.0 / 2.0;
 	bunkerRightPos.y -= 32.0 / 2.0;
-	auto bunkerRight = BunkerRight(bunkerRightPos);
-	auto bunkerRightView = BunkerRightGuiView(bunkerRightPos, resources);
+	auto bunkerRight = Model::BunkerRight(bunkerRightPos);
+	auto bunkerRightView = View::BunkerRightGuiView(bunkerRightPos, resources);
 
 	auto bunkerInfo = new BunkerInfo{bunkerLeft, bunkerLeftView, bunkerMiddle, bunkerMiddleView, bunkerRight, bunkerRightView};
 
@@ -405,8 +405,8 @@ void SpaceInvaders::alienShoot()
 
 		auto bulletPosition = possibleAliens[randX]->controller.getPosition();
 
-		auto bulletController = BulletController(Bullet(bulletPosition, -300, possibleAliens[randX]->controller.getAlien().getId()));
-		auto bulletView = BulletGuiView(bulletPosition);
+		auto bulletController = Controller::BulletController(Model::Bullet(bulletPosition, -300, possibleAliens[randX]->controller.getAlien().getId()));
+		auto bulletView = View::BulletGuiView(bulletPosition);
 
 		std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
 		bullets.push_back(std::move(info));
@@ -420,8 +420,8 @@ void SpaceInvaders::shoot()
 {
 	auto bulletPosition = laserCannonController.getPosition();
 
-	auto bulletController = BulletController(Bullet(bulletPosition, 300, laserCannon->getId()));
-	auto bulletView = BulletGuiView(bulletPosition);
+	auto bulletController = Controller::BulletController(Model::Bullet(bulletPosition, 300, laserCannon->getId()));
+	auto bulletView = View::BulletGuiView(bulletPosition);
 
 	std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
 	bullets.push_back(std::move(info));

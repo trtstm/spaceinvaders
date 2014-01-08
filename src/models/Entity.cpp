@@ -5,6 +5,8 @@
 #include "messages/MoveMessage.hpp"
 #include "messages/DiedMessage.hpp"
 
+namespace Model {
+
 int Entity::idCounter = 0;
 
 Entity::Entity(EntityType type, int health, Coordinate position, double speed, sf::Rect<double> collisionRectangle)
@@ -52,7 +54,7 @@ void Entity::moveDown(double dt)
 
 void Entity::setPosition(Coordinate newPosition)
 {
-	MoveMessage msg(id, position, newPosition);
+	Message::MoveMessage msg(id, position, newPosition);
 	
 	position = newPosition;
 
@@ -65,7 +67,7 @@ void Entity::doDamage(int damage)
 	health -= damage;
 
 	if(health <= 0) {
-		DiedMessage msg(getId());
+		Message::DiedMessage msg(getId());
 
 		notifyDied(msg);
 	}
@@ -134,4 +136,6 @@ bool Entity::operator<=(const Entity& e) const
 bool Entity::operator>=(const Entity& e) const
 {
 	return id >= e.id;
+}
+
 }

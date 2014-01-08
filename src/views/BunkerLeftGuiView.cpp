@@ -5,6 +5,8 @@
 #include "messages/BulletHitMessage.hpp"
 #include "messages/DiedMessage.hpp"
 
+namespace View {
+
 BunkerLeftGuiView::BunkerLeftGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(16, 16))),
 		img1(resources.textures.at("bunkerleft1")),
@@ -19,13 +21,11 @@ BunkerLeftGuiView::BunkerLeftGuiView(Coordinate position, const Resources& resou
 }
 
 
-bool BunkerLeftGuiView::notify(Message& msg)
+bool BunkerLeftGuiView::notify(Message::Message& msg)
 {
 	switch(msg.type) {
-		case BULLETHIT:
+		case Message::BULLETHIT:
 		{
-			std::cout << "Bunker hit" << std::endl;
-
 			curImage += 1;
 		}
 
@@ -39,6 +39,7 @@ bool BunkerLeftGuiView::notify(Message& msg)
 void BunkerLeftGuiView::render(sf::RenderWindow& w, const Resources& resources, double dt)
 {
 	(void)dt;
+	(void)resources;
 
 	if(curImage == 1) {
 		w.draw(img1);
@@ -49,4 +50,6 @@ void BunkerLeftGuiView::render(sf::RenderWindow& w, const Resources& resources, 
 	else if(curImage == 3) {
 		w.draw(img3);
 	}
+}
+
 }

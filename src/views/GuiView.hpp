@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
+namespace View {
+
 class GuiView {
 	public:
 		GuiView() {}
@@ -13,5 +15,7 @@ class GuiView {
 		sf::RectangleShape sprite;
 		
 };
+
+}
 
 #endif

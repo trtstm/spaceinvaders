@@ -4,6 +4,8 @@
 
 #include "messages/MoveMessage.hpp"
 
+namespace View {
+
 LaserCannonGuiView::LaserCannonGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(26, 15)))
 {
@@ -12,12 +14,12 @@ LaserCannonGuiView::LaserCannonGuiView(Coordinate position, const Resources& res
 }
 
 
-bool LaserCannonGuiView::notify(Message& msg)
+bool LaserCannonGuiView::notify(Message::Message& msg)
 {
 	switch(msg.type) {
-		case MOVE:
+		case Message::MOVE:
 		{
-			auto moveMessage = static_cast<MoveMessage&>(msg);
+			auto moveMessage = static_cast<Message::MoveMessage&>(msg);
 
 			auto position = moveMessage.newPosition;
 			img.setPosition(position.x - 26 / 2, position.y - 15 / 2);
@@ -38,4 +40,6 @@ void LaserCannonGuiView::render(sf::RenderWindow& w, const Resources& resources,
 	(void)dt;
 
 	w.draw(img);
+}
+
 }

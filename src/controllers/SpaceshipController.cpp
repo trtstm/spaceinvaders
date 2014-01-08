@@ -1,6 +1,8 @@
 #include "SpaceshipController.hpp"
 
-SpaceshipController::SpaceshipController(Spaceship* spaceship)
+namespace Controller {
+
+SpaceshipController::SpaceshipController(Model::Spaceship* spaceship)
 	: spaceship(spaceship)
 {
 }
@@ -42,7 +44,9 @@ bool SpaceshipController::isAlive() const
 	return (spaceship->getHealth() > 0.0);
 }
 
-Spaceship& SpaceshipController::getSpaceship()
+Model::Spaceship& SpaceshipController::getSpaceship()
 {
 	return *spaceship;
+}
+
 }

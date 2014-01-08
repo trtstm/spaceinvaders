@@ -5,6 +5,8 @@
 #include "messages/MoveMessage.hpp"
 #include "messages/DiedMessage.hpp"
 
+namespace View {
+
 SpaceshipGuiView::SpaceshipGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(48, 21)))
 {
@@ -13,12 +15,12 @@ SpaceshipGuiView::SpaceshipGuiView(Coordinate position, const Resources& resourc
 }
 
 
-bool SpaceshipGuiView::notify(Message& msg)
+bool SpaceshipGuiView::notify(Message::Message& msg)
 {
 	switch(msg.type) {
-		case MOVE:
+		case Message::MOVE:
 		{
-			auto moveMessage = static_cast<MoveMessage&>(msg);
+			auto moveMessage = static_cast<Message::MoveMessage&>(msg);
 
 			auto position = moveMessage.newPosition;
 			img.setPosition(position.x - 48 / 2, position.y - 21 / 2);
@@ -38,4 +40,6 @@ void SpaceshipGuiView::render(sf::RenderWindow& w, const Resources& resources)
 	(void)resources;
 
 	w.draw(img);
+}
+
 }

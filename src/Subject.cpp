@@ -43,7 +43,7 @@ void Subject::unRegisterDied(Observer& observer)
 	died.erase(&observer);
 }
 
-void Subject::notifyMove(Message& msg)
+void Subject::notifyMove(Message::Message& msg)
 {
 	for(auto observer = move.begin(); observer != move.end();) {
 		if(!(*observer)->notify(msg)) {
@@ -57,7 +57,7 @@ void Subject::notifyMove(Message& msg)
 	}
 }
 
-void Subject::notifyCollision(Message& msg)
+void Subject::notifyCollision(Message::Message& msg)
 {
 	for(auto observer = collision.begin(); observer != collision.end();) {
 		if(!(*observer)->notify(msg)) {
@@ -71,7 +71,7 @@ void Subject::notifyCollision(Message& msg)
 	}
 }
 
-void Subject::notifyDied(Message& msg)
+void Subject::notifyDied(Message::Message& msg)
 {
 	for(auto observer = died.begin(); observer != died.end();) {
 		if(!(*observer)->notify(msg)) {

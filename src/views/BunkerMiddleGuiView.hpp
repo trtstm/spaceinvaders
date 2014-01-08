@@ -11,11 +11,13 @@
 
 #include "Resources.hpp"
 
+namespace View {
+
 class BunkerMiddleGuiView : public GuiView, public Observer {
 	public:
 		BunkerMiddleGuiView(Coordinate position, const Resources& resources);
 
-		bool notify(Message& msg);
+		bool notify(Message::Message& msg);
 
 		void render(sf::RenderWindow& w, const Resources& resources, double dt);
 
@@ -28,5 +30,7 @@ class BunkerMiddleGuiView : public GuiView, public Observer {
 
 		double timer;
 };
+
+}
 
 #endif

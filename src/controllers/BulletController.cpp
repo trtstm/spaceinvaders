@@ -1,6 +1,8 @@
 #include "BulletController.hpp"
 
-BulletController::BulletController(Bullet bullet)
+namespace Controller {
+
+BulletController::BulletController(Model::Bullet bullet)
 	: bullet(bullet)
 {
 }
@@ -20,7 +22,7 @@ sf::Rect<double> BulletController::getCollisionRectangle() const
 	return bullet.getCollisionRectangle();
 }
 
-Bullet& BulletController::getBullet()
+Model::Bullet& BulletController::getBullet()
 {
 	return bullet;
 }
@@ -28,4 +30,6 @@ Bullet& BulletController::getBullet()
 bool BulletController::isAlive() const
 {
 	return (bullet.getHealth() > 0.0);
+}
+
 }

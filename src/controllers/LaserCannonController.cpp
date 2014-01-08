@@ -3,7 +3,9 @@
 #include "messages/DiedMessage.hpp"
 #include "messages/BulletHitMessage.hpp"
 
-LaserCannonController::LaserCannonController(LaserCannon* laserCannon)
+namespace Controller {
+
+LaserCannonController::LaserCannonController(Model::LaserCannon* laserCannon)
 	: laserCannon(laserCannon)
 {
 }
@@ -26,4 +28,6 @@ Coordinate LaserCannonController::getPosition()
 bool LaserCannonController::isAlive() const
 {
 	return (laserCannon->getHealth() > 0.0);
+}
+
 }

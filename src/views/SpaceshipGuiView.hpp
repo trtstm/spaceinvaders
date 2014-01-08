@@ -9,16 +9,20 @@
 
 #include "Resources.hpp"
 
+namespace View {
+
 class SpaceshipGuiView : public GuiView, public Observer {
 	public:
 		SpaceshipGuiView(Coordinate position, const Resources& resources);
 
-		bool notify(Message& msg);
+		bool notify(Message::Message& msg);
 
 		void render(sf::RenderWindow& w, const Resources& resources);
 
 	private:
 		sf::Sprite img;
 };
+
+}
 
 #endif

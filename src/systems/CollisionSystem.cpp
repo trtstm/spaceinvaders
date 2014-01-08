@@ -4,34 +4,36 @@
 #include "messages/MoveMessage.hpp"
 #include "messages/DiedMessage.hpp"
 
+namespace System {
+
 CollisionSystem::~CollisionSystem()
 {
 }
 
-void CollisionSystem::addEntity(Entity& entity, bool registerMove)
+void CollisionSystem::addEntity(Model::Entity& entity, bool registerMove)
 {
 	switch(entity.getType()) {
-		case BULLET:
+		case Model::BULLET:
 			bullets.erase(entity.getId());
-			bullets[entity.getId()] = &static_cast<Bullet&>(entity);
+			bullets[entity.getId()] = &static_cast<Model::Bullet&>(entity);
 			break;
 
-		case ALIEN:
+		case Model::ALIEN:
 			aliens.erase(entity.getId());
-			aliens[entity.getId()] = &static_cast<Alien&>(entity);
+			aliens[entity.getId()] = &static_cast<Model::Alien&>(entity);
 			break;
 
-		case SPACESHIP:
+		case Model::SPACESHIP:
 			spaceships.erase(entity.getId());
-			spaceships[entity.getId()] = &static_cast<Spaceship&>(entity);
+			spaceships[entity.getId()] = &static_cast<Model::Spaceship&>(entity);
 			break;
 
-		case LASERCANNON:
+		case Model::LASERCANNON:
 			laserCannons.erase(entity.getId());
-			laserCannons[entity.getId()] = &static_cast<LaserCannon&>(entity);
+			laserCannons[entity.getId()] = &static_cast<Model::LaserCannon&>(entity);
 			break;
 
-		case BUNKER:
+		case Model::BUNKER:
 			bunkers.erase(entity.getId());
 			bunkers[entity.getId()] = &entity;
 			break;
@@ -46,10 +48,10 @@ void CollisionSystem::addEntity(Entity& entity, bool registerMove)
 	}
 }
 
-void CollisionSystem::removeEntity(Entity& entity)
+void CollisionSystem::removeEntity(Model::Entity& entity)
 {
 	switch(entity.getType()) {
-		case BULLET:
+		case Model::BULLET:
 			if(bullets.count(entity.getId()) != 1) {
 				break;
 			}
@@ -58,7 +60,7 @@ void CollisionSystem::removeEntity(Entity& entity)
 			bullets.erase(entity.getId());
 			break;
 
-		case ALIEN:
+		case Model::ALIEN:
 			if(aliens.count(entity.getId()) != 1) {
 				break;
 			}
@@ -67,7 +69,7 @@ void CollisionSystem::removeEntity(Entity& entity)
 			aliens.erase(entity.getId());
 			break;
 
-		case SPACESHIP:
+		case Model::SPACESHIP:
 			if(spaceships.count(entity.getId()) != 1) {
 				break;
 			}
@@ -76,7 +78,7 @@ void CollisionSystem::removeEntity(Entity& entity)
 			spaceships.erase(entity.getId());
 			break;
 
-		case LASERCANNON:
+		case Model::LASERCANNON:
 			if(laserCannons.count(entity.getId()) != 1) {
 				break;
 			}
@@ -85,7 +87,7 @@ void CollisionSystem::removeEntity(Entity& entity)
 			laserCannons.erase(entity.getId());
 			break;
 
-		case BUNKER:
+		case Model::BUNKER:
 			if(bunkers.count(entity.getId()) != 1) {
 				break;
 			}
@@ -104,15 +106,15 @@ void CollisionSystem::removeEntity(Entity& entity)
 	}
 }
 
-bool CollisionSystem::notify(Message& msg)
+bool CollisionSystem::notify(Message::Message& msg)
 {
 	// The sender has to be added with the addEntity method!
 	auto sender = findEntity(msg.entity);
 
 	switch(msg.type) {
-		case MOVE:
+		case Message::MOVE:
 		{
-			if(sender->getType() == BULLET) {
+			if(sender->getType() == Model::BULLET) {
 				for(auto& laserCannon : laserCannons) {
 					if(hasCollision(sender, laserCannon.second)) {
 						sender->onCollision(laserCannon.second);
@@ -152,7 +154,7 @@ bool CollisionSystem::notify(Message& msg)
 	return true;
 }
 
-Entity* CollisionSystem::findEntity(int id)
+Model::Entity* CollisionSystem::findEntity(int id)
 {
 	if(bullets.count(id) == 1) {
 		return bullets[id];
@@ -181,7 +183,7 @@ Entity* CollisionSystem::findEntity(int id)
 	return 0;
 }
 
-bool CollisionSystem::hasCollision(Entity* sender, Entity* subject)
+bool CollisionSystem::hasCollision(Model::Entity* sender, Model::Entity* subject)
 {
 	if(sender->getId() == subject->getId()) {
 		return false;
@@ -200,4 +202,6 @@ bool CollisionSystem::hasCollision(Entity* sender, Entity* subject)
 	}
 
 	return false;
+}
+
 }

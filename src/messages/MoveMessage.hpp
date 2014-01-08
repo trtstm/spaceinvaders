@@ -7,6 +7,8 @@
 #include "Coordinate.hpp"
 #include "models/Entity.hpp"
 
+namespace Message {
+
 class MoveMessage : public Message {
 	public:
 		MoveMessage(int entity, const Coordinate& oldPosition, const Coordinate& newPosition);
@@ -14,5 +16,7 @@ class MoveMessage : public Message {
 		Coordinate oldPosition;
 		Coordinate newPosition;
 };
+
+}
 
 #endif

@@ -6,9 +6,13 @@
 #include "Message.hpp"
 #include "models/Entity.hpp"
 
+namespace Message {
+
 class CollisionMessage : public Message {
 	public:
 		CollisionMessage(int entity);
 };
+
+}
 
 #endif

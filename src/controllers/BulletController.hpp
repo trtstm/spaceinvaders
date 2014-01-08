@@ -5,9 +5,11 @@
 
 #include "models/Bullet.hpp"
 
+namespace Controller {
+
 class BulletController {
 	public:
-		BulletController(Bullet bullet);
+		BulletController(Model::Bullet bullet);
 
 		void update(double dt);
 
@@ -17,11 +19,13 @@ class BulletController {
 
 		bool isAlive() const;
 
-		Bullet& getBullet();
+		Model::Bullet& getBullet();
 
 	private:
-		Bullet bullet;
+		Model::Bullet bullet;
 		
 };
+
+}
 
 #endif

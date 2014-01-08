@@ -6,9 +6,13 @@
 #include "Message.hpp"
 #include "models/Entity.hpp"
 
+namespace Message {
+
 class DiedMessage : public Message {
 	public:
 		DiedMessage(int entity);
 };
+
+}
 
 #endif

@@ -3,7 +3,9 @@
 #include "messages/DiedMessage.hpp"
 #include "messages/BulletHitMessage.hpp"
 
-AlienController::AlienController(Alien* alien)
+namespace Controller {
+
+AlienController::AlienController(Model::Alien* alien)
 	: alien(alien), direction(LEFT)
 {
 }
@@ -71,7 +73,9 @@ bool AlienController::isAlive() const
 	return (alien->getHealth() > 0.0);
 }
 
-Alien& AlienController::getAlien()
+Model::Alien& AlienController::getAlien()
 {
 	return *alien;
+}
+
 }

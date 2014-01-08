@@ -22,9 +22,9 @@ class Subject {
 
 		void unRegisterAll();
 
-		void notifyMove(Message& msg);
-		void notifyCollision(Message& msg);
-		void notifyDied(Message& msg);
+		void notifyMove(Message::Message& msg);
+		void notifyCollision(Message::Message& msg);
+		void notifyDied(Message::Message& msg);
 
 	private:
 		std::set<Observer*> move;
