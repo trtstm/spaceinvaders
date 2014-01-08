@@ -10,6 +10,9 @@ namespace Message {
 
 class DiedMessage : public Message {
 	public:
+		/**
+		@param entity The entity that sends the message.
+		*/
 		DiedMessage(int entity);
 };
 

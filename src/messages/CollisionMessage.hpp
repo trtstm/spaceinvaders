@@ -10,6 +10,9 @@ namespace Message {
 
 class CollisionMessage : public Message {
 	public:
+		/**
+		@param entity The entity that sends the message.
+		*/
 		CollisionMessage(int entity);
 };
 
