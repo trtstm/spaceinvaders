@@ -16,9 +16,26 @@ class CollisionSystem : public Observer {
 	public:
 		~CollisionSystem();
 
+		/**
+		* Add an entity that should be checked for collisions.
+		*
+		* @param entity The entity to add.
+		* @param registerMove If the system should register for move messages.
+		*/
 		void addEntity(Model::Entity& entity, bool registerMove = false);
+
+		/**
+		* Remove an entity.
+		*
+		* @param entity The entity to remove.
+		*/
 		void removeEntity(Model::Entity& entity);
 
+		/**
+		* Notify the system that something happend.
+		*
+		* @param msg The message.
+		*/
 		bool notify(Message::Message& msg);
 
 	private:
