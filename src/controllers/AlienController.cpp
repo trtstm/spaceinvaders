@@ -36,7 +36,7 @@ void AlienController::setPosition(Coordinate position)
 	alien->setPosition(position);
 }
 
-Direction AlienController::getDirection()
+Direction AlienController::getDirection() const
 {
 	return direction;
 }
