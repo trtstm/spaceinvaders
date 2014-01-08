@@ -14,10 +14,24 @@ namespace View {
 
 class BulletGuiView : public GuiView, public Observer {
 	public:
+		/**
+		* @param position The initial position.
+		*/
 		BulletGuiView(Coordinate position = Coordinate(0,0));
 
+		/**
+		* Notify the view.
+		*
+		* @param msg The message.
+		* @return False if the subject should remove us from the observer list, else true.
+		*/
 		bool notify(Message::Message& msg);
 
+		/**
+		* Do the rendering.
+		*
+		* @param w The window to render to.
+		*/
 		void render(sf::RenderWindow& w);
 
 	private:

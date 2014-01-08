@@ -9,8 +9,18 @@ namespace View {
 
 class LevelView {
 	public:
+		/**
+		* @param resources The resources to load from.
+		*/
 		LevelView(const Resources& resources);
 
+		/**
+		* Do the rendering.
+		*
+		* @param w The window to render to.
+		* @param resources The resources to load from.
+		* @param level The level.
+		*/
 		void render(sf::RenderWindow& w, const Resources& resources, unsigned int level);
 
 	private:

@@ -13,10 +13,26 @@ namespace View {
 
 class SpaceshipGuiView : public GuiView, public Observer {
 	public:
+		/**
+		* @param position The initial position.
+		* @param resources The resources to load from.
+		*/
 		SpaceshipGuiView(Coordinate position, const Resources& resources);
 
+		/**
+		* Notify the view.
+		*
+		* @param msg The message.
+		* @return False if the subject should remove us from the observer list, else true.
+		*/
 		bool notify(Message::Message& msg);
 
+		/**
+		* Do the rendering.
+		*
+		* @param w The window to render to.
+		* @param resources The resources to load from.
+		*/
 		void render(sf::RenderWindow& w, const Resources& resources);
 
 	private:
