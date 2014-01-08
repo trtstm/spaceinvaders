@@ -8,6 +8,9 @@ namespace Model {
 
 class BunkerRight : public BunkerBlock {
 	public:
+		/**
+		* @param position The position.
+		*/
 		BunkerRight(Coordinate position = Coordinate(0, 0));
 		~BunkerRight();
 };
