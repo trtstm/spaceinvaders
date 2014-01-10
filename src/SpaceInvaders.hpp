@@ -13,6 +13,7 @@
 
 #include "views/ScoreView.hpp"
 #include "views/LevelView.hpp"
+#include "views/LivesView.hpp"
 
 #include "models/LaserCannon.hpp"
 #include "views/LaserCannonGuiView.hpp"
@@ -55,13 +56,13 @@ struct AlienInfo {
 };
 
 struct BunkerInfo {
-	Model::BunkerLeft modelLeft;
+	std::unique_ptr<Model::BunkerLeft> modelLeft;
 	View::BunkerLeftGuiView viewLeft;
 
-	Model::BunkerMiddle modelMiddle;
+	std::unique_ptr<Model::BunkerMiddle> modelMiddle;
 	View::BunkerMiddleGuiView viewMiddle;
 
-	Model::BunkerRight modelRight;
+	std::unique_ptr<Model::BunkerRight> modelRight;
 	View::BunkerRightGuiView viewRight;
 };
 
@@ -143,13 +144,15 @@ class SpaceInvaders {
 
 		View::ScoreView scoreView;
 		View::LevelView levelView;
+		View::LivesView livesView;
 
 		System::CollisionSystem collisions;
 		System::ScoreSystem score;
 
 		SpaceshipInfo spaceshipInfo;
 		
-		std::vector< std::unique_ptr<BulletInfo> > bullets;
+		std::unique_ptr<BulletInfo> laserCannonBullet;
+		std::vector< std::unique_ptr<BulletInfo> > alienBullets;
 		std::vector< std::vector< std::unique_ptr<AlienInfo>  >  > aliens;
 		std::vector< std::unique_ptr<BunkerInfo> > bunkers;
 

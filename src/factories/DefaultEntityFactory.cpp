@@ -17,4 +17,24 @@ Model::Alien* DefaultEntityFactory::newAlien(const Coordinate& position, double 
 	return new Model::Alien(position, speed);
 }
 
+Model::Bullet* DefaultEntityFactory::newBullet(const Coordinate& position, double speed, int owner)
+{
+	return new Model::Bullet(position, speed, owner);
+}
+
+Model::BunkerLeft* DefaultEntityFactory::newBunkerLeft(const Coordinate& position)
+{
+	return new Model::BunkerLeft(position);
+}
+
+Model::BunkerMiddle* DefaultEntityFactory::newBunkerMiddle(const Coordinate& position)
+{
+	return new Model::BunkerMiddle(position);
+}
+
+Model::BunkerRight* DefaultEntityFactory::newBunkerRight(const Coordinate& position)
+{
+	return new Model::BunkerRight(position);
+}
+
 }

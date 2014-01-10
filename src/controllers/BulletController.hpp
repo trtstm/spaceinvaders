@@ -12,7 +12,7 @@ class BulletController {
 		/**
 		@param bullet The bullet this controller has to control. The controller will own the pointer.
 		*/
-		BulletController(Model::Bullet bullet);
+		BulletController(Model::Bullet* bullet);
 
 		/**
 		* Update the alien.
@@ -50,7 +50,7 @@ class BulletController {
 		Model::Bullet& getBullet();
 
 	private:
-		Model::Bullet bullet;
+		std::shared_ptr<Model::Bullet> bullet;
 		
 };
 

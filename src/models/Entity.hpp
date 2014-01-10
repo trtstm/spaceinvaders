@@ -90,6 +90,13 @@ class Entity : public Subject {
 		EntityType getType() const;
 
 		/**
+		* Set the health.
+		*
+		* @param health The health.
+		*/
+		void setHealth(int health);
+
+		/**
 		* Get the health.
 		*
 		* @return The health of the entity.

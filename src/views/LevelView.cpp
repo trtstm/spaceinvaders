@@ -16,7 +16,7 @@ void LevelView::render(sf::RenderWindow& w, const Resources& resources, unsigned
 {
 	(void)resources;
 
-	text.setString(toString(level));
+	text.setString("Level: " + toString(level));
 	w.draw(text);
 }
 

@@ -44,6 +44,13 @@ class LaserCannonController {
 		*/
 		bool isAlive() const;
 
+		/**
+		* Update the laser cannon.
+		*
+		* @param dt The delta time.
+		*/
+		void update(double dt);
+
 	private:
 		std::shared_ptr<Model::LaserCannon> laserCannon;
 		

@@ -25,7 +25,7 @@ void AlienController::moveDown(double dt)
 	alien->moveDown(dt);
 }
 
-Coordinate AlienController::getPosition()
+Coordinate AlienController::getPosition() const
 {
 	return alien->getPosition();
 }

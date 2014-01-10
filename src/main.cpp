@@ -57,14 +57,6 @@ int main()
 
 		double dt = clock.restart().asSeconds();
 
-		if(keys[sf::Keyboard::Left]) {
-			game.moveLeft(dt);
-		}
-
-		if(keys[sf::Keyboard::Right]) {
-			game.moveRight(dt);
-		}
-
 		if(keys[sf::Keyboard::Space]) {
 			keys[sf::Keyboard::Space] = false;
 			game.shoot();

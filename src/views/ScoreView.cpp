@@ -16,7 +16,7 @@ void ScoreView::render(sf::RenderWindow& w, const Resources& resources, int scor
 {
 	(void)resources;
 
-	text.setString(toString(score));
+	text.setString("Score: " + toString(score));
 	w.draw(text);
 }
 

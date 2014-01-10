@@ -83,6 +83,11 @@ EntityType Entity::getType() const
 	return type;
 }
 
+void Entity::setHealth(int health)
+{
+	this->health = health;
+}
+
 int Entity::getHealth() const
 {
 	return health;

@@ -3,6 +3,7 @@
 #include "LaserCannonGuiView.hpp"
 
 #include "messages/MoveMessage.hpp"
+#include "messages/DiedMessage.hpp"
 
 namespace View {
 

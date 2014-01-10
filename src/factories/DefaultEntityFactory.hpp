@@ -31,6 +31,39 @@ class DefaultEntityFactory : public EntityFactory {
 		* @return The alien.
 		*/
 		Model::Alien* newAlien(const Coordinate& position, double speed);
+
+		/**
+		* Create a new bullet.
+		*
+		* @param position The position.
+		* @param position The speed.
+		* @return The alien.
+		*/
+		Model::Bullet* newBullet(const Coordinate& position, double speed, int owner);
+
+		/**
+		* Create a new bunker left.
+		*
+		* @param position The position.
+		* @return The bunker left.
+		*/
+		Model::BunkerLeft* newBunkerLeft(const Coordinate& position);
+
+		/**
+		* Create a new bunker middle.
+		*
+		* @param position The position.
+		* @return The bunker middle.
+		*/
+		Model::BunkerMiddle* newBunkerMiddle(const Coordinate& position);
+
+		/**
+		* Create a new bunker right.
+		*
+		* @param position The position.
+		* @return The bunker right.
+		*/
+		Model::BunkerRight* newBunkerRight(const Coordinate& position);
 };
 
 }

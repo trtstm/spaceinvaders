@@ -18,6 +18,7 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory)
 		laserCannonView(laserCannon->getPosition(), resources),
 		scoreView(resources),
 		levelView(resources),
+		livesView(resources),
 		spaceshipInfo(loadSpaceshipInfo())
 {
 	std::srand(std::time(0));
@@ -30,12 +31,12 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory)
 	for(unsigned int i = 0; i < 3; i++) {
 		std::unique_ptr<BunkerInfo> bunker1(newBunkerInfo(Coordinate(133 + i * 266, 500)));
 		bunkers.push_back(std::move(bunker1));
-		bunkers.back()->modelLeft.registerCollision(bunkers.back()->viewLeft);
-		bunkers.back()->modelMiddle.registerCollision(bunkers.back()->viewMiddle);
-		bunkers.back()->modelRight.registerCollision(bunkers.back()->viewRight);
-		collisions.addEntity(bunkers.back()->modelLeft);
-		collisions.addEntity(bunkers.back()->modelMiddle);
-		collisions.addEntity(bunkers.back()->modelRight);
+		bunkers.back()->modelLeft->registerCollision(bunkers.back()->viewLeft);
+		bunkers.back()->modelMiddle->registerCollision(bunkers.back()->viewMiddle);
+		bunkers.back()->modelRight->registerCollision(bunkers.back()->viewRight);
+		collisions.addEntity(*bunkers.back()->modelLeft);
+		collisions.addEntity(*bunkers.back()->modelMiddle);
+		collisions.addEntity(*bunkers.back()->modelRight);
 	}
 
 	spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
@@ -53,14 +54,14 @@ SpaceInvaders::~SpaceInvaders()
 		}
 	}
 
-	for(auto& bulletInfo : bullets) {
+	for(auto& bulletInfo : alienBullets) {
 		bulletInfo->controller.getBullet().unRegisterObservers();
 	}
 
 	for(auto& bunkerInfo : bunkers) {
-		bunkerInfo->modelLeft.unRegisterObservers();
-		bunkerInfo->modelMiddle.unRegisterObservers();
-		bunkerInfo->modelRight.unRegisterObservers();
+		bunkerInfo->modelLeft->unRegisterObservers();
+		bunkerInfo->modelMiddle->unRegisterObservers();
+		bunkerInfo->modelRight->unRegisterObservers();
 	}
 }
 
@@ -184,6 +185,8 @@ void SpaceInvaders::update(double dt)
 		return;
 	}
 
+	laserCannonController.update(dt);
+
 	if(spaceshipInfo.controller.isAlive() && spaceshipInfo.controller.getPosition().x < 800 + spaceshipInfo.controller.getSpaceship().getCollisionRectangle().width) {
 		spaceshipInfo.controller.moveRight(dt);
 		spaceshipClock.restart();
@@ -204,11 +207,25 @@ void SpaceInvaders::update(double dt)
 
 	if(aliveAliens() == 0) {
 		level++;
+		laserCannon->setHealth(laserCannon->getHealth() + 1);
 
 		loadAliens(16.0 + 8.0 * level);
 	}
 
-	for(auto bulletInfo = bullets.begin(); bulletInfo != bullets.end();) {
+	if(laserCannonBullet != nullptr) {
+		laserCannonBullet->controller.update(dt);
+
+		auto position = laserCannonBullet->controller.getPosition();
+		auto rect = laserCannonBullet->controller.getCollisionRectangle();
+
+		if(position.y - rect.height / 2 < 0 || !laserCannonBullet->controller.isAlive()) {
+			collisions.removeEntity(laserCannonBullet->controller.getBullet());
+
+			laserCannonBullet.reset();
+		}
+	}
+
+	for(auto bulletInfo = alienBullets.begin(); bulletInfo != alienBullets.end();) {
 		(*bulletInfo)->controller.update(dt);
 
 		auto position = (*bulletInfo)->controller.getPosition();
@@ -217,7 +234,7 @@ void SpaceInvaders::update(double dt)
 		if(position.y - rect.height / 2 < 0 || !(*bulletInfo)->controller.isAlive()) {
 			collisions.removeEntity((*bulletInfo)->controller.getBullet());
 
-			bulletInfo = bullets.erase(bulletInfo);
+			bulletInfo = alienBullets.erase(bulletInfo);
 		} else {
 			bulletInfo++;
 		}
@@ -275,16 +292,16 @@ void SpaceInvaders::update(double dt)
 	}
 
 	for(auto& bunkerInfo : bunkers) {
-		if(bunkerInfo->modelLeft.getHealth() <= 0) {
-			collisions.removeEntity(bunkerInfo->modelLeft);
+		if(bunkerInfo->modelLeft->getHealth() <= 0) {
+			collisions.removeEntity(*bunkerInfo->modelLeft);
 		}
 
-		if(bunkerInfo->modelRight.getHealth() <= 0) {
-			collisions.removeEntity(bunkerInfo->modelRight);
+		if(bunkerInfo->modelRight->getHealth() <= 0) {
+			collisions.removeEntity(*bunkerInfo->modelRight);
 		}
 
-		if(bunkerInfo->modelMiddle.getHealth() <= 0) {
-			collisions.removeEntity(bunkerInfo->modelMiddle);
+		if(bunkerInfo->modelMiddle->getHealth() <= 0) {
+			collisions.removeEntity(*bunkerInfo->modelMiddle);
 		}
 	}
 
@@ -313,8 +330,13 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 
 	scoreView.render(window, resources, score.getScore());
 	levelView.render(window, resources, level);
+	livesView.render(window, resources, laserCannon->getHealth());
 
-	for(auto& bulletInfo : bullets) {
+	if(laserCannonBullet != nullptr) {
+		laserCannonBullet->view.render(window);
+	}
+
+	for(auto& bulletInfo : alienBullets) {
 		bulletInfo->view.render(window);
 	}
 
@@ -325,15 +347,15 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	}
 
 	for(auto& bunkerInfo : bunkers) {
-		if(bunkerInfo->modelLeft.getHealth() > 0) {
+		if(bunkerInfo->modelLeft->getHealth() > 0) {
 			bunkerInfo->viewLeft.render(window, resources, dt);
 		}
 
-		if(bunkerInfo->modelRight.getHealth() > 0) {
+		if(bunkerInfo->modelRight->getHealth() > 0) {
 			bunkerInfo->viewRight.render(window, resources, dt);
 		}
 
-		if(bunkerInfo->modelMiddle.getHealth() > 0) {
+		if(bunkerInfo->modelMiddle->getHealth() > 0) {
 			bunkerInfo->viewMiddle.render(window, resources, dt);
 		}
 	}
@@ -359,22 +381,22 @@ BunkerInfo* SpaceInvaders::newBunkerInfo(const Coordinate position) const
 	bunkerLeftPos.x -= 42.0 / 2.0 - 10.0 / 2.0;
 	bunkerLeftPos.y -= 32.0 / 2.0;
 
-	auto bunkerLeft = Model::BunkerLeft(bunkerLeftPos);
+	auto bunkerLeft = std::unique_ptr<Model::BunkerLeft>(factory->newBunkerLeft(bunkerLeftPos));
 	auto bunkerLeftView = View::BunkerLeftGuiView(bunkerLeftPos, resources);
 
 	Coordinate bunkerMiddlePos = bunkerLeftPos;
 	bunkerMiddlePos.x += 16;
 	bunkerMiddlePos.y -= 2.0;
-	auto bunkerMiddle = Model::BunkerMiddle(bunkerMiddlePos);
+	auto bunkerMiddle =  std::unique_ptr<Model::BunkerMiddle>(factory->newBunkerMiddle(bunkerMiddlePos));
 	auto bunkerMiddleView = View::BunkerMiddleGuiView(bunkerMiddlePos, resources);
 
 	Coordinate bunkerRightPos = position;
 	bunkerRightPos.x += 42.0 / 2.0 - 10.0 / 2.0;
 	bunkerRightPos.y -= 32.0 / 2.0;
-	auto bunkerRight = Model::BunkerRight(bunkerRightPos);
+	auto bunkerRight =  std::unique_ptr<Model::BunkerRight>(factory->newBunkerRight(bunkerRightPos));
 	auto bunkerRightView = View::BunkerRightGuiView(bunkerRightPos, resources);
 
-	auto bunkerInfo = new BunkerInfo{bunkerLeft, bunkerLeftView, bunkerMiddle, bunkerMiddleView, bunkerRight, bunkerRightView};
+	auto bunkerInfo = new BunkerInfo{std::move(bunkerLeft), bunkerLeftView, std::move(bunkerMiddle), bunkerMiddleView, std::move(bunkerRight), bunkerRightView};
 
 	return bunkerInfo;
 }
@@ -405,29 +427,32 @@ void SpaceInvaders::alienShoot()
 
 		auto bulletPosition = possibleAliens[randX]->controller.getPosition();
 
-		auto bulletController = Controller::BulletController(Model::Bullet(bulletPosition, -300, possibleAliens[randX]->controller.getAlien().getId()));
+		auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, -300, possibleAliens[randX]->controller.getAlien().getId()));
 		auto bulletView = View::BulletGuiView(bulletPosition);
 
 		std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
-		bullets.push_back(std::move(info));
+		alienBullets.push_back(std::move(info));
 
-		bullets.back()->controller.getBullet().registerMove(bullets.back()->view);
-		collisions.addEntity(bullets.back()->controller.getBullet(), true);
+		alienBullets.back()->controller.getBullet().registerMove(alienBullets.back()->view);
+		collisions.addEntity(alienBullets.back()->controller.getBullet(), true);
 	}
 }
 
 void SpaceInvaders::shoot()
 {
+	if(laserCannonBullet != nullptr) {
+		return;
+	}
+
 	auto bulletPosition = laserCannonController.getPosition();
 
-	auto bulletController = Controller::BulletController(Model::Bullet(bulletPosition, 300, laserCannon->getId()));
+	auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, 300, laserCannon->getId()));
 	auto bulletView = View::BulletGuiView(bulletPosition);
 
-	std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
-	bullets.push_back(std::move(info));
+	laserCannonBullet.reset(new BulletInfo{bulletController, bulletView});
 
-	bullets.back()->controller.getBullet().registerMove(bullets.back()->view);
-	collisions.addEntity(bullets.back()->controller.getBullet(), true);
+	laserCannonBullet->controller.getBullet().registerMove(laserCannonBullet->view);
+	collisions.addEntity(laserCannonBullet->controller.getBullet(), true);
 
 }
 

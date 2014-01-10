@@ -60,7 +60,7 @@ class AlienController {
 		*
 		* @return The direction.
 		*/
-		Direction getDirection();
+		Direction getDirection() const;
 
 		/**
 		* Set the direction that the aliens will move to.

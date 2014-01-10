@@ -6,12 +6,16 @@
 #include "models/Spaceship.hpp"
 #include "models/LaserCannon.hpp"
 #include "models/Alien.hpp"
+#include "models/Bullet.hpp"
+#include "models/BunkerLeft.hpp"
+#include "models/BunkerMiddle.hpp"
+#include "models/BunkerRight.hpp"
 
 namespace Factory {
 
 class EntityFactory {
 	public:
-		virtual ~EntityFactory() = 0;
+		virtual ~EntityFactory() {};
 
 		/**
 		* Create a new spaceship.
@@ -37,6 +41,40 @@ class EntityFactory {
 		* @return The alien.
 		*/
 		virtual Model::Alien* newAlien(const Coordinate& position, double speed) = 0;
+
+		/**
+		* Create a new bullet.
+		*
+		* @param position The position.
+		* @param position The speed.
+		* @param owner The owner.
+		* @return The bullet.
+		*/
+		virtual Model::Bullet* newBullet(const Coordinate& position, double speed, int owner) = 0;
+
+		/**
+		* Create a new bunker left.
+		*
+		* @param position The position.
+		* @return The bunker left.
+		*/
+		virtual Model::BunkerLeft* newBunkerLeft(const Coordinate& position) = 0;
+
+		/**
+		* Create a new bunker middle.
+		*
+		* @param position The position.
+		* @return The bunker middle.
+		*/
+		virtual Model::BunkerMiddle* newBunkerMiddle(const Coordinate& position) = 0;
+
+		/**
+		* Create a new bunker right.
+		*
+		* @param position The position.
+		* @return The bunker right.
+		*/
+		virtual Model::BunkerRight* newBunkerRight(const Coordinate& position) = 0;
 };
 
 }
