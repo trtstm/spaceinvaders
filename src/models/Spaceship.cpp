@@ -2,6 +2,8 @@
 
 #include "Bullet.hpp"
 
+#include "messages/ScoreMessage.hpp"
+
 namespace Model {
 
 Spaceship::Spaceship(Coordinate position, double speed)
@@ -20,6 +22,14 @@ void Spaceship::onCollision(const Entity* entity)
 
 		this->doDamage(1);
 	}
+}
+
+void Spaceship::onDied()
+{
+	Entity::onDied();
+
+	Message::ScoreMessage msg(getId(), 100);
+	notifyScore(msg);
 }
 
 }

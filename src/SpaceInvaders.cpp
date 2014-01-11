@@ -40,7 +40,7 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory)
 	}
 
 	spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
-	spaceshipInfo.controller.getSpaceship().registerDied(score);
+	spaceshipInfo.controller.getSpaceship().registerScore(score);
 	collisions.addEntity(spaceshipInfo.controller.getSpaceship());
 }
 
@@ -90,7 +90,7 @@ void SpaceInvaders::loadAliens(double speed)
 			aliens[y].back()->controller.getAlien().registerMove(aliens[y].back()->view);
 			aliens[y].back()->controller.getAlien().registerDied(aliens[y].back()->view);
 			collisions.addEntity(aliens[y].back()->controller.getAlien(), true);
-			aliens[y].back()->controller.getAlien().registerDied(score);
+			aliens[y].back()->controller.getAlien().registerScore(score);
 		}
 	}
 }
@@ -199,7 +199,7 @@ void SpaceInvaders::update(double dt)
 		spaceshipInfo = loadSpaceshipInfo();
 
 		spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
-		spaceshipInfo.controller.getSpaceship().registerDied(score);
+		spaceshipInfo.controller.getSpaceship().registerScore(score);
 		collisions.addEntity(spaceshipInfo.controller.getSpaceship());
 
 		spaceshipClock.restart();

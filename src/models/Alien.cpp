@@ -1,6 +1,7 @@
 #include "Alien.hpp"
 
 #include "Bullet.hpp"
+#include "messages/ScoreMessage.hpp"
 
 namespace Model {
 
@@ -32,8 +33,14 @@ void Alien::onCollision(const Entity* entity)
 
 		this->doDamage(1);
 	}
+}
 
+void Alien::onDied()
+{
+	Entity::onDied();
 
+	Message::ScoreMessage msg(getId(), 10);
+	notifyScore(msg);
 }
 
 }

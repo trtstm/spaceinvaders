@@ -67,9 +67,7 @@ void Entity::doDamage(int damage)
 	health -= damage;
 
 	if(health <= 0) {
-		Message::DiedMessage msg(getId());
-
-		notifyDied(msg);
+		onDied();
 	}
 }
 
@@ -111,6 +109,13 @@ double Entity::getSpeed() const
 void Entity::onCollision(const Entity* entity)
 {
 	(void)entity;
+}
+
+void Entity::onDied()
+{
+	Message::DiedMessage msg(getId());
+
+	notifyDied(msg);
 }
 
 void Entity::unRegisterObservers()

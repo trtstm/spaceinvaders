@@ -54,6 +54,20 @@ class Subject {
 		void unRegisterDied(Observer& observer);
 
 		/**
+		* Register for score messages.
+		*
+		* @param observer The observer.
+		*/
+		void registerScore(Observer& observer);
+
+		/**
+		* Unregister observer for score messages.
+		*
+		* @param observer The observer.
+		*/
+		void unRegisterScore(Observer& observer);
+
+		/**
 		* Unregister all observers.
 		*/
 		void unRegisterAll();
@@ -79,10 +93,18 @@ class Subject {
 		*/
 		void notifyDied(Message::Message& msg);
 
+		/**
+		* Notify to observers interested in score messages.
+		*
+		* @param msg The message.
+		*/
+		void notifyScore(Message::Message& msg);
+
 	private:
 		std::set<Observer*> move;
 		std::set<Observer*> collision;
 		std::set<Observer*> died;
+		std::set<Observer*> score;
 };
 
 #endif

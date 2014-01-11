@@ -29,6 +29,12 @@ class Alien : public Entity {
 		*/
 		void onCollision(const Entity* entity);
 
+		/**
+		* Called when we died.
+		*
+		*/
+		void onDied();
+
 	private:
 };
 

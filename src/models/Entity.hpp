@@ -130,6 +130,12 @@ class Entity : public Subject {
 		* @param entity The entity that collided with us.
 		*/
 		virtual void onCollision(const Entity* entity);
+
+		/**
+		* Called when entity died.
+		*
+		*/
+		virtual void onDied();
 		
 		/**
 		* Unregister all observers for this entity.

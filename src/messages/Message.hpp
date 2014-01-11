@@ -5,7 +5,7 @@
 
 namespace Message {
 
-enum MessageType {MOVE, COLLISION, BULLETHIT, DIED, DELETEENTITY};
+enum MessageType {MOVE, COLLISION, BULLETHIT, DIED, DELETEENTITY, SCORE};
 
 class Message {
 	public:

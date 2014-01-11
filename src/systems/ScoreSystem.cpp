@@ -1,6 +1,6 @@
 #include "ScoreSystem.hpp"
 
-#include "messages/DiedMessage.hpp"
+#include "messages/ScoreMessage.hpp"
 
 namespace System {
 
@@ -18,9 +18,11 @@ int ScoreSystem::getScore() const
 bool ScoreSystem::notify(Message::Message& msg)
 {
 	switch(msg.type) {
-		case Message::DIED:
+		case Message::SCORE:
 		{
-			score++;
+			auto& scoreMessage = static_cast<Message::ScoreMessage&>(msg);
+
+			score += scoreMessage.score;
 
 			break;
 		}

@@ -11,6 +11,7 @@ void Subject::unRegisterAll()
 	move.clear();
 	collision.clear();
 	died.clear();
+	score.clear();
 }
 
 void Subject::registerMove(Observer& observer)
@@ -41,6 +42,16 @@ void Subject::registerDied(Observer& observer)
 void Subject::unRegisterDied(Observer& observer)
 {
 	died.erase(&observer);
+}
+
+void Subject::registerScore(Observer& observer)
+{
+	score.insert(&observer);
+}
+
+void Subject::unRegisterScore(Observer& observer)
+{
+	score.erase(&observer);
 }
 
 void Subject::notifyMove(Message::Message& msg)
@@ -79,6 +90,21 @@ void Subject::notifyDied(Message::Message& msg)
 
 			unRegisterMove(*(*observer));
 			unRegisterCollision(*(*observer));
+		} else {
+			observer++;
+		}
+	}
+}
+
+
+void Subject::notifyScore(Message::Message& msg)
+{
+	for(auto observer = score.begin(); observer != score.end();) {
+		if(!(*observer)->notify(msg)) {
+			observer = score.erase(observer);
+
+			unRegisterScore(*(*observer));
+			unRegisterScore(*(*observer));
 		} else {
 			observer++;
 		}
