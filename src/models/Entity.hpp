@@ -104,6 +104,13 @@ class Entity : public Subject {
 		int getHealth() const;
 
 		/**
+		* Check if entity is alive.
+		*
+		* @return True if entity is alive, otherwise false.
+		*/
+		bool isAlive() const;
+
+		/**
 		* Get the position.
 		*
 		* @return The position.

@@ -180,7 +180,7 @@ void SpaceInvaders::update(double dt)
 		return;
 	}
 
-	if(!laserCannonController.isAlive()) {
+	if(!laserCannon->isAlive()) {
 		state = GAMEOVER;
 		return;
 	}
@@ -365,16 +365,6 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	}
 }
 
-void SpaceInvaders::moveLeft(double dt)
-{
-	laserCannonController.moveLeft(dt);
-}
-
-void SpaceInvaders::moveRight(double dt)
-{
-	laserCannonController.moveRight(dt);
-}
-
 BunkerInfo* SpaceInvaders::newBunkerInfo(const Coordinate position) const
 {
 	Coordinate bunkerLeftPos = position;
@@ -444,7 +434,7 @@ void SpaceInvaders::shoot()
 		return;
 	}
 
-	auto bulletPosition = laserCannonController.getPosition();
+	auto bulletPosition = laserCannon->getPosition();
 
 	auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, 300, laserCannon->getId()));
 	auto bulletView = View::BulletGuiView(bulletPosition);

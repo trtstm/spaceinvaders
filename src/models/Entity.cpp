@@ -88,6 +88,11 @@ void Entity::setHealth(int health)
 	this->health = health;
 }
 
+bool Entity::isAlive() const
+{
+	return (health > 0);
+}
+
 int Entity::getHealth() const
 {
 	return health;

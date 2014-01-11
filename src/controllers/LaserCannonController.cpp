@@ -12,26 +12,6 @@ LaserCannonController::LaserCannonController(Model::LaserCannon* laserCannon)
 {
 }
 
-void LaserCannonController::moveLeft(double dt)
-{
-	laserCannon->moveLeft(dt);
-}
-
-void LaserCannonController::moveRight(double dt)
-{
-	laserCannon->moveRight(dt);
-}
-
-Coordinate LaserCannonController::getPosition()
-{
-	return laserCannon->getPosition();
-}
-
-bool LaserCannonController::isAlive() const
-{
-	return (laserCannon->getHealth() > 0.0);
-}
-
 void LaserCannonController::update(double dt)
 {
  	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
