@@ -32,4 +32,28 @@ void LaserCannon::onCollision(const Entity* entity)
 	}
 }
 
+void LaserCannon::moveLeft(double dt)
+{
+	Coordinate newPos = this->getPosition();
+	newPos.x -= this->getSpeed() * dt;
+
+	if(newPos.x - this->getCollisionRectangle().width / 2.0 < 0) {
+		newPos.x = this->getCollisionRectangle().width / 2.0;
+	}
+
+	this->setPosition(newPos);
+}
+
+void LaserCannon::moveRight(double dt)
+{
+	Coordinate newPos = this->getPosition();
+	newPos.x += this->getSpeed() * dt;
+
+	if(newPos.x + this->getCollisionRectangle().width / 2.0 > 800) {
+		newPos.x = 800 - this->getCollisionRectangle().width / 2.0;
+	}
+
+	this->setPosition(newPos);
+}
+
 }

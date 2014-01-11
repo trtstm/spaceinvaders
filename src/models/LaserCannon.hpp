@@ -21,6 +21,20 @@ class LaserCannon : public Entity {
 		*/
 		void onCollision(const Entity* entity);
 
+		/**
+		* Move left.
+		*
+		* @param dt The delta time.
+		*/
+		void moveLeft(double dt);
+
+		/**
+		* Move right.
+		*
+		* @param dt The delta time.
+		*/
+		void moveRight(double dt);
+
 	private:
 };
 
