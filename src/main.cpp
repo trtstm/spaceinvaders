@@ -6,78 +6,84 @@
 #include <array>
 
 #include "SpaceInvaders.hpp"
+#include "exceptions/FileException.hpp"
 #include "helpers.hpp"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Spaceinvaders");
-	window.setFramerateLimit(30);
+	window.setFramerateLimit(60);
 
-	SpaceInvaders game;
+	try {
+		SpaceInvaders game;
 
-	std::array<bool, sf::Keyboard::KeyCount> keys;
-	keys.fill(false);
+		std::array<bool, sf::Keyboard::KeyCount> keys;
+		keys.fill(false);
 
-	sf::Font font;
-	if(!font.loadFromFile("../resources/DejaVuSans.ttf")) {
-		std::cerr << "Could not read fonts" << std::endl;
-		return 0;
-	}
-
-	sf::Clock clock;
-	while(window.isOpen() && !game.shouldStop()) {
-		sf::Event event;
-        while(window.pollEvent(event)) {
-			switch(event.type) {
-				case sf::Event::Closed:
-					window.close();
-					break;
-
-				case sf::Event::KeyPressed:
-				{
-					if(event.key.code == sf::Keyboard::Escape) {
-						window.close();
-						break;
-					}
-
-					keys[event.key.code] = true;
-					break;
-				}
-
-				case sf::Event::KeyReleased:
-				{
-					keys[event.key.code] = false;
-					break;
-				}
-
-				default:
-					break;
-			}
+		sf::Font font;
+		if(!font.loadFromFile("../resources/DejaVuSans.ttf")) {
+			std::cerr << "Could not read fonts" << std::endl;
+			return 0;
 		}
-
-		double dt = clock.restart().asSeconds();
-
-		if(keys[sf::Keyboard::Space]) {
-			keys[sf::Keyboard::Space] = false;
-			game.shoot();
-		}
-
-		game.update(dt);
-
-		window.clear(sf::Color::Black);
-
-		game.render(window, dt);
 
 		sf::Text text;
 		text.setFont(font);
-		text.setString(toString(1.0/dt).c_str());
 		text.setCharacterSize(16);
 		text.setColor(sf::Color::Red);
 		text.setPosition(10.0, 10.0);
-		window.draw(text);
 
-		window.display();
+		sf::Clock clock;
+		while(window.isOpen() && !game.shouldStop()) {
+			sf::Event event;
+		    while(window.pollEvent(event)) {
+				switch(event.type) {
+					case sf::Event::Closed:
+						window.close();
+						break;
+
+					case sf::Event::KeyPressed:
+					{
+						if(event.key.code == sf::Keyboard::Escape) {
+							window.close();
+							break;
+						}
+
+						keys[event.key.code] = true;
+						break;
+					}
+
+					case sf::Event::KeyReleased:
+					{
+						keys[event.key.code] = false;
+						break;
+					}
+
+					default:
+						break;
+				}
+			}
+
+			double dt = clock.restart().asSeconds();
+
+			if(keys[sf::Keyboard::Space]) {
+				keys[sf::Keyboard::Space] = false;
+				game.shoot();
+			}
+
+			game.update(dt);
+
+			window.clear(sf::Color::Black);
+
+			game.render(window, dt);
+
+			text.setString(("Fps: " + toString(1.0/dt)).c_str());
+			window.draw(text);
+
+			window.display();
+		}
 	}
-
+	catch (FileException& e) {
+		std::cout << "Exception: " << e.what() << std::endl;
+	}
     return 0;
 }

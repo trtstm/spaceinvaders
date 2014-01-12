@@ -3,6 +3,7 @@
 
 #include "SpaceInvaders.hpp"
 
+#include "exceptions/FileException.hpp"
 #include "systems/CollisionSystem.hpp"
 #include "Coordinate.hpp"
 
@@ -112,63 +113,63 @@ Resources SpaceInvaders::loadResources()
 	Resources rsc;
 
 	if(!rsc.textures["lasercannon"].loadFromFile("../resources/lasercannon.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["spaceship"].loadFromFile("../resources/spaceship.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["invader1"].loadFromFile("../resources/invader1.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["invader2"].loadFromFile("../resources/invader2.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["explosion"].loadFromFile("../resources/explosion.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["bunkerleft1"].loadFromFile("../resources/bunkerleft1.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["bunkerleft2"].loadFromFile("../resources/bunkerleft2.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["bunkerleft3"].loadFromFile("../resources/bunkerleft3.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["bunkermiddle1"].loadFromFile("../resources/bunkermiddle1.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["bunkermiddle2"].loadFromFile("../resources/bunkermiddle2.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["bunkermiddle3"].loadFromFile("../resources/bunkermiddle3.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["bunkerright1"].loadFromFile("../resources/bunkerright1.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["bunkerright2"].loadFromFile("../resources/bunkerright2.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.textures["bunkerright3"].loadFromFile("../resources/bunkerright3.png")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	if(!rsc.fonts["default"].loadFromFile("../resources/DejaVuSans.ttf")) {
-		std::cout << "Could not load resources" << std::endl;
+		throw FileException("lasercannon.png");
 	}
 
 	return rsc;
