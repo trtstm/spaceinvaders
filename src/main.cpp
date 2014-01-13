@@ -22,8 +22,7 @@ int main()
 
 		sf::Font font;
 		if(!font.loadFromFile("../resources/DejaVuSans.ttf")) {
-			std::cerr << "Could not read fonts" << std::endl;
-			return 0;
+			throw FileException("DejaVuSans.ttf");
 		}
 
 		sf::Text text;
