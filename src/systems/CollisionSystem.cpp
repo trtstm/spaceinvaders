@@ -143,6 +143,21 @@ bool CollisionSystem::notify(Message::Message& msg)
 					}
 				}
 			}
+			else if(sender->getType() == Model::ALIEN) {
+				for(auto& bunker : bunkers) {
+					if(hasCollision(sender, bunker.second)) {
+						sender->onCollision(bunker.second);
+						bunker.second->onCollision(sender);
+					}
+				}
+
+				for(auto& laserCannon : laserCannons) {
+					if(hasCollision(sender, laserCannon.second)) {
+						sender->onCollision(laserCannon.second);
+						laserCannon.second->onCollision(sender);
+					}
+				}
+			}
 
 			break;
 		}

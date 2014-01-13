@@ -30,9 +30,9 @@ void Alien::onCollision(const Entity* entity)
 		if(bullet->getOwner() == this->getId()) {
 			return;
 		}
-
-		this->doDamage(1);
 	}
+
+	this->doDamage(1);
 }
 
 void Alien::onDied()

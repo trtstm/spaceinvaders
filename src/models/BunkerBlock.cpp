@@ -16,16 +16,13 @@ BunkerBlock::~BunkerBlock()
 
 void BunkerBlock::onCollision(const Entity* entity)
 {
-	if(entity->getType() == BULLET) {
-		//auto bullet = static_cast<const Bullet*>(entity);
+	//auto bullet = static_cast<const Bullet*>(entity);
 
-		Message::BulletHitMessage msg(entity->getId(), this->getId());
+	Message::BulletHitMessage msg(entity->getId(), this->getId());
 
-		notifyCollision(msg);
+	notifyCollision(msg);
 
-		doDamage(1);
-
-	}
+	doDamage(1);
 }
 
 }

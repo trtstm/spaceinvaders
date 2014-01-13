@@ -27,7 +27,7 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory)
 	laserCannon->registerMove(laserCannonView);
 	collisions.addEntity(*laserCannon, true);
 
-	loadAliens(16);
+	loadAliens(32);
 
 	for(unsigned int i = 0; i < 3; i++) {
 		std::unique_ptr<BunkerInfo> bunker1(newBunkerInfo(Coordinate(133 + i * 266, 500)));
@@ -182,6 +182,8 @@ void SpaceInvaders::update(double dt)
 	}
 
 	if(!laserCannon->isAlive()) {
+		std::cout << "Game over! Score: " << score.getScore() << std::endl;
+
 		state = GAMEOVER;
 		return;
 	}
@@ -210,7 +212,7 @@ void SpaceInvaders::update(double dt)
 		level++;
 		laserCannon->setHealth(laserCannon->getHealth() + 1);
 
-		loadAliens(16.0 + 8.0 * level);
+		loadAliens(16.0 + 8.0 * level * 5);
 	}
 
 	if(laserCannonBullet != nullptr) {
