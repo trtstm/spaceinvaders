@@ -40,6 +40,8 @@
 
 #include "factories/DefaultEntityFactory.hpp"
 
+#include "config/GlobalLoader.hpp"
+
 struct BulletInfo {
 	Controller::BulletController controller;
 	View::BulletGuiView view;
@@ -73,7 +75,7 @@ class SpaceInvaders {
 		/**
 		* @param factory The factory to use.
 		*/
-		SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory = std::make_shared<Factory::DefaultEntityFactory>());
+		SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory::EntityFactory> factory = std::make_shared<Factory::DefaultEntityFactory>());
 		~SpaceInvaders();
 
 		/**
@@ -138,9 +140,13 @@ class SpaceInvaders {
 
 		Resources resources;
 
-		Model::LaserCannon* laserCannon;
-		Controller::LaserCannonController laserCannonController;
-		View::LaserCannonGuiView laserCannonView;
+		Model::LaserCannon* player1;
+		std::unique_ptr<Controller::LaserCannonController> player1Controller;
+		std::unique_ptr<View::LaserCannonGuiView> player1View;
+
+		Model::LaserCannon* player2;
+		std::unique_ptr<Controller::LaserCannonController> player2Controller;
+		std::unique_ptr<View::LaserCannonGuiView> player2View;
 
 		View::ScoreView scoreView;
 		View::LevelView levelView;
@@ -157,6 +163,8 @@ class SpaceInvaders {
 		std::vector< std::unique_ptr<BunkerInfo> > bunkers;
 
 		sf::Clock spaceshipClock;
+
+		GlobalLoader globalConfig;
 
 };
 

@@ -1,22 +1,20 @@
 #include <cstdlib>
 #include <ctime>
-
+#include <iostream>
 #include "SpaceInvaders.hpp"
 
 #include "exceptions/FileException.hpp"
 #include "systems/CollisionSystem.hpp"
 #include "Coordinate.hpp"
 
-SpaceInvaders::SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory)
+SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory::EntityFactory> factory)
 	:
 		state(PLAYING),
 		factory(factory),
 		timer(0.0),
 		level(1),
 		resources(loadResources()),
-		laserCannon(factory->newLaserCannon(Coordinate(400,580))),
-		laserCannonController(laserCannon),
-		laserCannonView(laserCannon->getPosition(), resources),
+		player2(0),
 		scoreView(resources),
 		levelView(resources),
 		livesView(resources),
@@ -24,8 +22,21 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory)
 {
 	std::srand(std::time(0));
 
-	laserCannon->registerMove(laserCannonView);
-	collisions.addEntity(*laserCannon, true);
+
+	// Controller takes care of freeing player1
+	player1 = factory->newLaserCannon(Coordinate(400,580));
+	player1Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player1, Controller::LaserCannonController::ARROWS));
+	player1View = std::unique_ptr<View::LaserCannonGuiView>(new View::LaserCannonGuiView(player1->getPosition(), resources));
+	player1->registerMove(*player1View);
+	collisions.addEntity(*player1, true);
+
+	if(globalConfig.getPlayers() == 2) {
+		player2 = factory->newLaserCannon(Coordinate(600,580));
+		player2Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player2, Controller::LaserCannonController::WASD));
+		player2View = std::unique_ptr<View::LaserCannonGuiView>(new View::LaserCannonGuiView(player2->getPosition(), resources));
+		player2->registerMove(*player2View);
+		collisions.addEntity(*player2, true);
+	}
 
 	loadAliens(32);
 
@@ -47,7 +58,10 @@ SpaceInvaders::SpaceInvaders(std::shared_ptr<Factory::EntityFactory> factory)
 
 SpaceInvaders::~SpaceInvaders()
 {
-	laserCannon->unRegisterObservers();
+	player1->unRegisterObservers();
+	if(player2) {
+		player2->unRegisterObservers();
+	}
 
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
@@ -181,14 +195,18 @@ void SpaceInvaders::update(double dt)
 		return;
 	}
 
-	if(!laserCannon->isAlive()) {
+	if(!player1->isAlive()) {
 		std::cout << "Game over! Score: " << score.getScore() << std::endl;
 
 		state = GAMEOVER;
 		return;
 	}
 
-	laserCannonController.update(dt);
+	player1Controller->update(dt);
+
+	if(player2) {
+		player2Controller->update(dt);
+	}
 
 	if(spaceshipInfo.controller.isAlive() && spaceshipInfo.controller.getPosition().x < 800 + spaceshipInfo.controller.getSpaceship().getCollisionRectangle().width) {
 		spaceshipInfo.controller.moveRight(dt);
@@ -210,7 +228,11 @@ void SpaceInvaders::update(double dt)
 
 	if(aliveAliens() == 0) {
 		level++;
-		laserCannon->setHealth(laserCannon->getHealth() + 1);
+		player1->setHealth(player1->getHealth() + 1);
+
+		if(player2) {
+			player2->setHealth(player2->getHealth() + 1);
+		}
 
 		loadAliens(16.0 + 8.0 * level * 5);
 	}
@@ -329,11 +351,15 @@ unsigned int SpaceInvaders::aliveAliens() const
 void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 {
 
-	laserCannonView.render(window, resources, dt);
+	player1View->render(window, resources, dt);
+
+	if(player2) {
+		player2View->render(window, resources, dt);
+	}
 
 	scoreView.render(window, resources, score.getScore());
 	levelView.render(window, resources, level);
-	livesView.render(window, resources, laserCannon->getHealth());
+	livesView.render(window, resources, player1->getHealth());
 
 	if(laserCannonBullet != nullptr) {
 		laserCannonBullet->view.render(window);
@@ -437,9 +463,9 @@ void SpaceInvaders::shoot()
 		return;
 	}
 
-	auto bulletPosition = laserCannon->getPosition();
+	auto bulletPosition = player1->getPosition();
 
-	auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, 300, laserCannon->getId()));
+	auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, 300, player1->getId()));
 	auto bulletView = View::BulletGuiView(bulletPosition);
 
 	laserCannonBullet.reset(new BulletInfo{bulletController, bulletView});

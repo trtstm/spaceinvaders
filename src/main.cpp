@@ -19,7 +19,7 @@ int main()
 	window.setFramerateLimit(globalConfig.getFps());
 
 	try {
-		SpaceInvaders game;
+		SpaceInvaders game(globalConfig);
 
 		std::array<bool, sf::Keyboard::KeyCount> keys;
 		keys.fill(false);

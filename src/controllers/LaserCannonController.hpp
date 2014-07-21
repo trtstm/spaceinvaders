@@ -2,6 +2,7 @@
 #define LASER_CANNON_CONTROLLER_HPP
 
 #include <memory>
+#include <SFML/Window/Keyboard.hpp>
 
 #include "models/LaserCannon.hpp"
 #include "messages/Message.hpp"
@@ -11,10 +12,13 @@ namespace Controller {
 
 class LaserCannonController {
 	public:
+		enum Input {ARROWS, WASD};
+
 		/**
 		@param laserCannon The lasercannon this controller has to control. The controller will own the pointer.
+		@param input What kind of input to use.
 		*/
-		LaserCannonController(Model::LaserCannon* laserCannon);
+		LaserCannonController(Model::LaserCannon* laserCannon, Input input);
 
 		/**
 		* Update the laser cannon.
@@ -25,6 +29,8 @@ class LaserCannonController {
 
 	private:
 		std::shared_ptr<Model::LaserCannon> laserCannon;
+		sf::Keyboard::Key left;
+		sf::Keyboard::Key right;
 		
 };
 

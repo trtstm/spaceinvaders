@@ -1,24 +1,29 @@
 #include "LaserCannonController.hpp"
 
-#include <SFML/Window/Keyboard.hpp>
-
 #include "messages/DiedMessage.hpp"
 #include "messages/BulletHitMessage.hpp"
 
 namespace Controller {
 
-LaserCannonController::LaserCannonController(Model::LaserCannon* laserCannon)
+LaserCannonController::LaserCannonController(Model::LaserCannon* laserCannon, Input input)
 	: laserCannon(laserCannon)
 {
+	if(input == ARROWS) {
+		left = sf::Keyboard::Key::Left;
+		right = sf::Keyboard::Key::Right;
+	}else if(input == WASD) {
+		left = sf::Keyboard::Key::A;
+		right = sf::Keyboard::Key::D;
+	}
 }
 
 void LaserCannonController::update(double dt)
 {
- 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
+ 	if(sf::Keyboard::isKeyPressed(left)) {
 		laserCannon->moveLeft(dt);
 	}
 
- 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
+ 	if(sf::Keyboard::isKeyPressed(right)) {
 		laserCannon->moveRight(dt);
 	}
 }

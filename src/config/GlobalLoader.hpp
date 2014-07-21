@@ -13,6 +13,8 @@ class GlobalLoader : public ConfigLoader {
 		int getResolutionY() const;
 
 		int getFps() const;
+
+		int getPlayers() const;
 };
 
 #endif

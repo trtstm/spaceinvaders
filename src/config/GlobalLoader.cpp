@@ -9,6 +9,11 @@ bool GlobalLoader::load(std::string file)
 
 	this->setDefault("fps", 60);
 
+	this->setDefault("players", 1);
+	if(this->getPlayers() != 1 && this->getPlayers() != 2) {
+		this->pt.put("players", 1);
+	}
+
 	return true;
 }
 
@@ -25,4 +30,9 @@ int GlobalLoader::getResolutionY() const
 int GlobalLoader::getFps() const
 {
 	return this->pt.get<int>("fps");
+}
+
+int GlobalLoader::getPlayers() const
+{
+	return this->pt.get<int>("players");
 }
