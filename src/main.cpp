@@ -6,13 +6,17 @@
 #include <array>
 
 #include "SpaceInvaders.hpp"
+#include "config/GlobalLoader.hpp"
 #include "exceptions/FileException.hpp"
 #include "helpers.hpp"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Spaceinvaders");
-	window.setFramerateLimit(60);
+	GlobalLoader globalConfig;
+	globalConfig.load("../resources/config/config.json");
+
+    sf::RenderWindow window(sf::VideoMode(globalConfig.getResolutionX(), globalConfig.getResolutionY()), "Spaceinvaders");
+	window.setFramerateLimit(globalConfig.getFps());
 
 	try {
 		SpaceInvaders game;
