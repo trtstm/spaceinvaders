@@ -445,7 +445,7 @@ void SpaceInvaders::alienShoot()
 
 		auto bulletPosition = possibleAliens[randX]->controller.getPosition();
 
-		auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, -300, possibleAliens[randX]->controller.getAlien().getId()));
+		auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, -300, Model::Bullet::ENEMY, possibleAliens[randX]->controller.getAlien().getId()));
 		auto bulletView = View::BulletGuiView(bulletPosition);
 
 		std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
@@ -464,7 +464,7 @@ void SpaceInvaders::shoot(Model::LaserCannon* owner)
 
 	auto bulletPosition = owner->getPosition();
 
-	auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, 300, owner->getId()));
+	auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, 300, Model::Bullet::FRIENDLY, owner->getId()));
 	auto bulletView = View::BulletGuiView(bulletPosition);
 
 	laserCannonBullet[owner->getId()] = std::unique_ptr<BulletInfo>(new BulletInfo{bulletController, bulletView});

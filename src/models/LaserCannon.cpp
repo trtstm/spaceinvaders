@@ -20,7 +20,7 @@ void LaserCannon::onCollision(const Entity* entity)
 	if(entity->getType() == BULLET) {
 		auto bullet = static_cast<const Bullet*>(entity);
 
-		if(bullet->getOwner() == this->getId()) {
+		if(bullet->getType() == Model::Bullet::FRIENDLY) {
 			return;
 		}
 

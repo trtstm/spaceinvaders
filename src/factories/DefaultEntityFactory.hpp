@@ -39,7 +39,7 @@ class DefaultEntityFactory : public EntityFactory {
 		* @param position The speed.
 		* @return The alien.
 		*/
-		Model::Bullet* newBullet(const Coordinate& position, double speed, int owner);
+		Model::Bullet* newBullet(const Coordinate& position, double speed, Model::Bullet::Type type, int owner);
 
 		/**
 		* Create a new bunker left.

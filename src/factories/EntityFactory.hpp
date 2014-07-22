@@ -50,7 +50,7 @@ class EntityFactory {
 		* @param owner The owner.
 		* @return The bullet.
 		*/
-		virtual Model::Bullet* newBullet(const Coordinate& position, double speed, int owner) = 0;
+		virtual Model::Bullet* newBullet(const Coordinate& position, double speed, Model::Bullet::Type type, int owner) = 0;
 
 		/**
 		* Create a new bunker left.

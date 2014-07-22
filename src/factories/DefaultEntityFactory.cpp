@@ -17,9 +17,9 @@ Model::Alien* DefaultEntityFactory::newAlien(const Coordinate& position, double 
 	return new Model::Alien(position, speed);
 }
 
-Model::Bullet* DefaultEntityFactory::newBullet(const Coordinate& position, double speed, int owner)
+Model::Bullet* DefaultEntityFactory::newBullet(const Coordinate& position, double speed, Model::Bullet::Type type, int owner)
 {
-	return new Model::Bullet(position, speed, owner);
+	return new Model::Bullet(position, speed, type, owner);
 }
 
 Model::BunkerLeft* DefaultEntityFactory::newBunkerLeft(const Coordinate& position)

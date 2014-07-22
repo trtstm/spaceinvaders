@@ -8,12 +8,14 @@ namespace Model {
 
 class Bullet : public Entity {
 	public:
+		enum Type {FRIENDLY, ENEMY};
+
 		/**
 		* @param position The position.
 		* @param speed The speed.
 		* @param owner Who shot the bullet.
 		*/
-		Bullet(Coordinate position = Coordinate(0, 0), double speed = 0.0, int owner = -1);
+		Bullet(Coordinate position, double speed, Type type, int owner);
 		~Bullet();
 
 		/**
@@ -30,7 +32,10 @@ class Bullet : public Entity {
 		*/
 		int getOwner() const;
 
+		Type getType() const;
+
 	private:
+		Type type;
 		int owner;
 };
 

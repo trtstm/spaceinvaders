@@ -6,8 +6,8 @@
 
 namespace Model {
 
-Bullet::Bullet(Coordinate position, double speed, int owner)
-	: Entity(BULLET, 1, position, speed, sf::Rect<double>(0.0, 0.0, 4.0, 10.0)), owner(owner)
+Bullet::Bullet(Coordinate position, double speed, Type type, int owner)
+	: Entity(BULLET, 1, position, speed, sf::Rect<double>(0.0, 0.0, 4.0, 10.0)), type(type), owner(owner)
 {
 }
 
@@ -17,7 +17,7 @@ Bullet::~Bullet()
 
 void Bullet::onCollision(const Entity* entity)
 {
-	if(owner != entity->getId()) {
+	if((entity->getType() == Model::LASERCANNON && type != FRIENDLY) || (entity->getType() != Model::LASERCANNON && entity->getId() != getOwner())) {
 		auto msg = Message::BulletHitMessage(getId(), entity->getId());
 		notifyCollision(msg);
 
@@ -28,6 +28,11 @@ void Bullet::onCollision(const Entity* entity)
 int Bullet::getOwner() const
 {
 	return owner;
+}
+
+Bullet::Type Bullet::getType() const
+{
+	return type;
 }
 
 }
