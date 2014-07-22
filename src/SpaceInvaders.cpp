@@ -25,14 +25,14 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 
 	// Controller takes care of freeing player1
 	player1 = factory->newLaserCannon(Coordinate(400,580));
-	player1Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player1, Controller::LaserCannonController::ARROWS));
+	player1Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player1, Controller::LaserCannonController::ARROWS, this));
 	player1View = std::unique_ptr<View::LaserCannonGuiView>(new View::LaserCannonGuiView(player1->getPosition(), resources));
 	player1->registerMove(*player1View);
 	collisions.addEntity(*player1, true);
 
 	if(globalConfig.getPlayers() == 2) {
 		player2 = factory->newLaserCannon(Coordinate(600,580));
-		player2Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player2, Controller::LaserCannonController::WASD));
+		player2Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player2, Controller::LaserCannonController::WASD, this));
 		player2View = std::unique_ptr<View::LaserCannonGuiView>(new View::LaserCannonGuiView(player2->getPosition(), resources));
 		player2->registerMove(*player2View);
 		collisions.addEntity(*player2, true);
@@ -237,16 +237,15 @@ void SpaceInvaders::update(double dt)
 		loadAliens(16.0 + 8.0 * level * 5);
 	}
 
-	if(laserCannonBullet != nullptr) {
-		laserCannonBullet->controller.update(dt);
+	for(auto& bl : laserCannonBullet) {
+		bl.second->controller.update(dt);
+		auto position = bl.second->controller.getPosition();
+		auto rect = bl.second->controller.getCollisionRectangle();
 
-		auto position = laserCannonBullet->controller.getPosition();
-		auto rect = laserCannonBullet->controller.getCollisionRectangle();
+		if(position.y - rect.height / 2 < 0 || !bl.second->controller.isAlive()) {
+			collisions.removeEntity(bl.second->controller.getBullet());
 
-		if(position.y - rect.height / 2 < 0 || !laserCannonBullet->controller.isAlive()) {
-			collisions.removeEntity(laserCannonBullet->controller.getBullet());
-
-			laserCannonBullet.reset();
+			laserCannonBullet.erase(bl.first);
 		}
 	}
 
@@ -361,8 +360,8 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	levelView.render(window, resources, level);
 	livesView.render(window, resources, player1->getHealth());
 
-	if(laserCannonBullet != nullptr) {
-		laserCannonBullet->view.render(window);
+	for(auto& bl : laserCannonBullet) {
+		bl.second->view.render(window);
 	}
 
 	for(auto& bulletInfo : alienBullets) {
@@ -457,21 +456,21 @@ void SpaceInvaders::alienShoot()
 	}
 }
 
-void SpaceInvaders::shoot()
+void SpaceInvaders::shoot(Model::LaserCannon* owner)
 {
-	if(laserCannonBullet != nullptr) {
+	if(laserCannonBullet.count(owner->getId()) == 1) {
 		return;
 	}
 
-	auto bulletPosition = player1->getPosition();
+	auto bulletPosition = owner->getPosition();
 
-	auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, 300, player1->getId()));
+	auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, 300, owner->getId()));
 	auto bulletView = View::BulletGuiView(bulletPosition);
 
-	laserCannonBullet.reset(new BulletInfo{bulletController, bulletView});
+	laserCannonBullet[owner->getId()] = std::unique_ptr<BulletInfo>(new BulletInfo{bulletController, bulletView});
 
-	laserCannonBullet->controller.getBullet().registerMove(laserCannonBullet->view);
-	collisions.addEntity(laserCannonBullet->controller.getBullet(), true);
+	laserCannonBullet[owner->getId()]->controller.getBullet().registerMove(laserCannonBullet[owner->getId()]->view);
+	collisions.addEntity(laserCannonBullet[owner->getId()]->controller.getBullet(), true);
 
 }
 

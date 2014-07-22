@@ -8,6 +8,8 @@
 #include "messages/Message.hpp"
 #include "Coordinate.hpp"
 
+class SpaceInvaders;
+
 namespace Controller {
 
 class LaserCannonController {
@@ -18,7 +20,7 @@ class LaserCannonController {
 		@param laserCannon The lasercannon this controller has to control. The controller will own the pointer.
 		@param input What kind of input to use.
 		*/
-		LaserCannonController(Model::LaserCannon* laserCannon, Input input);
+		LaserCannonController(Model::LaserCannon* laserCannon, Input input, SpaceInvaders*);
 
 		/**
 		* Update the laser cannon.
@@ -31,6 +33,8 @@ class LaserCannonController {
 		std::shared_ptr<Model::LaserCannon> laserCannon;
 		sf::Keyboard::Key left;
 		sf::Keyboard::Key right;
+		sf::Keyboard::Key shoot;
+		SpaceInvaders* game;
 		
 };
 

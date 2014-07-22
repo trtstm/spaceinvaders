@@ -68,11 +68,6 @@ int main()
 
 			double dt = clock.restart().asSeconds();
 
-			if(keys[sf::Keyboard::Space]) {
-				keys[sf::Keyboard::Space] = false;
-				game.shoot();
-			}
-
 			game.update(dt);
 
 			window.clear(sf::Color::Black);

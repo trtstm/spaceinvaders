@@ -110,7 +110,7 @@ class SpaceInvaders {
 		/**
 		* Let the lasercannon shoot.
 		*/
-		void shoot();
+		void shoot(Model::LaserCannon* owner);
 
 		/**
 		* Checks if the game has ended.
@@ -157,7 +157,7 @@ class SpaceInvaders {
 
 		SpaceshipInfo spaceshipInfo;
 		
-		std::unique_ptr<BulletInfo> laserCannonBullet;
+		std::map<int, std::unique_ptr<BulletInfo> > laserCannonBullet;
 		std::vector< std::unique_ptr<BulletInfo> > alienBullets;
 		std::vector< std::vector< std::unique_ptr<AlienInfo>  >  > aliens;
 		std::vector< std::unique_ptr<BunkerInfo> > bunkers;
