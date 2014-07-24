@@ -7,9 +7,9 @@ Model::Spaceship* DefaultEntityFactory::newSpaceship(const Coordinate& position)
 	return new Model::Spaceship(position);
 }
 
-Model::LaserCannon* DefaultEntityFactory::newLaserCannon(const Coordinate& position)
+Model::LaserCannon* DefaultEntityFactory::newLaserCannon(const Coordinate& position, GlobalLoader globalConfig)
 {
-	return new Model::LaserCannon(position);
+	return new Model::LaserCannon(position, globalConfig);
 }
 
 Model::Alien* DefaultEntityFactory::newAlien(const Coordinate& position, double speed)

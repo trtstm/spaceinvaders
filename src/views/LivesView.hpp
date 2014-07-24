@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Resources.hpp"
+#include "config/GlobalLoader.hpp"
 
 namespace View {
 
@@ -12,7 +13,7 @@ class LivesView {
 		/**
 		* @param resources The resources to load from.
 		*/
-		LivesView(const Resources& resources);
+		LivesView(const Resources& resources, GlobalLoader globalConfig);
 
 		/**
 		* Do the rendering.
@@ -25,6 +26,7 @@ class LivesView {
 
 	private:
 		sf::Text text;
+		GlobalLoader globalConfig;
 };
 
 }

@@ -120,6 +120,8 @@ class SpaceInvaders {
 		bool shouldStop() const;
 
 	private:
+		GlobalLoader globalConfig;
+
 		BunkerInfo* newBunkerInfo(const Coordinate position) const;
 
 		void alienShoot();
@@ -163,9 +165,6 @@ class SpaceInvaders {
 		std::vector< std::unique_ptr<BunkerInfo> > bunkers;
 
 		sf::Clock spaceshipClock;
-
-		GlobalLoader globalConfig;
-
 };
 
 #endif

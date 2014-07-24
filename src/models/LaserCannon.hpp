@@ -3,6 +3,7 @@
 
 #include "Entity.hpp"
 #include "Coordinate.hpp"
+#include "config/GlobalLoader.hpp"
 
 namespace Model {
 
@@ -11,7 +12,7 @@ class LaserCannon : public Entity {
 		/**
 		* @param position The position.
 		*/
-		LaserCannon(Coordinate position = Coordinate(0, 0));
+		LaserCannon(Coordinate position, GlobalLoader globalConfig);
 		~LaserCannon();
 
 		/**
@@ -36,6 +37,7 @@ class LaserCannon : public Entity {
 		void moveRight(double dt);
 
 	private:
+		GlobalLoader globalConfig;
 };
 
 }

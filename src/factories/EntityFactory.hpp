@@ -11,6 +11,8 @@
 #include "models/BunkerMiddle.hpp"
 #include "models/BunkerRight.hpp"
 
+#include "config/GlobalLoader.hpp"
+
 namespace Factory {
 
 class EntityFactory {
@@ -31,7 +33,7 @@ class EntityFactory {
 		* @param position The position.
 		* @return The lasercannon.
 		*/
-		virtual Model::LaserCannon* newLaserCannon(const Coordinate& position) = 0;
+		virtual Model::LaserCannon* newLaserCannon(const Coordinate& position, GlobalLoader globalConfig) = 0;
 
 		/**
 		* Create a new alien.

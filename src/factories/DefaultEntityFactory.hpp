@@ -21,7 +21,7 @@ class DefaultEntityFactory : public EntityFactory {
 		* @param position The position.
 		* @return The lasercannon.
 		*/
-		Model::LaserCannon* newLaserCannon(const Coordinate& position);
+		Model::LaserCannon* newLaserCannon(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
 		* Create a new alien.

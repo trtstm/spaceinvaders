@@ -4,12 +4,13 @@
 
 namespace View {
 
-ScoreView::ScoreView(const Resources& resources)
+ScoreView::ScoreView(const Resources& resources, GlobalLoader globalConfig)
+	: globalConfig(globalConfig)
 {
 	text.setFont(resources.fonts.at("default"));
 	text.setCharacterSize(16);
 	text.setColor(sf::Color::Red);
-	text.setPosition(600.0, 10.0);
+	text.setPosition(globalConfig.getResolutionX() -  200, 10.0);
 }
 
 void ScoreView::render(sf::RenderWindow& w, const Resources& resources, int score)
