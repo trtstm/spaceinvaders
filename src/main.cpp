@@ -46,17 +46,14 @@ int main()
 
 					case sf::Event::KeyPressed:
 					{
-						if(event.key.code == sf::Keyboard::Escape) {
-							//window.close();
-							break;
-						}
-
+						game.event(event);
 						keys[event.key.code] = true;
 						break;
 					}
 
 					case sf::Event::KeyReleased:
 					{
+						game.event(event);
 						keys[event.key.code] = false;
 						break;
 					}

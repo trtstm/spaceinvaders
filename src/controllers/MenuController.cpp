@@ -4,7 +4,6 @@
 #include "messages/MenuSelectMessage.hpp"
 #include "messages/MenuChangeMessage.hpp"
 
-#include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
 namespace Controller {
@@ -16,18 +15,28 @@ MenuController::MenuController(SpaceInvaders* game)
 
 void MenuController::update(double dt)
 {
+
+}
+
+void MenuController::event(sf::Event event)
+{
+	if(event.type != sf::Event::KeyPressed) {
+		return;
+	}
+
 	if(menu != NONE) {
-	 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
+	 	if(event.key.code == sf::Keyboard::Key::Down) {
 			down();
-		} else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
+		} else if(event.key.code == sf::Keyboard::Key::Up) {
 			up();
-		} else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Return)) {
+		} else if(event.key.code == sf::Keyboard::Key::Return) {
 			select();
-		} else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
-			
+		} else if(event.key.code == sf::Keyboard::Key::Escape) {
+			menu = NONE;
+			game->setState(PLAYING);
 		}
 	} else {
-	 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+	 	if(event.key.code == sf::Keyboard::Key::Escape) {
 			menu = MAIN;
 
 			auto change = Message::MenuChangeMessage(mainMenu);
@@ -67,7 +76,9 @@ void MenuController::up()
 	}
 
 	selection -= 1;
-	selection = selection % wrap;
+	if(selection < 0) {
+		selection = wrap - 1;
+	}
 
 	auto select = Message::MenuSelectMessage(selection);
 	notifyMenuSelection(select);
@@ -78,14 +89,34 @@ void MenuController::select()
 	if(menu == MAIN) {
 		auto sel = mainMenu[selection];
 		if(sel == "play") {
+			menu = NONE;
+			selection = 0;
 			game->setState(PLAYING);
 		} else if(sel == "highscore") {
 			menu = HIGHSCORE;
 			selection = 0;
+
+			auto change = Message::MenuChangeMessage(highscoreMenu);
+			notifyMenuChange(change);
+			auto select = Message::MenuSelectMessage(selection);
+			notifyMenuSelection(select);
 		} else if(sel == "quit") {
 			menu = NONE;
 			selection = 0;
 			game->setState(GAMEOVER);
+		}
+
+		return;
+	} else if(menu == HIGHSCORE) {
+		auto sel = highscoreMenu[selection];
+		if(sel == "back") {
+			menu = MAIN;
+			selection = 0;
+
+			auto change = Message::MenuChangeMessage(mainMenu);
+			notifyMenuChange(change);
+			auto select = Message::MenuSelectMessage(selection);
+			notifyMenuSelection(select);
 		}
 
 		return;

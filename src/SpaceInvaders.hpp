@@ -129,6 +129,13 @@ class SpaceInvaders {
 		*/
 		void setState(State newState);
 
+		/**
+		* Handle an input event.
+		*
+		* @param event The event
+		*/
+		void event(sf::Event event);
+
 	private:
 		GlobalLoader globalConfig;
 

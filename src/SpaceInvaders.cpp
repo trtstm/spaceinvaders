@@ -511,3 +511,8 @@ void SpaceInvaders::setState(State newState)
 {
 	state = newState;
 }
+
+void SpaceInvaders::event(sf::Event event)
+{
+	menuController->event(event);
+}

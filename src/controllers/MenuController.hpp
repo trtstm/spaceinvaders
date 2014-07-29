@@ -5,6 +5,9 @@
 
 #include "Subject.hpp"
 
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics.hpp>
+
 class SpaceInvaders;
 
 namespace Controller {
@@ -19,6 +22,8 @@ class MenuController : public Subject {
 		* @param dt The delta time.
 		*/
 		void update(double dt);
+
+		void event(sf::Event event);
 
 	private:
 		enum Menu {NONE, MAIN, HIGHSCORE};
