@@ -5,5 +5,7 @@ SET(SRC ${SRC}
 	${CMAKE_CURRENT_SOURCE_DIR}/BulletHitMessage.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DiedMessage.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ScoreMessage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MenuSelectMessage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MenuChangeMessage.cpp
 	PARENT_SCOPE)
 

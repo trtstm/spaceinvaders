@@ -68,6 +68,34 @@ class Subject {
 		void unRegisterScore(Observer& observer);
 
 		/**
+		* Register for menu selection messages.
+		*
+		* @param observer The observer.
+		*/
+		void registerMenuSelection(Observer& observer);
+
+		/**
+		* Unregister observer for menu selection messages.
+		*
+		* @param observer The observer.
+		*/
+		void unRegisterMenuSelection(Observer& observer);
+
+		/**
+		* Register for menu change messages.
+		*
+		* @param observer The observer.
+		*/
+		void registerMenuChange(Observer& observer);
+
+		/**
+		* Unregister observer for menu change messages.
+		*
+		* @param observer The observer.
+		*/
+		void unRegisterMenuChange(Observer& observer);
+
+		/**
 		* Unregister all observers.
 		*/
 		void unRegisterAll();
@@ -100,11 +128,27 @@ class Subject {
 		*/
 		void notifyScore(Message::Message& msg);
 
+		/**
+		* Notify to observers interested in menu selection messages.
+		*
+		* @param msg The message.
+		*/
+		void notifyMenuSelection(Message::Message& msg);
+
+		/**
+		* Notify to observers interested in menu change messages.
+		*
+		* @param msg The message.
+		*/
+		void notifyMenuChange(Message::Message& msg);
+
 	private:
 		std::set<Observer*> move;
 		std::set<Observer*> collision;
 		std::set<Observer*> died;
 		std::set<Observer*> score;
+		std::set<Observer*> menuSelection;
+		std::set<Observer*> menuChange;
 };
 
 #endif

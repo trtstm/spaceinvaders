@@ -12,6 +12,8 @@ void Subject::unRegisterAll()
 	collision.clear();
 	died.clear();
 	score.clear();
+	menuSelection.clear();
+	menuChange.clear();
 }
 
 void Subject::registerMove(Observer& observer)
@@ -52,6 +54,26 @@ void Subject::registerScore(Observer& observer)
 void Subject::unRegisterScore(Observer& observer)
 {
 	score.erase(&observer);
+}
+
+void Subject::registerMenuSelection(Observer& observer)
+{
+	menuSelection.insert(&observer);
+}
+
+void Subject::unRegisterMenuSelection(Observer& observer)
+{
+	menuSelection.erase(&observer);
+}
+
+void Subject::registerMenuChange(Observer& observer)
+{
+	menuChange.insert(&observer);
+}
+
+void Subject::unRegisterMenuChange(Observer& observer)
+{
+	menuChange.erase(&observer);
 }
 
 void Subject::notifyMove(Message::Message& msg)
@@ -96,7 +118,6 @@ void Subject::notifyDied(Message::Message& msg)
 	}
 }
 
-
 void Subject::notifyScore(Message::Message& msg)
 {
 	for(auto observer = score.begin(); observer != score.end();) {
@@ -104,7 +125,32 @@ void Subject::notifyScore(Message::Message& msg)
 			observer = score.erase(observer);
 
 			unRegisterScore(*(*observer));
-			unRegisterScore(*(*observer));
+		} else {
+			observer++;
+		}
+	}
+}
+
+void Subject::notifyMenuSelection(Message::Message& msg)
+{
+	for(auto observer = menuSelection.begin(); observer != menuSelection.end();) {
+		if(!(*observer)->notify(msg)) {
+			observer = menuSelection.erase(observer);
+
+			unRegisterMenuSelection(*(*observer));
+		} else {
+			observer++;
+		}
+	}
+}
+
+void Subject::notifyMenuChange(Message::Message& msg)
+{
+	for(auto observer = menuChange.begin(); observer != menuChange.end();) {
+		if(!(*observer)->notify(msg)) {
+			observer = menuChange.erase(observer);
+
+			unRegisterMenuChange(*(*observer));
 		} else {
 			observer++;
 		}

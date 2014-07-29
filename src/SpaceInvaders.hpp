@@ -40,6 +40,9 @@
 
 #include "factories/DefaultEntityFactory.hpp"
 
+#include "controllers/MenuController.hpp"
+#include "views/MenuView.hpp"
+
 #include "config/GlobalLoader.hpp"
 
 struct BulletInfo {
@@ -68,7 +71,7 @@ struct BunkerInfo {
 	View::BunkerRightGuiView viewRight;
 };
 
-enum State { PLAYING, PAUSE, GAMEOVER };
+enum State { PLAYING, PAUSE, GAMEOVER, MENU };
 
 class SpaceInvaders {
 	public:
@@ -119,6 +122,13 @@ class SpaceInvaders {
 		*/
 		bool shouldStop() const;
 
+		/**
+		* Set the state of the game, e.g pause, ...
+		*
+		* @param newState The state to set.
+		*/
+		void setState(State newState);
+
 	private:
 		GlobalLoader globalConfig;
 
@@ -163,6 +173,9 @@ class SpaceInvaders {
 		std::vector< std::unique_ptr<BulletInfo> > alienBullets;
 		std::vector< std::vector< std::unique_ptr<AlienInfo>  >  > aliens;
 		std::vector< std::unique_ptr<BunkerInfo> > bunkers;
+
+		std::unique_ptr<Controller::MenuController> menuController;
+		std::unique_ptr<View::MenuView> menuView;
 
 		sf::Clock spaceshipClock;
 };

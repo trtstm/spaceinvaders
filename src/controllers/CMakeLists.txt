@@ -4,5 +4,6 @@ SET(SRC ${SRC}
 	${CMAKE_CURRENT_SOURCE_DIR}/SpaceshipController.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/AlienController.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BulletController.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MenuController.cpp
 	PARENT_SCOPE)
 

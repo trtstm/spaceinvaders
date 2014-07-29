@@ -23,6 +23,10 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 {
 	std::srand(std::time(0));
 
+	menuController = std::unique_ptr<Controller::MenuController>(new Controller::MenuController(this));
+	menuView = std::unique_ptr<View::MenuView>(new View::MenuView(resources, globalConfig));
+	menuController->registerMenuChange(*menuView.get());
+	menuController->registerMenuSelection(*menuView.get());
 
 	// Controller takes care of freeing player1
 	player1 = factory->newLaserCannon(Coordinate(globalConfig.getResolutionX() / 2 - 100, globalConfig.getResolutionY() - 50), globalConfig);
@@ -194,6 +198,12 @@ Resources SpaceInvaders::loadResources()
 void SpaceInvaders::update(double dt)
 {
 	if(state == PAUSE || state == GAMEOVER) {
+		return;
+	}
+
+	menuController->update(dt);
+
+	if(state == MENU) {
 		return;
 	}
 
@@ -401,6 +411,10 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 	if(spaceshipInfo.controller.isAlive()) {
 		spaceshipInfo.view.render(window, resources);
 	}
+
+	if(state == MENU) {
+		menuView->render(window, resources);
+	}
 }
 
 BunkerInfo* SpaceInvaders::newBunkerInfo(const Coordinate position) const
@@ -491,4 +505,9 @@ bool SpaceInvaders::shouldStop() const
 	}
 
 	return false;
+}
+
+void SpaceInvaders::setState(State newState)
+{
+	state = newState;
 }

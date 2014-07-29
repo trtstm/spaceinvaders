@@ -47,7 +47,7 @@ int main()
 					case sf::Event::KeyPressed:
 					{
 						if(event.key.code == sf::Keyboard::Escape) {
-							window.close();
+							//window.close();
 							break;
 						}
 
