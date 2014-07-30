@@ -72,7 +72,7 @@ class Subject {
 		*
 		* @param observer The observer.
 		*/
-		void registerMenuSelection(Observer& observer);
+		virtual void registerMenuSelection(Observer& observer);
 
 		/**
 		* Unregister observer for menu selection messages.
@@ -86,7 +86,7 @@ class Subject {
 		*
 		* @param observer The observer.
 		*/
-		void registerMenuChange(Observer& observer);
+		virtual void registerMenuChange(Observer& observer);
 
 		/**
 		* Unregister observer for menu change messages.

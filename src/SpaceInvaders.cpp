@@ -10,7 +10,7 @@
 SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory::EntityFactory> factory)
 	:
 		globalConfig(globalConfig),
-		state(PLAYING),
+		state(MENU),
 		factory(factory),
 		timer(0.0),
 		level(1),
@@ -23,67 +23,15 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 {
 	std::srand(std::time(0));
 
-	menuController = std::unique_ptr<Controller::MenuController>(new Controller::MenuController(this));
 	menuView = std::unique_ptr<View::MenuView>(new View::MenuView(resources, globalConfig));
+	menuController = std::unique_ptr<Controller::MenuController>(new Controller::MenuController(this));
 	menuController->registerMenuChange(*menuView.get());
 	menuController->registerMenuSelection(*menuView.get());
-
-	// Controller takes care of freeing player1
-	player1 = factory->newLaserCannon(Coordinate(globalConfig.getResolutionX() / 2 - 100, globalConfig.getResolutionY() - 50), globalConfig);
-	player1Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player1, Controller::LaserCannonController::ARROWS, this));
-	player1View = std::unique_ptr<View::LaserCannonGuiView>(new View::LaserCannonGuiView(player1->getPosition(), resources));
-	player1->registerMove(*player1View);
-	collisions.addEntity(*player1, true);
-
-	if(globalConfig.getPlayers() == 2) {
-		player2 = factory->newLaserCannon(Coordinate(globalConfig.getResolutionX() / 2 + 100, globalConfig.getResolutionY() - 50), globalConfig);
-		player2Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player2, Controller::LaserCannonController::WASD, this));
-		player2View = std::unique_ptr<View::LaserCannonGuiView>(new View::LaserCannonGuiView(player2->getPosition(), resources));
-		player2->registerMove(*player2View);
-		collisions.addEntity(*player2, true);
-	}
-
-	loadAliens(32);
-
-	auto unit = globalConfig.getResolutionX() / 5;
-	for(unsigned int i = 0; i < 3; i++) {
-		std::unique_ptr<BunkerInfo> bunker1(newBunkerInfo(Coordinate(unit * 2 - unit / 2 + i * unit, globalConfig.getResolutionY() - 100)));
-		bunkers.push_back(std::move(bunker1));
-		bunkers.back()->modelLeft->registerCollision(bunkers.back()->viewLeft);
-		bunkers.back()->modelMiddle->registerCollision(bunkers.back()->viewMiddle);
-		bunkers.back()->modelRight->registerCollision(bunkers.back()->viewRight);
-		collisions.addEntity(*bunkers.back()->modelLeft);
-		collisions.addEntity(*bunkers.back()->modelMiddle);
-		collisions.addEntity(*bunkers.back()->modelRight);
-	}
-
-	spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
-	spaceshipInfo.controller.getSpaceship().registerScore(score);
-	collisions.addEntity(spaceshipInfo.controller.getSpaceship());
 }
 
 SpaceInvaders::~SpaceInvaders()
 {
-	player1->unRegisterObservers();
-	if(player2) {
-		player2->unRegisterObservers();
-	}
 
-	for(auto& row : aliens) {
-		for(auto& alienInfo : row) {
-			alienInfo->controller.getAlien().unRegisterObservers();
-		}
-	}
-
-	for(auto& bulletInfo : alienBullets) {
-		bulletInfo->controller.getBullet().unRegisterObservers();
-	}
-
-	for(auto& bunkerInfo : bunkers) {
-		bunkerInfo->modelLeft->unRegisterObservers();
-		bunkerInfo->modelMiddle->unRegisterObservers();
-		bunkerInfo->modelRight->unRegisterObservers();
-	}
 }
 
 void SpaceInvaders::loadAliens(double speed)
@@ -366,6 +314,11 @@ unsigned int SpaceInvaders::aliveAliens() const
 
 void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 {
+	if(state == MENU) {
+		menuView->render(window, resources);
+		return;
+	}
+
 	player1View->render(window, resources, dt);
 
 	if(player2) {
@@ -410,10 +363,6 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 
 	if(spaceshipInfo.controller.isAlive()) {
 		spaceshipInfo.view.render(window, resources);
-	}
-
-	if(state == MENU) {
-		menuView->render(window, resources);
 	}
 }
 
@@ -515,4 +464,62 @@ void SpaceInvaders::setState(State newState)
 void SpaceInvaders::event(sf::Event event)
 {
 	menuController->event(event);
+}
+
+void SpaceInvaders::initGame(int players)
+{
+	if(players < 1 || players > 2) {
+		players = 1;
+	}
+
+	collisions = System::CollisionSystem();
+	score = System::ScoreSystem();
+	laserCannonBullet.clear();
+	alienBullets.clear();
+	aliens.clear();
+	bunkers.clear();
+
+	player1 = 0;
+	player1Controller.reset();
+	player1View.reset();
+
+	player2 = 0;
+	player2Controller.reset();
+	player2View.reset();
+
+	// Controller takes care of freeing player1
+	player1 = factory->newLaserCannon(Coordinate(globalConfig.getResolutionX() / 2 - 100, globalConfig.getResolutionY() - 50), globalConfig);
+	player1Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player1, Controller::LaserCannonController::ARROWS, this));
+	player1View = std::unique_ptr<View::LaserCannonGuiView>(new View::LaserCannonGuiView(player1->getPosition(), resources));
+	player1->registerMove(*player1View);
+	collisions.addEntity(*player1, true);
+
+	if(players == 2) {
+		player2 = factory->newLaserCannon(Coordinate(globalConfig.getResolutionX() / 2 + 100, globalConfig.getResolutionY() - 50), globalConfig);
+		player2Controller = std::unique_ptr<Controller::LaserCannonController>(new Controller::LaserCannonController(player2, Controller::LaserCannonController::WASD, this));
+		player2View = std::unique_ptr<View::LaserCannonGuiView>(new View::LaserCannonGuiView(player2->getPosition(), resources));
+		player2->registerMove(*player2View);
+		collisions.addEntity(*player2, true);
+	}
+
+	loadAliens(32);
+
+	bunkers.clear();
+	auto unit = globalConfig.getResolutionX() / 5;
+	for(unsigned int i = 0; i < 3; i++) {
+		std::unique_ptr<BunkerInfo> bunker1(newBunkerInfo(Coordinate(unit * 2 - unit / 2 + i * unit, globalConfig.getResolutionY() - 100)));
+		bunkers.push_back(std::move(bunker1));
+		bunkers.back()->modelLeft->registerCollision(bunkers.back()->viewLeft);
+		bunkers.back()->modelMiddle->registerCollision(bunkers.back()->viewMiddle);
+		bunkers.back()->modelRight->registerCollision(bunkers.back()->viewRight);
+		collisions.addEntity(*bunkers.back()->modelLeft);
+		collisions.addEntity(*bunkers.back()->modelMiddle);
+		collisions.addEntity(*bunkers.back()->modelRight);
+	}
+
+	spaceshipInfo = loadSpaceshipInfo();
+
+	spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
+	spaceshipInfo.controller.getSpaceship().registerScore(score);
+	collisions.addEntity(spaceshipInfo.controller.getSpaceship());
 }

@@ -9,7 +9,7 @@
 namespace Controller {
 
 MenuController::MenuController(SpaceInvaders* game)
-	: menu(NONE), mainMenu(std::vector<std::string>{"play", "highscore", "quit"}), highscoreMenu(std::vector<std::string>{"back"}), selection(0), game(game)
+	: menu(MAIN), mainMenu(std::vector<std::string>{"play", "quit"}), playMenu(std::vector<std::string>{"1 player", "2 players", "back"}), selection(0), game(game)
 {
 }
 
@@ -32,8 +32,8 @@ void MenuController::event(sf::Event event)
 		} else if(event.key.code == sf::Keyboard::Key::Return) {
 			select();
 		} else if(event.key.code == sf::Keyboard::Key::Escape) {
-			menu = NONE;
-			game->setState(PLAYING);
+			//menu = NONE;
+			//game->setState(PLAYING);
 		}
 	} else {
 	 	if(event.key.code == sf::Keyboard::Key::Escape) {
@@ -54,8 +54,8 @@ void MenuController::down()
 	int wrap = 0;
 	if(menu == MAIN) {
 		wrap = mainMenu.size();
-	} else if(menu == HIGHSCORE) {
-		wrap = highscoreMenu.size();
+	} else if(menu == PLAY) {
+		wrap = playMenu.size();
 	}
 
 	selection += 1;
@@ -71,8 +71,8 @@ void MenuController::up()
 	int wrap = 0;
 	if(menu == MAIN) {
 		wrap = mainMenu.size();
-	} else if(menu == HIGHSCORE) {
-		wrap = highscoreMenu.size();
+	} else if(menu == PLAY) {
+		wrap = playMenu.size();
 	}
 
 	selection -= 1;
@@ -89,16 +89,11 @@ void MenuController::select()
 	if(menu == MAIN) {
 		auto sel = mainMenu[selection];
 		if(sel == "play") {
-			menu = NONE;
+			menu = PLAY;
 			selection = 0;
-			game->setState(PLAYING);
-		} else if(sel == "highscore") {
-			menu = HIGHSCORE;
-			selection = 0;
-
-			auto change = Message::MenuChangeMessage(highscoreMenu);
+			auto change = Message::MenuChangeMessage(playMenu);
 			notifyMenuChange(change);
-			auto select = Message::MenuSelectMessage(selection);
+			auto select = Message::MenuSelectMessage(0);
 			notifyMenuSelection(select);
 		} else if(sel == "quit") {
 			menu = NONE;
@@ -107,20 +102,46 @@ void MenuController::select()
 		}
 
 		return;
-	} else if(menu == HIGHSCORE) {
-		auto sel = highscoreMenu[selection];
-		if(sel == "back") {
-			menu = MAIN;
+	} else if(menu == PLAY) {
+		auto sel = playMenu[selection];
+		if(sel == "1 player") {
+			game->initGame(1);
+			menu = NONE;
 			selection = 0;
+			game->setState(PLAYING);
 
+		} else if(sel == "2 players") {
+			game->initGame(2);
+			menu = NONE;
+			selection = 0;
+			game->setState(PLAYING);
+		} else if(sel == "back") {
 			auto change = Message::MenuChangeMessage(mainMenu);
 			notifyMenuChange(change);
+			menu = MAIN;
+			selection = 0;
 			auto select = Message::MenuSelectMessage(selection);
 			notifyMenuSelection(select);
 		}
 
 		return;
 	}
+}
+
+void MenuController::registerMenuSelection(Observer& observer)
+{
+	Subject::registerMenuSelection(observer);
+
+	auto select = Message::MenuSelectMessage(selection);
+	notifyMenuSelection(select);
+}
+
+void MenuController::registerMenuChange(Observer& observer)
+{
+	Subject::registerMenuChange(observer);
+
+	auto change = Message::MenuChangeMessage(mainMenu);
+	notifyMenuChange(change);
 }
 
 }

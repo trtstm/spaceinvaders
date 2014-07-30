@@ -136,6 +136,13 @@ class SpaceInvaders {
 		*/
 		void event(sf::Event event);
 
+		/**
+		* Initialize a game for 'players' players.
+		*
+		* @param players The number of players. Only 1,2 are supported.
+		*/
+		void initGame(int players);
+
 	private:
 		GlobalLoader globalConfig;
 

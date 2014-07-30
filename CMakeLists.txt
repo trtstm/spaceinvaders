@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT(spaceinvaders)
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
-SET(CMAKE_CXX_FLAGS "--std=c++11 -Wall -Wextra -pedantic -g -pg")
+SET(CMAKE_CXX_FLAGS "--std=c++11 -Wall -Wextra -pedantic -g")
 SET(CMAKE_CXX_COMPILER "g++")
 ADD_SUBDIRECTORY(src)

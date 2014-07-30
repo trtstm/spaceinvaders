@@ -25,8 +25,11 @@ class MenuController : public Subject {
 
 		void event(sf::Event event);
 
+		void registerMenuSelection(Observer& observer);
+		void registerMenuChange(Observer& observer);
+
 	private:
-		enum Menu {NONE, MAIN, HIGHSCORE};
+		enum Menu {NONE, MAIN, PLAY};
 
 		void down();
 		void up();
@@ -34,7 +37,7 @@ class MenuController : public Subject {
 
 		Menu menu;
 		std::vector<std::string> mainMenu;
-		std::vector<std::string> highscoreMenu;
+		std::vector<std::string> playMenu;
 
 		int selection;
 		
