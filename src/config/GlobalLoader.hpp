@@ -2,6 +2,7 @@
 #define GLOBAL_LOADER_H
 
 #include <string>
+#include <map>
 
 #include "ConfigLoader.hpp"
 
@@ -15,6 +16,9 @@ class GlobalLoader : public ConfigLoader {
 		int getFps() const;
 
 		int getPlayers() const;
+
+		std::map<std::string, std::string> getGraphics() const;
+		std::map<std::string, std::string> getFonts() const;
 };
 
 #endif

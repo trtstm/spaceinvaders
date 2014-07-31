@@ -78,66 +78,29 @@ SpaceshipInfo SpaceInvaders::loadSpaceshipInfo()
 
 Resources SpaceInvaders::loadResources()
 {
+	auto graphics = globalConfig.getGraphics();
+	auto fonts = globalConfig.getFonts();
+
 	Resources rsc;
 
-	if(!rsc.textures["lasercannon"].loadFromFile("../resources/lasercannon.png")) {
-		throw FileException("lasercannon.png");
+	for(const auto& kv : graphics) {
+		if(kv.second == "") {
+			throw FileException("no file given for " + kv.first);
+		}
+
+		if(!rsc.textures[kv.first].loadFromFile("../resources/" + kv.second)) {
+			throw FileException(kv.second);
+		}
 	}
 
-	if(!rsc.textures["spaceship"].loadFromFile("../resources/spaceship.png")) {
-		throw FileException("lasercannon.png");
-	}
+	for(const auto& kv : fonts) {
+		if(kv.second == "") {
+			throw FileException("no file given for " + kv.first);
+		}
 
-	if(!rsc.textures["invader1"].loadFromFile("../resources/invader1.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["invader2"].loadFromFile("../resources/invader2.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["explosion"].loadFromFile("../resources/explosion.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["bunkerleft1"].loadFromFile("../resources/bunkerleft1.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["bunkerleft2"].loadFromFile("../resources/bunkerleft2.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["bunkerleft3"].loadFromFile("../resources/bunkerleft3.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["bunkermiddle1"].loadFromFile("../resources/bunkermiddle1.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["bunkermiddle2"].loadFromFile("../resources/bunkermiddle2.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["bunkermiddle3"].loadFromFile("../resources/bunkermiddle3.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["bunkerright1"].loadFromFile("../resources/bunkerright1.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["bunkerright2"].loadFromFile("../resources/bunkerright2.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.textures["bunkerright3"].loadFromFile("../resources/bunkerright3.png")) {
-		throw FileException("lasercannon.png");
-	}
-
-	if(!rsc.fonts["default"].loadFromFile("../resources/DejaVuSans.ttf")) {
-		throw FileException("lasercannon.png");
+		if(!rsc.fonts[kv.first].loadFromFile("../resources/" + kv.second)) {
+			throw FileException(kv.second);
+		}
 	}
 
 	return rsc;
@@ -316,6 +279,10 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 {
 	if(state == MENU) {
 		menuView->render(window, resources);
+		return;
+	}
+
+	if(state == GAMEOVER) {
 		return;
 	}
 

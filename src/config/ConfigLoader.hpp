@@ -54,7 +54,6 @@ void ConfigLoader::setDefault(std::string key, T value)
 template<class T>
 T ConfigLoader::get(std::string key)
 {
-	// TODO: Check for exceptions
 	return this->pt.get<T>(key);
 }
 

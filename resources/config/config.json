@@ -6,5 +6,30 @@
 
 	"fps": 60,
 
-	"players": 2
+	"players": 2,
+
+	"graphics": {
+		"bunkerleft1": "bunkerleft1.png",
+		"bunkerleft2": "bunkerleft2.png",
+		"bunkerleft3": "bunkerleft3.png",
+		"bunkermiddle1": "bunkermiddle1.png",
+		"bunkermiddle2": "bunkermiddle2.png",
+		"bunkermiddle3": "bunkermiddle3.png",
+		"bunkerright1": "bunkerright1.png",
+		"bunkerright2": "bunkerright2.png",
+		"bunkerright3": "bunkerright3.png",
+
+		"explosion": "explosion.png",
+
+		"invader1": "invader1.png",
+		"invader2": "invader2.png",
+
+		"lasercannon": "lasercannon.png",
+
+		"spaceship": "spaceship.png"
+	},
+
+	"fonts": {
+		"default": "DejaVuSans.ttf"
+	}
 }
