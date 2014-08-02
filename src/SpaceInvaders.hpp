@@ -44,6 +44,7 @@
 #include "views/MenuView.hpp"
 
 #include "config/GlobalLoader.hpp"
+#include "config/LevelLoader.hpp"
 
 struct BulletInfo {
 	Controller::BulletController controller;
@@ -145,6 +146,7 @@ class SpaceInvaders {
 
 	private:
 		GlobalLoader globalConfig;
+		LevelLoader lvlConfig;
 
 		BunkerInfo* newBunkerInfo(const Coordinate position) const;
 

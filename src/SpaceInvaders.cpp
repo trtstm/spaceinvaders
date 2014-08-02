@@ -7,6 +7,7 @@
 #include "systems/CollisionSystem.hpp"
 #include "Coordinate.hpp"
 
+
 SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory::EntityFactory> factory)
 	:
 		globalConfig(globalConfig),
@@ -23,6 +24,8 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 {
 	std::srand(std::time(0));
 
+	lvlConfig.load("../resources/config/level.json");
+
 	menuView = std::unique_ptr<View::MenuView>(new View::MenuView(resources, globalConfig));
 	menuController = std::unique_ptr<Controller::MenuController>(new Controller::MenuController(this));
 	menuController->registerMenuChange(*menuView.get());
@@ -38,17 +41,30 @@ void SpaceInvaders::loadAliens(double speed)
 {
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
+			if(alienInfo == nullptr) {
+				continue;
+			}
+
 			collisions.removeEntity(alienInfo->controller.getAlien());
 		}
 	}
 
 	aliens.clear();
 
-	for(unsigned int y = 0; y < 5; y++) {
+	int width = lvlConfig.getWidth();
+	int height = lvlConfig.getHeight();
+	auto enemies = lvlConfig.getEnemies();
+
+	for(unsigned int y = 0; y < height; y++) {
 		aliens.push_back( std::vector< std::unique_ptr<AlienInfo> >() );
 
-		for(unsigned int i = 0; i < 11; i++) {
-			auto position = Coordinate(globalConfig.getResolutionX() - 11 * 30 + i * 30, globalConfig.getResolutionY() / 8 + y * 30);
+		for(unsigned int i = 0; i < width; i++) {
+			if(enemies[y][i] != 1) {
+				aliens[y].push_back(nullptr);
+				continue;
+			}
+
+			auto position = Coordinate(globalConfig.getResolutionX() - width * 30 + i * 30, globalConfig.getResolutionY() / 8 + y * 30);
 			auto alien = factory->newAlien(position, speed);
 			auto alienController = Controller::AlienController(alien);
 			auto alienView = View::AlienGuiView(position, resources);
@@ -200,6 +216,10 @@ void SpaceInvaders::update(double dt)
 	bool goDown = false;
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
+			if(alienInfo == nullptr) {
+				continue;
+			}
+
 			if(!alienInfo->controller.isAlive()) {
 				collisions.removeEntity(alienInfo->controller.getAlien());
 				continue;
@@ -224,6 +244,10 @@ void SpaceInvaders::update(double dt)
 
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
+			if(alienInfo == nullptr) {
+				continue;
+			}
+
 			if(!alienInfo->controller.isAlive()) {
 				continue;
 			}
@@ -266,6 +290,10 @@ unsigned int SpaceInvaders::aliveAliens() const
 
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
+			if(alienInfo == nullptr) {
+				continue;
+			}
+
 			if(alienInfo->controller.isAlive()) {
 				counter++;
 			}
@@ -310,6 +338,10 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
+			if(alienInfo == nullptr) {
+				continue;
+			}
+
 			alienInfo->view.render(window, resources, dt);
 		}
 	}
@@ -362,16 +394,22 @@ BunkerInfo* SpaceInvaders::newBunkerInfo(const Coordinate position) const
 void SpaceInvaders::alienShoot()
 {
 	std::vector<AlienInfo*> possibleAliens;
-	for(unsigned int x = 0; x < aliens[0].size(); x++) {
-		// Get the alien at the lowest row in this column.
 
-		for(unsigned int y = 0; y < aliens.size(); y++) {
-			if(aliens[aliens.size() - y - 1][x]->controller.isAlive()) {
-				possibleAliens.push_back(aliens[aliens.size() - y - 1][x].get());
+	for(unsigned int x = 0; x < aliens[0].size(); x++) {
+		for(unsigned int y = aliens.size(); y-- > 0;) {
+			if(aliens[y][x] == nullptr) {
+				continue;
+			}
+
+			if(aliens[y][x]->controller.isAlive()) {
+				possibleAliens.push_back(aliens[y][x].get());
 				break;
 			}
+
+
 		}
 	}
+
 
 	if(possibleAliens.size() == 0) {
 		return;
