@@ -12,11 +12,6 @@ bool GlobalLoader::load(std::string file)
 
 	this->setDefault("fps", 60);
 
-	this->setDefault("players", 1);
-	if(this->getPlayers() != 1 && this->getPlayers() != 2) {
-		this->pt.put("players", 1);
-	}
-
 	std::vector<std::string> graphics = {
 		"bunkerleft1", "bunkerleft2", "bunkerleft3",
 		"bunkermiddle1", "bunkermiddle2", "bunkermiddle3",
@@ -43,6 +38,24 @@ bool GlobalLoader::load(std::string file)
 		setDefault<std::string>("fonts." + font, "");
 	}
 
+	try {
+		for(const auto& kv : this->pt.get_child("levels")) {
+			auto level = kv.second.get<std::string>("");
+			LevelLoader loader;
+			if(!loader.load("../resources/levels/" + level + ".json")) {
+				std::cerr << "could not load level: ../resources/levels/" << level << ".json" << std::endl;
+				return false;
+			}
+			levels.push_back(loader);
+		}
+	} catch(boost::property_tree::ptree_bad_path& err) {
+		std::cerr << "could not find levels in config" << std::endl;
+		return false;
+	} catch(boost::property_tree::ptree_bad_data& err) {
+		std::cerr << "could not load level, levels should only contain strings" << std::endl;
+		return false;
+	}
+
 	return true;
 }
 
@@ -59,11 +72,6 @@ int GlobalLoader::getResolutionY() const
 int GlobalLoader::getFps() const
 {
 	return this->pt.get<int>("fps");
-}
-
-int GlobalLoader::getPlayers() const
-{
-	return this->pt.get<int>("players");
 }
 
 std::map<std::string, std::string> GlobalLoader::getGraphics() const
@@ -86,4 +94,9 @@ std::map<std::string, std::string> GlobalLoader::getFonts() const
 	}
 
 	return result;
+}
+
+std::vector<LevelLoader> GlobalLoader::getLevels() const
+{
+	return levels;
 }

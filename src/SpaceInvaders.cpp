@@ -24,7 +24,7 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 {
 	std::srand(std::time(0));
 
-	lvlConfig.load("../resources/config/level.json");
+	levels = globalConfig.getLevels();
 
 	menuView = std::unique_ptr<View::MenuView>(new View::MenuView(resources, globalConfig));
 	menuController = std::unique_ptr<Controller::MenuController>(new Controller::MenuController(this));
@@ -51,9 +51,13 @@ void SpaceInvaders::loadAliens(double speed)
 
 	aliens.clear();
 
-	int width = lvlConfig.getWidth();
-	int height = lvlConfig.getHeight();
-	auto enemies = lvlConfig.getEnemies();
+	if(levels.size() < 1) {
+		return;
+	}
+
+	int width = levels[0].getWidth();
+	int height = levels[0].getHeight();
+	auto enemies = levels[0].getEnemies();
 
 	for(unsigned int y = 0; y < height; y++) {
 		aliens.push_back( std::vector< std::unique_ptr<AlienInfo> >() );
@@ -178,6 +182,15 @@ void SpaceInvaders::update(double dt)
 			player2->setHealth(player2->getHealth() + 1);
 		}
 
+		if(levels.size() > 0) {
+			levels.erase(levels.begin());
+		}
+		if(levels.size() < 1) {
+			std::cout << "Good game! There are no more levels. Your score: " << score.getScore() << std::endl;
+	
+			state = GAMEOVER;
+			return;
+		}
 		loadAliens(16.0 + 8.0 * level * 5);
 	}
 

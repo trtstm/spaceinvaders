@@ -146,7 +146,7 @@ class SpaceInvaders {
 
 	private:
 		GlobalLoader globalConfig;
-		LevelLoader lvlConfig;
+		std::vector<LevelLoader> levels;
 
 		BunkerInfo* newBunkerInfo(const Coordinate position) const;
 

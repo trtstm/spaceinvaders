@@ -6,8 +6,6 @@
 
 	"fps": 60,
 
-	"players": 2,
-
 	"graphics": {
 		"bunkerleft1": "bunkerleft1.png",
 		"bunkerleft2": "bunkerleft2.png",
@@ -31,5 +29,10 @@
 
 	"fonts": {
 		"default": "DejaVuSans.ttf"
-	}
+	},
+
+	"levels": [
+		"level1",
+		"level2"
+	]
 }

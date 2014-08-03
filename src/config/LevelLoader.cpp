@@ -12,6 +12,13 @@ bool LevelLoader::load(std::string file)
 	std::vector<std::vector<int>> enemies;
 
 	bool first = true;
+	try {
+		this->pt.get_child("enemies");
+	} catch(boost::property_tree::ptree_bad_path& err) {
+		std::cerr << "Invalid level, could not find enemies." << std::endl;
+		return false;
+	}
+
 	for(const auto& kv1 : this->pt.get_child("enemies")) {
 		int i = 0;
 

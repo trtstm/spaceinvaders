@@ -3,8 +3,10 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 #include "ConfigLoader.hpp"
+#include "LevelLoader.hpp"
 
 class GlobalLoader : public ConfigLoader {
 	public:
@@ -15,10 +17,13 @@ class GlobalLoader : public ConfigLoader {
 
 		int getFps() const;
 
-		int getPlayers() const;
-
 		std::map<std::string, std::string> getGraphics() const;
 		std::map<std::string, std::string> getFonts() const;
+
+		std::vector<LevelLoader> getLevels() const;
+
+	private:
+		std::vector<LevelLoader> levels;
 };
 
 #endif
