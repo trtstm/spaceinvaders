@@ -24,6 +24,8 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 {
 	std::srand(std::time(0));
 
+	highscores.load("../resources/config/highscores.json");
+
 	levels = globalConfig.getLevels();
 
 	menuView = std::unique_ptr<View::MenuView>(new View::MenuView(resources, globalConfig));
@@ -34,7 +36,7 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 
 SpaceInvaders::~SpaceInvaders()
 {
-
+	highscores.save();
 }
 
 void SpaceInvaders::loadAliens(double speed)
@@ -144,7 +146,7 @@ void SpaceInvaders::update(double dt)
 	}
 	if(health <= 0) {
 		std::cout << "Game over! Score: " << score.getScore() << std::endl;
-
+		highscores.addHighscore(score.getScore(), (player2) ? 2 : 1);
 		state = GAMEOVER;
 
 		return;
@@ -187,6 +189,7 @@ void SpaceInvaders::update(double dt)
 		}
 		if(levels.size() < 1) {
 			std::cout << "Good game! There are no more levels. Your score: " << score.getScore() << std::endl;
+			highscores.addHighscore(score.getScore(), (player2) ? 2 : 1);
 	
 			state = GAMEOVER;
 			return;

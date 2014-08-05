@@ -45,6 +45,7 @@
 
 #include "config/GlobalLoader.hpp"
 #include "config/LevelLoader.hpp"
+#include "config/HighscoreLoader.hpp"
 
 struct BulletInfo {
 	Controller::BulletController controller;
@@ -147,6 +148,8 @@ class SpaceInvaders {
 	private:
 		GlobalLoader globalConfig;
 		std::vector<LevelLoader> levels;
+
+		HighscoreLoader highscores;
 
 		BunkerInfo* newBunkerInfo(const Coordinate position) const;
 
