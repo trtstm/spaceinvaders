@@ -6,13 +6,17 @@
 
 #include "Message.hpp"
 
+#include "controllers/MenuController.hpp"
+
 namespace Message {
 
 class MenuChangeMessage : public Message {
 	public:
-		MenuChangeMessage(std::vector<std::string> items);
+		MenuChangeMessage(std::vector<std::string> items, Controller::MenuController::Menu menu);
 
 		std::vector<std::string> items;
+
+		Controller::MenuController::Menu menu;
 };
 
 }

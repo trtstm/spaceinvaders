@@ -14,6 +14,8 @@ namespace Controller {
 
 class MenuController : public Subject {
 	public:
+		enum Menu {NONE, MAIN, PLAY, HIGHSCORE};
+
 		MenuController(SpaceInvaders* game);
 
 		/**
@@ -29,8 +31,6 @@ class MenuController : public Subject {
 		void registerMenuChange(Observer& observer);
 
 	private:
-		enum Menu {NONE, MAIN, PLAY};
-
 		void down();
 		void up();
 		void select();
@@ -38,6 +38,7 @@ class MenuController : public Subject {
 		Menu menu;
 		std::vector<std::string> mainMenu;
 		std::vector<std::string> playMenu;
+		std::vector<std::string> highscoreMenu;
 
 		int selection;
 		

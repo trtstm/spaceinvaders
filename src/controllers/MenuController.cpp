@@ -9,7 +9,8 @@
 namespace Controller {
 
 MenuController::MenuController(SpaceInvaders* game)
-	: menu(MAIN), mainMenu(std::vector<std::string>{"play", "quit"}), playMenu(std::vector<std::string>{"1 player", "2 players", "back"}), selection(0), game(game)
+	: menu(MAIN), mainMenu(std::vector<std::string>{"play","highscore", "quit"}), playMenu(std::vector<std::string>{"1 player", "2 players", "back"}),
+	highscoreMenu(std::vector<std::string>{"back"}), selection(0), game(game)
 {
 }
 
@@ -39,7 +40,7 @@ void MenuController::event(sf::Event event)
 	 	if(event.key.code == sf::Keyboard::Key::Escape) {
 			menu = MAIN;
 
-			auto change = Message::MenuChangeMessage(mainMenu);
+			auto change = Message::MenuChangeMessage(mainMenu, MAIN);
 			notifyMenuChange(change);
 			auto select = Message::MenuSelectMessage(selection);
 			notifyMenuSelection(select);
@@ -56,6 +57,8 @@ void MenuController::down()
 		wrap = mainMenu.size();
 	} else if(menu == PLAY) {
 		wrap = playMenu.size();
+	} else if(menu == HIGHSCORE) {
+		wrap = highscoreMenu.size();
 	}
 
 	selection += 1;
@@ -73,6 +76,8 @@ void MenuController::up()
 		wrap = mainMenu.size();
 	} else if(menu == PLAY) {
 		wrap = playMenu.size();
+	} else if(menu == HIGHSCORE) {
+		wrap = highscoreMenu.size();
 	}
 
 	selection -= 1;
@@ -91,7 +96,7 @@ void MenuController::select()
 		if(sel == "play") {
 			menu = PLAY;
 			selection = 0;
-			auto change = Message::MenuChangeMessage(playMenu);
+			auto change = Message::MenuChangeMessage(playMenu, PLAY);
 			notifyMenuChange(change);
 			auto select = Message::MenuSelectMessage(0);
 			notifyMenuSelection(select);
@@ -99,6 +104,13 @@ void MenuController::select()
 			menu = NONE;
 			selection = 0;
 			game->setState(GAMEOVER);
+		} else if(sel == "highscore") {
+			menu = HIGHSCORE;
+			selection = 0;
+			auto change = Message::MenuChangeMessage(highscoreMenu, HIGHSCORE);
+			notifyMenuChange(change);
+			auto select = Message::MenuSelectMessage(0);
+			notifyMenuSelection(select);
 		}
 
 		return;
@@ -116,7 +128,19 @@ void MenuController::select()
 			selection = 0;
 			game->setState(PLAYING);
 		} else if(sel == "back") {
-			auto change = Message::MenuChangeMessage(mainMenu);
+			auto change = Message::MenuChangeMessage(mainMenu, MAIN);
+			notifyMenuChange(change);
+			menu = MAIN;
+			selection = 0;
+			auto select = Message::MenuSelectMessage(selection);
+			notifyMenuSelection(select);
+		}
+
+		return;
+	} else if(menu == HIGHSCORE) {
+		auto sel = highscoreMenu[selection];
+		if(sel == "back") {
+			auto change = Message::MenuChangeMessage(mainMenu, MAIN);
 			notifyMenuChange(change);
 			menu = MAIN;
 			selection = 0;
@@ -140,7 +164,7 @@ void MenuController::registerMenuChange(Observer& observer)
 {
 	Subject::registerMenuChange(observer);
 
-	auto change = Message::MenuChangeMessage(mainMenu);
+	auto change = Message::MenuChangeMessage(mainMenu, MAIN);
 	notifyMenuChange(change);
 }
 

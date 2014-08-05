@@ -13,6 +13,7 @@
 
 #include "Resources.hpp"
 #include "config/GlobalLoader.hpp"
+#include "config/HighscoreLoader.hpp"
 
 #include "messages/MenuChangeMessage.hpp"
 #include "messages/MenuSelectMessage.hpp"
@@ -21,7 +22,7 @@ namespace View {
 
 class MenuView : public GuiView, public Observer {
 	public:
-		MenuView(const Resources& resources, GlobalLoader globalConfig);
+		MenuView(const Resources& resources, GlobalLoader globalConfig, std::vector<Highscore> highscore);
 
 		bool notify(Message::Message& msg);
 
@@ -33,6 +34,9 @@ class MenuView : public GuiView, public Observer {
 
 		sf::Text text;
 		GlobalLoader globalConfig;
+		std::vector<Highscore> highscore;
+
+		Controller::MenuController::Menu menu;
 };
 
 }

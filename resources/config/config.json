@@ -28,7 +28,8 @@
 	},
 
 	"fonts": {
-		"default": "DejaVuSans.ttf"
+		"default": "DejaVuSans.ttf",
+		"mono": "DejaVuSansMono.ttf"
 	},
 
 	"levels": [

@@ -31,7 +31,8 @@ bool GlobalLoader::load(std::string file)
 	}
 
 	std::vector<std::string> fonts = {
-		"default"
+		"default",
+		"mono"
 	};
 
 	for(auto& font : fonts) {

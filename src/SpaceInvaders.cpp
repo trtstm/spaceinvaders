@@ -28,7 +28,7 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 
 	levels = globalConfig.getLevels();
 
-	menuView = std::unique_ptr<View::MenuView>(new View::MenuView(resources, globalConfig));
+	menuView = std::unique_ptr<View::MenuView>(new View::MenuView(resources, globalConfig, highscores.getHighscores()));
 	menuController = std::unique_ptr<Controller::MenuController>(new Controller::MenuController(this));
 	menuController->registerMenuChange(*menuView.get());
 	menuController->registerMenuSelection(*menuView.get());

@@ -4,13 +4,13 @@
 
 namespace View {
 
-MenuView::MenuView(const Resources& resources, GlobalLoader globalConfig)
-	: selection(0), globalConfig(globalConfig)
+MenuView::MenuView(const Resources& resources, GlobalLoader globalConfig, std::vector<Highscore> highscore)
+	: selection(0), globalConfig(globalConfig), highscore(highscore)
 {
-	text.setFont(resources.fonts.at("default"));
+	text.setFont(resources.fonts.at("mono"));
 	text.setCharacterSize(16);
 	text.setColor(sf::Color::Red);
-	text.setPosition(globalConfig.getResolutionX() / 2, 300.0);
+	text.setPosition(globalConfig.getResolutionX() / 2 - 20, 200.0);
 }
 
 
@@ -21,6 +21,7 @@ bool MenuView::notify(Message::Message& msg)
 		{
 			auto change = static_cast<Message::MenuChangeMessage&>(msg);
 			items = change.items;
+			menu = change.menu;
 
 			break;
 		}
@@ -46,17 +47,49 @@ void MenuView::render(sf::RenderWindow& w, const Resources& resources)
 
 	std::string tmp;
 
-	for(int i = 0; i < items.size(); i++) {
-		tmp += items[i];
-		if(i == selection) {
-			tmp += " <<";
+	if(menu == Controller::MenuController::HIGHSCORE) {
+		tmp = "highscore               players\n";
+
+		for(auto& score : highscore) {
+			std::string s = std::to_string(score.score);
+			std::string p = std::to_string(score.players);
+			tmp += s;
+			for(int i = 0; i < 24 - s.length(); i++) {
+				tmp += " ";
+			}
+
+			tmp += p + "\n";
 		}
-		tmp += "\n";
+
+		tmp += "\n\n\n";
+
+		for(int i = 0; i < items.size(); i++) {
+			tmp += items[i];
+			if(i == selection) {
+				tmp += " <<";
+			}
+			tmp += "\n";
+		}
+	} else {
+		for(int i = 0; i < items.size(); i++) {
+			tmp += items[i];
+			if(i == selection) {
+				tmp += " <<";
+			}
+			tmp += "\n";
+		}
 	}
 
 	text.setString(tmp);
 
-	w.draw(text);
+	if(menu == Controller::MenuController::HIGHSCORE) {
+		text.move(-115, -100);
+		w.draw(text);
+		text.move(115, 100);
+	} else {
+		w.draw(text);
+	}
+
 }
 
 }
