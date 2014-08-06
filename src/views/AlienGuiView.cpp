@@ -30,7 +30,7 @@ bool AlienGuiView::notify(Message::Message& msg)
 
 		case Message::DIED:
 		{
-			curTexture = "explosion";
+			curTexture = "explosion1";
 		}
 
 		default:
@@ -46,7 +46,7 @@ void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, doubl
 		return;
 	}
 
-	if(timer >= 1.0 && curTexture != "explosion") {
+	if(timer >= 1.0 && curTexture != "explosion1") {
 		if(curTexture == "invader1") {
 			curTexture = "invader2";
 		} else {
@@ -57,7 +57,7 @@ void AlienGuiView::render(sf::RenderWindow& w, const Resources& resources, doubl
 		timer = 0.0;
 	}
 
-	if(curTexture == "explosion") {
+	if(curTexture == "explosion1") {
 		img.setTexture(resources.textures.at(curTexture));
 		curTexture = "";
 	}

@@ -10,7 +10,7 @@ namespace View {
 SpaceshipGuiView::SpaceshipGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(48, 21)))
 {
-	img.setTexture(resources.textures.at("spaceship"));
+	img.setTexture(resources.textures.at("spaceship1"));
 	img.setPosition(position.x - 48 / 2, position.y - 21 / 2);
 }
 

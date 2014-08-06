@@ -10,7 +10,7 @@ namespace View {
 LaserCannonGuiView::LaserCannonGuiView(Coordinate position, const Resources& resources)
 	: GuiView(sf::RectangleShape(sf::Vector2f(26, 15)))
 {
-	img.setTexture(resources.textures.at("lasercannon"));	
+	img.setTexture(resources.textures.at("lasercannon1"));	
 	img.setPosition(position.x - 26 / 2, position.y - 15 / 2);
 }
 

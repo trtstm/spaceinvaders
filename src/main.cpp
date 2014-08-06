@@ -13,7 +13,10 @@
 int main()
 {
 	GlobalLoader globalConfig;
-	globalConfig.load("../resources/config/config.json");
+	if(!globalConfig.load("../resources/config/config.json")) {
+		std::cerr << "Could not parse config.json. Quitting." << std::endl;
+		return 0;
+	}
 
     sf::RenderWindow window(sf::VideoMode(globalConfig.getResolutionX(), globalConfig.getResolutionY()), "Spaceinvaders");
 	window.setFramerateLimit(globalConfig.getFps());
@@ -78,7 +81,7 @@ int main()
 		}
 	}
 	catch (FileException& e) {
-		std::cout << "Exception: " << e.what() << std::endl;
+		std::cout << "Could not read file: " << e.what() << std::endl;
 	}
     return 0;
 }
