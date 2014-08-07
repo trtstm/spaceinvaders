@@ -12,7 +12,7 @@ class Alien : public Entity {
 		* @param position The position.
 		* @param speed The speed.
 		*/
-		Alien(Coordinate position = Coordinate(0, 0), double speed = 16);
+		Alien(Coordinate position, double speed, int score, double width, double height);
 		~Alien();
 
 		/**
@@ -36,6 +36,7 @@ class Alien : public Entity {
 		void onDied();
 
 	private:
+		int score;
 };
 
 }

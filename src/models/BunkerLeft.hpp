@@ -11,7 +11,7 @@ class BunkerLeft : public BunkerBlock {
 		/**
 		* @param position The position.
 		*/
-		BunkerLeft(Coordinate position = Coordinate(0, 0));
+		BunkerLeft(Coordinate position, double width, double height);
 		~BunkerLeft();
 };
 

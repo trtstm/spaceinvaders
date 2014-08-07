@@ -6,20 +6,34 @@
 
 	"fps": 60,
 
-	"bunker": {
+	"bunkerleft": {
 		"graphics": {
-			"left1": "bunkerleft1.png",
-			"left2": "bunkerleft2.png",
-			"left3": "bunkerleft3.png",
-			"middle1": "bunkermiddle1.png",
-			"middle2": "bunkermiddle2.png",
-			"middle3": "bunkermiddle3.png",
-			"right1": "bunkerright1.png",
-			"right2": "bunkerright2.png",
-			"right3": "bunkerright3.png"
+			"1": "bunkerleft1.png",
+			"2": "bunkerleft2.png",
+			"3": "bunkerleft3.png"
 		},
-		
-		"dimensions": {"x": 20, "y": 20}
+
+		"dimensions": {"x": 10, "y": 32}
+	},
+
+	"bunkerright": {
+		"graphics": {
+			"1": "bunkerright1.png",
+			"2": "bunkerright2.png",
+			"3": "bunkerright3.png"
+		},
+
+		"dimensions": {"x": 10, "y": 32}
+	},
+
+	"bunkermiddle": {
+		"graphics": {
+			"1": "bunkermiddle1.png",
+			"2": "bunkermiddle2.png",
+			"3": "bunkermiddle3.png"
+		},
+
+		"dimensions": {"x": 22, "y": 28}
 	},
 
 	"invader": {
@@ -28,25 +42,31 @@
 			"2": "invader2.png"
 		},
 
-		"score": 100,
+		"score": 10,
+		"speed": 16,
 		
-		"dimensions": {"x": 20, "y": 20}
+		"dimensions": {"x": 16, "y": 16}
 	},
 
 	"lasercannon": {
 		"graphics": {
 			"1": "lasercannon.png"
 		},
+
+		"speed": 400,
 		
-		"dimensions": {"x": 20, "y": 20}
+		"dimensions": {"x": 26, "y": 15}
 	},
 
 	"spaceship": {
 		"graphics": {
 			"1": "spaceship.png"
 		},
+
+		"score": 100,
+		"speed": 100,
 		
-		"dimensions": {"x": 20, "y": 20}
+		"dimensions": {"x": 48, "y": 21}
 	},
 
 	"explosion": {

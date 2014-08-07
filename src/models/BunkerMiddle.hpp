@@ -11,7 +11,7 @@ class BunkerMiddle : public BunkerBlock {
 		/**
 		* @param position The position.
 		*/
-		BunkerMiddle(Coordinate position = Coordinate(0, 0));
+		BunkerMiddle(Coordinate position, double width, double height);
 		~BunkerMiddle();
 };
 

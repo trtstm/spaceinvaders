@@ -25,7 +25,7 @@ class EntityFactory {
 		* @param position The position.
 		* @return The spaceship.
 		*/
-		virtual Model::Spaceship* newSpaceship(const Coordinate& position) = 0;
+		virtual Model::Spaceship* newSpaceship(const Coordinate& position, GlobalLoader globalConfig) = 0;
 
 		/**
 		* Create a new lasercannon.
@@ -42,7 +42,7 @@ class EntityFactory {
 		* @param position The speed.
 		* @return The alien.
 		*/
-		virtual Model::Alien* newAlien(const Coordinate& position, double speed) = 0;
+		virtual Model::Alien* newAlien(const Coordinate& position, GlobalLoader globalConfig) = 0;
 
 		/**
 		* Create a new bullet.
@@ -60,7 +60,7 @@ class EntityFactory {
 		* @param position The position.
 		* @return The bunker left.
 		*/
-		virtual Model::BunkerLeft* newBunkerLeft(const Coordinate& position) = 0;
+		virtual Model::BunkerLeft* newBunkerLeft(const Coordinate& position, GlobalLoader globalConfig) = 0;
 
 		/**
 		* Create a new bunker middle.
@@ -68,7 +68,7 @@ class EntityFactory {
 		* @param position The position.
 		* @return The bunker middle.
 		*/
-		virtual Model::BunkerMiddle* newBunkerMiddle(const Coordinate& position) = 0;
+		virtual Model::BunkerMiddle* newBunkerMiddle(const Coordinate& position, GlobalLoader globalConfig) = 0;
 
 		/**
 		* Create a new bunker right.
@@ -76,7 +76,7 @@ class EntityFactory {
 		* @param position The position.
 		* @return The bunker right.
 		*/
-		virtual Model::BunkerRight* newBunkerRight(const Coordinate& position) = 0;
+		virtual Model::BunkerRight* newBunkerRight(const Coordinate& position, GlobalLoader globalConfig) = 0;
 };
 
 }

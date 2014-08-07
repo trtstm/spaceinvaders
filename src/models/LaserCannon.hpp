@@ -12,7 +12,7 @@ class LaserCannon : public Entity {
 		/**
 		* @param position The position.
 		*/
-		LaserCannon(Coordinate position, GlobalLoader globalConfig);
+		LaserCannon(Coordinate position, double speed, double width, double height, GlobalLoader globalConfig);
 		~LaserCannon();
 
 		/**

@@ -6,8 +6,8 @@
 
 namespace Model {
 
-LaserCannon::LaserCannon(Coordinate position, GlobalLoader globalConfig)
-	: Entity(LASERCANNON, 3, position, 400, sf::Rect<double>(0.0, 0.0, 26.0, 15.0)), globalConfig(globalConfig)
+LaserCannon::LaserCannon(Coordinate position, double speed, double width, double height, GlobalLoader globalConfig)
+	: Entity(LASERCANNON, 3, position, speed, sf::Rect<double>(0.0, 0.0, width, height)), globalConfig(globalConfig)
 {
 }
 

@@ -12,7 +12,7 @@ class Spaceship : public Entity {
 		* @param position The position.
 		* @param speed The speed.
 		*/
-		Spaceship(Coordinate position = Coordinate(0, 0), double speed = 100);
+		Spaceship(Coordinate position, double speed, int score, double width, double height);
 		~Spaceship();
 
 		/**
@@ -28,6 +28,7 @@ class Spaceship : public Entity {
 		void onDied();
 
 	private:
+		int score;
 };
 
 }

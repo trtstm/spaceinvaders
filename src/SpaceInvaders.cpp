@@ -71,7 +71,7 @@ void SpaceInvaders::loadAliens(double speed)
 			}
 
 			auto position = Coordinate(globalConfig.getResolutionX() - width * 30 + i * 30, globalConfig.getResolutionY() / 8 + y * 30);
-			auto alien = factory->newAlien(position, speed);
+			auto alien = factory->newAlien(position, globalConfig);
 			auto alienController = Controller::AlienController(alien);
 			auto alienView = View::AlienGuiView(position, resources);
 
@@ -89,7 +89,7 @@ void SpaceInvaders::loadAliens(double speed)
 SpaceshipInfo SpaceInvaders::loadSpaceshipInfo()
 {
 	auto position = Coordinate(-50.0, 50);
-	auto spaceship = factory->newSpaceship(position);
+	auto spaceship = factory->newSpaceship(position, globalConfig);
 	auto spaceshipController = Controller::SpaceshipController(spaceship);
 	auto spaceshipView = View::SpaceshipGuiView(position, resources);
 
@@ -387,19 +387,19 @@ BunkerInfo* SpaceInvaders::newBunkerInfo(const Coordinate position) const
 	bunkerLeftPos.x -= 42.0 / 2.0 - 10.0 / 2.0;
 	bunkerLeftPos.y -= 32.0 / 2.0;
 
-	auto bunkerLeft = std::unique_ptr<Model::BunkerLeft>(factory->newBunkerLeft(bunkerLeftPos));
+	auto bunkerLeft = std::unique_ptr<Model::BunkerLeft>(factory->newBunkerLeft(bunkerLeftPos, globalConfig));
 	auto bunkerLeftView = View::BunkerLeftGuiView(bunkerLeftPos, resources);
 
 	Coordinate bunkerMiddlePos = bunkerLeftPos;
 	bunkerMiddlePos.x += 16;
 	bunkerMiddlePos.y -= 2.0;
-	auto bunkerMiddle =  std::unique_ptr<Model::BunkerMiddle>(factory->newBunkerMiddle(bunkerMiddlePos));
+	auto bunkerMiddle =  std::unique_ptr<Model::BunkerMiddle>(factory->newBunkerMiddle(bunkerMiddlePos, globalConfig));
 	auto bunkerMiddleView = View::BunkerMiddleGuiView(bunkerMiddlePos, resources);
 
 	Coordinate bunkerRightPos = position;
 	bunkerRightPos.x += 42.0 / 2.0 - 10.0 / 2.0;
 	bunkerRightPos.y -= 32.0 / 2.0;
-	auto bunkerRight =  std::unique_ptr<Model::BunkerRight>(factory->newBunkerRight(bunkerRightPos));
+	auto bunkerRight =  std::unique_ptr<Model::BunkerRight>(factory->newBunkerRight(bunkerRightPos, globalConfig));
 	auto bunkerRightView = View::BunkerRightGuiView(bunkerRightPos, resources);
 
 	auto bunkerInfo = new BunkerInfo{std::move(bunkerLeft), bunkerLeftView, std::move(bunkerMiddle), bunkerMiddleView, std::move(bunkerRight), bunkerRightView};

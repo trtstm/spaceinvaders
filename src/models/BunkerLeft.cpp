@@ -5,8 +5,8 @@
 
 namespace Model {
 
-BunkerLeft::BunkerLeft(Coordinate position)
-	: BunkerBlock(position, sf::Rect<double>(0.0, 0.0, 10.0, 32.0))
+BunkerLeft::BunkerLeft(Coordinate position, double width, double height)
+	: BunkerBlock(position, sf::Rect<double>(0.0, 0.0, width, height))
 {
 }
 

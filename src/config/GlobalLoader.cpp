@@ -13,7 +13,7 @@ bool GlobalLoader::load(std::string file)
 	this->setDefault("fps", 60);
 
 	std::vector<std::string> entities = {
-		"invader", "spaceship", "bunker", "lasercannon", "explosion"
+		"invader", "spaceship", "bunkerleft", "bunkerright", "bunkermiddle", "lasercannon", "explosion"
 	};
 
 	for(auto& entity : entities) {
@@ -25,16 +25,10 @@ bool GlobalLoader::load(std::string file)
 				graphics.get<std::string>("2");
 			} else if(entity == "spaceship") {
 				graphics.get<std::string>("1");
-			} else if(entity == "bunker") {
-				graphics.get<std::string>("left1");
-				graphics.get<std::string>("left2");
-				graphics.get<std::string>("left3");
-				graphics.get<std::string>("middle1");
-				graphics.get<std::string>("middle2");
-				graphics.get<std::string>("middle3");
-				graphics.get<std::string>("right1");
-				graphics.get<std::string>("right2");
-				graphics.get<std::string>("right3");
+			} else if(entity == "bunkerleft" || entity == "bunkerright" || entity == "bunkermiddle") {
+				graphics.get<std::string>("1");
+				graphics.get<std::string>("2");
+				graphics.get<std::string>("3");
 			} else if(entity == "lasercannon") {
 				graphics.get<std::string>("1");
 			} else if(entity == "explosion") {
@@ -47,6 +41,14 @@ bool GlobalLoader::load(std::string file)
 
 			this->pt.get_child(entity).get<int>("dimensions.x");
 			this->pt.get_child(entity).get<int>("dimensions.y");
+
+			if(entity == "invader" || entity == "lasercannon" || entity == "spaceship") {
+				this->pt.get_child(entity).get<int>("speed");
+			}
+
+			if(entity == "invader" || entity == "spaceship") {
+				this->pt.get_child(entity).get<int>("score");
+			}
 		} catch(boost::property_tree::ptree_bad_path& err) {
 			std::cerr << "Could not read config for entity " << entity << ": " << err.what() << std::endl;
 			return false;
@@ -104,7 +106,7 @@ int GlobalLoader::getFps() const
 std::map<std::string, std::string> GlobalLoader::getGraphics() const
 {
 	std::vector<std::string> entities = {
-		"invader", "spaceship", "bunker", "lasercannon", "explosion"
+		"invader", "spaceship", "bunkerleft", "bunkerright", "bunkermiddle", "lasercannon", "explosion"
 	};
 
 	std::map<std::string, std::string> result;

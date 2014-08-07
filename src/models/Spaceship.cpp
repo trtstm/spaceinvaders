@@ -6,8 +6,8 @@
 
 namespace Model {
 
-Spaceship::Spaceship(Coordinate position, double speed)
-	: Entity(SPACESHIP, 1, position, speed, sf::Rect<double>(0.0, 0.0, 48.0, 21.0))
+Spaceship::Spaceship(Coordinate position, double speed, int score, double width, double height)
+	: Entity(SPACESHIP, 1, position, speed, sf::Rect<double>(0.0, 0.0, width, height)), score(score)
 {
 }
 
@@ -28,7 +28,7 @@ void Spaceship::onDied()
 {
 	Entity::onDied();
 
-	Message::ScoreMessage msg(getId(), 100);
+	Message::ScoreMessage msg(getId(), score);
 	notifyScore(msg);
 }
 

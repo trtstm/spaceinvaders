@@ -13,7 +13,7 @@ class DefaultEntityFactory : public EntityFactory {
 		* @param position The position.
 		* @return The spaceship.
 		*/
-		Model::Spaceship* newSpaceship(const Coordinate& position);
+		Model::Spaceship* newSpaceship(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
 		* Create a new lasercannon.
@@ -30,7 +30,7 @@ class DefaultEntityFactory : public EntityFactory {
 		* @param position The speed.
 		* @return The alien.
 		*/
-		Model::Alien* newAlien(const Coordinate& position, double speed);
+		Model::Alien* newAlien(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
 		* Create a new bullet.
@@ -47,7 +47,7 @@ class DefaultEntityFactory : public EntityFactory {
 		* @param position The position.
 		* @return The bunker left.
 		*/
-		Model::BunkerLeft* newBunkerLeft(const Coordinate& position);
+		Model::BunkerLeft* newBunkerLeft(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
 		* Create a new bunker middle.
@@ -55,7 +55,7 @@ class DefaultEntityFactory : public EntityFactory {
 		* @param position The position.
 		* @return The bunker middle.
 		*/
-		Model::BunkerMiddle* newBunkerMiddle(const Coordinate& position);
+		Model::BunkerMiddle* newBunkerMiddle(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
 		* Create a new bunker right.
@@ -63,7 +63,7 @@ class DefaultEntityFactory : public EntityFactory {
 		* @param position The position.
 		* @return The bunker right.
 		*/
-		Model::BunkerRight* newBunkerRight(const Coordinate& position);
+		Model::BunkerRight* newBunkerRight(const Coordinate& position, GlobalLoader globalConfig);
 };
 
 }

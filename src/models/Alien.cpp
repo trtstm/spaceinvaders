@@ -5,8 +5,8 @@
 
 namespace Model {
 
-Alien::Alien(Coordinate position, double speed)
-	: Entity(ALIEN, 1, position, speed, sf::Rect<double>(0.0, 0.0, 16.0, 16.0))
+Alien::Alien(Coordinate position, double speed, int score, double width, double height)
+	: Entity(ALIEN, 1, position, speed, sf::Rect<double>(0.0, 0.0, width, height)), score(score)
 {
 }
 
@@ -39,7 +39,7 @@ void Alien::onDied()
 {
 	Entity::onDied();
 
-	Message::ScoreMessage msg(getId(), 10);
+	Message::ScoreMessage msg(getId(), score);
 	notifyScore(msg);
 }
 
