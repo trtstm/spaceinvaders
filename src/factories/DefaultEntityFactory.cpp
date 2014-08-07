@@ -4,20 +4,20 @@ namespace Factory {
 
 Model::Spaceship* DefaultEntityFactory::newSpaceship(const Coordinate& position, GlobalLoader globalConfig)
 {
-	return new Model::Spaceship(position, globalConfig.get<int>("spaceship.speed"), globalConfig.get<int>("spaceship.score"),
-			globalConfig.get<int>("spaceship.dimensions.x"), globalConfig.get<int>("spaceship.dimensions.y"));
+	return new Model::Spaceship(position, globalConfig.get<double>("spaceship.speed"), globalConfig.get<int>("spaceship.score"),
+			globalConfig.get<double>("spaceship.dimensions.x"), globalConfig.get<double>("spaceship.dimensions.y"));
 }
 
 Model::LaserCannon* DefaultEntityFactory::newLaserCannon(const Coordinate& position, GlobalLoader globalConfig)
 {
-	return new Model::LaserCannon(position, globalConfig.get<int>("lasercannon.speed"),
-		globalConfig.get<int>("lasercannon.dimensions.x"), globalConfig.get<int>("lasercannon.dimensions.y"), globalConfig);
+	return new Model::LaserCannon(position, globalConfig.get<double>("lasercannon.speed"),
+		globalConfig.get<double>("lasercannon.dimensions.x"), globalConfig.get<double>("lasercannon.dimensions.y"), globalConfig);
 }
 
 Model::Alien* DefaultEntityFactory::newAlien(const Coordinate& position, GlobalLoader globalConfig)
 {
-	return new Model::Alien(position, globalConfig.get<int>("invader.speed"), globalConfig.get<int>("invader.score"),
-		globalConfig.get<int>("invader.dimensions.x"), globalConfig.get<int>("invader.dimensions.y"));
+	return new Model::Alien(position, globalConfig.get<double>("invader.speed"), globalConfig.get<int>("invader.score"),
+		globalConfig.get<double>("invader.dimensions.x"), globalConfig.get<double>("invader.dimensions.y"));
 }
 
 Model::Bullet* DefaultEntityFactory::newBullet(const Coordinate& position, double speed, Model::Bullet::Type type, int owner)
@@ -27,17 +27,17 @@ Model::Bullet* DefaultEntityFactory::newBullet(const Coordinate& position, doubl
 
 Model::BunkerLeft* DefaultEntityFactory::newBunkerLeft(const Coordinate& position, GlobalLoader globalConfig)
 {
-	return new Model::BunkerLeft(position, globalConfig.get<int>("bunkerleft.dimensions.x"), globalConfig.get<int>("bunkerleft.dimensions.y"));
+	return new Model::BunkerLeft(position, globalConfig.get<double>("bunkerleft.dimensions.x"), globalConfig.get<double>("bunkerleft.dimensions.y"));
 }
 
 Model::BunkerMiddle* DefaultEntityFactory::newBunkerMiddle(const Coordinate& position, GlobalLoader globalConfig)
 {
-	return new Model::BunkerMiddle(position, globalConfig.get<int>("bunkermiddle.dimensions.x"), globalConfig.get<int>("bunkermiddle.dimensions.y"));
+	return new Model::BunkerMiddle(position, globalConfig.get<double>("bunkermiddle.dimensions.x"), globalConfig.get<double>("bunkermiddle.dimensions.y"));
 }
 
 Model::BunkerRight* DefaultEntityFactory::newBunkerRight(const Coordinate& position, GlobalLoader globalConfig)
 {
-	return new Model::BunkerRight(position, globalConfig.get<int>("bunkerright.dimensions.x"), globalConfig.get<int>("bunkerright.dimensions.y"));
+	return new Model::BunkerRight(position, globalConfig.get<double>("bunkerright.dimensions.x"), globalConfig.get<double>("bunkerright.dimensions.y"));
 }
 
 }

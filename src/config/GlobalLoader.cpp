@@ -43,7 +43,7 @@ bool GlobalLoader::load(std::string file)
 			this->pt.get_child(entity).get<int>("dimensions.y");
 
 			if(entity == "invader" || entity == "lasercannon" || entity == "spaceship") {
-				this->pt.get_child(entity).get<int>("speed");
+				this->pt.get_child(entity).get<double>("speed");
 			}
 
 			if(entity == "invader" || entity == "spaceship") {

@@ -18,7 +18,10 @@ class ConfigLoader {
 		void setDefault(std::string, T);
 
 		template<class T>
-		T get(std::string);		
+		T get(std::string) const;
+
+		template<class T>
+		void put(std::string, T value);
 
 	protected:
 		boost::property_tree::ptree pt;
@@ -52,9 +55,15 @@ void ConfigLoader::setDefault(std::string key, T value)
 }
 
 template<class T>
-T ConfigLoader::get(std::string key)
+T ConfigLoader::get(std::string key) const
 {
 	return this->pt.get<T>(key);
+}
+
+template<class T>
+void ConfigLoader::put(std::string key, T value)
+{
+	this->pt.put<T>(key, value);
 }
 
 #endif

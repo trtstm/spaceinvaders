@@ -12,10 +12,12 @@ class LevelLoader : public ConfigLoader {
 
 		int getWidth() const;
 		int getHeight() const;
+		double getSpeed() const;
 		std::vector<std::vector<int>> getEnemies() const;
 	private:
 		int width;
 		int height;
+		double speed;
 		std::vector<std::vector<int>> enemies;
 };
 

@@ -57,6 +57,9 @@ void SpaceInvaders::loadAliens(double speed)
 		return;
 	}
 
+	double originalSpeed = globalConfig.get<double>("invader.speed");
+	globalConfig.put<double>("invader.speed", originalSpeed * levels[0].getSpeed());
+
 	int width = levels[0].getWidth();
 	int height = levels[0].getHeight();
 	auto enemies = levels[0].getEnemies();
@@ -84,6 +87,8 @@ void SpaceInvaders::loadAliens(double speed)
 			aliens[y].back()->controller.getAlien().registerScore(score);
 		}
 	}
+
+	globalConfig.put<double>("invader.speed", originalSpeed);
 }
 
 SpaceshipInfo SpaceInvaders::loadSpaceshipInfo()
@@ -383,22 +388,26 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 
 BunkerInfo* SpaceInvaders::newBunkerInfo(const Coordinate position) const
 {
+	
+
+	double totalX = globalConfig.get<int>("bunkerleft.dimensions.x") + globalConfig.get<int>("bunkermiddle.dimensions.x") + globalConfig.get<int>("bunkerright.dimensions.x");
+
 	Coordinate bunkerLeftPos = position;
-	bunkerLeftPos.x -= 42.0 / 2.0 - 10.0 / 2.0;
-	bunkerLeftPos.y -= 32.0 / 2.0;
+	bunkerLeftPos.x -= totalX / 2.0 - globalConfig.get<int>("bunkerleft.dimensions.x") / 2.0;
+	bunkerLeftPos.y -= globalConfig.get<int>("bunkerleft.dimensions.y") / 2.0;
 
 	auto bunkerLeft = std::unique_ptr<Model::BunkerLeft>(factory->newBunkerLeft(bunkerLeftPos, globalConfig));
 	auto bunkerLeftView = View::BunkerLeftGuiView(bunkerLeftPos, resources);
 
 	Coordinate bunkerMiddlePos = bunkerLeftPos;
-	bunkerMiddlePos.x += 16;
+	bunkerMiddlePos.x += (totalX - globalConfig.get<int>("bunkerleft.dimensions.x")) / 2.0;
 	bunkerMiddlePos.y -= 2.0;
 	auto bunkerMiddle =  std::unique_ptr<Model::BunkerMiddle>(factory->newBunkerMiddle(bunkerMiddlePos, globalConfig));
 	auto bunkerMiddleView = View::BunkerMiddleGuiView(bunkerMiddlePos, resources);
 
 	Coordinate bunkerRightPos = position;
-	bunkerRightPos.x += 42.0 / 2.0 - 10.0 / 2.0;
-	bunkerRightPos.y -= 32.0 / 2.0;
+	bunkerRightPos.x += totalX / 2.0 - globalConfig.get<int>("bunkerright.dimensions.x") / 2.0;
+	bunkerRightPos.y -= globalConfig.get<int>("bunkerright.dimensions.y") / 2.0;
 	auto bunkerRight =  std::unique_ptr<Model::BunkerRight>(factory->newBunkerRight(bunkerRightPos, globalConfig));
 	auto bunkerRightView = View::BunkerRightGuiView(bunkerRightPos, resources);
 

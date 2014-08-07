@@ -17,12 +17,18 @@ Bullet::~Bullet()
 
 void Bullet::onCollision(const Entity* entity)
 {
-	if((entity->getType() == Model::LASERCANNON && type != FRIENDLY) || (entity->getType() != Model::LASERCANNON && entity->getId() != getOwner())) {
-		auto msg = Message::BulletHitMessage(getId(), entity->getId());
-		notifyCollision(msg);
-
-		doDamage(1);
+	if(entity->getType() == Model::LASERCANNON && type == FRIENDLY) {
+		return;
 	}
+
+	if(entity->getType() == Model::ALIEN && type == ENEMY) {
+		return;
+	}
+
+	auto msg = Message::BulletHitMessage(getId(), entity->getId());
+	notifyCollision(msg);
+
+	doDamage(1);
 }
 
 int Bullet::getOwner() const

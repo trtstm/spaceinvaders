@@ -11,6 +11,8 @@ bool LevelLoader::load(std::string file)
 
 	std::vector<std::vector<int>> enemies;
 
+	setDefault<double>("speed", 1);
+
 	bool first = true;
 	try {
 		this->pt.get_child("enemies");
@@ -58,6 +60,7 @@ bool LevelLoader::load(std::string file)
 
 	this->width = width;
 	this->height = height;
+	speed = this->pt.get<double>("speed");
 	this->enemies = enemies;
 
 	return true;
@@ -71,6 +74,11 @@ int LevelLoader::getWidth() const
 int LevelLoader::getHeight() const
 {
 	return height;
+}
+
+double LevelLoader::getSpeed() const
+{
+	return speed;
 }
 
 std::vector<std::vector<int>> LevelLoader::getEnemies() const
