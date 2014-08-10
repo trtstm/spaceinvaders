@@ -146,21 +146,24 @@ class SpaceInvaders {
 
 		void gameOver();
 
+		BunkerInfo* newBunkerInfo(const Coordinate position) const;
+
+		void loadAliens();
+
+		void alienShoot();
+
+		SpaceshipInfo loadSpaceshipInfo();
+
+		Resources loadResources();
+
+		unsigned int aliveAliens() const;
+
+		/**********************/
+
 		GlobalLoader globalConfig;
 		std::vector<LevelLoader> levels;
 
 		HighscoreLoader highscores;
-
-		BunkerInfo* newBunkerInfo(const Coordinate position) const;
-
-		void alienShoot();
-
-		Resources loadResources();
-		void loadAliens();
-
-		SpaceshipInfo loadSpaceshipInfo();
-
-		unsigned int aliveAliens() const;
 
 		State state;
 
