@@ -41,6 +41,8 @@ class MenuController : public Subject {
 		std::vector<std::string> highscoreMenu;
 
 		int selection;
+
+		bool paused;
 		
 		SpaceInvaders* game;
 };

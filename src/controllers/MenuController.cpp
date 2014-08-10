@@ -10,13 +10,15 @@ namespace Controller {
 
 MenuController::MenuController(SpaceInvaders* game)
 	: menu(MAIN), mainMenu(std::vector<std::string>{"play","highscore", "quit"}), playMenu(std::vector<std::string>{"1 player", "2 players", "back"}),
-	highscoreMenu(std::vector<std::string>{"back"}), selection(0), game(game)
+	highscoreMenu(std::vector<std::string>{"back"}), selection(0), game(game), paused(false)
 {
 }
 
 void MenuController::update(double dt)
 {
 	if(game->getState() == PAUSE) {
+		paused = false;
+
 		menu = MAIN;
 		selection = 0;
 		auto change = Message::MenuChangeMessage(mainMenu, MAIN);
@@ -40,12 +42,15 @@ void MenuController::event(sf::Event event)
 			up();
 		} else if(event.key.code == sf::Keyboard::Key::Return) {
 			select();
-		} else if(event.key.code == sf::Keyboard::Key::Escape) {
-			//menu = NONE;
-			//game->setState(PLAYING);
+		} else if(event.key.code == sf::Keyboard::Key::Escape && paused) {
+			menu = NONE;
+			selection = 0;
+			game->setState(PLAYING);
 		}
 	} else {
 	 	if(event.key.code == sf::Keyboard::Key::Escape) {
+			paused = true;
+
 			menu = MAIN;
 
 			auto change = Message::MenuChangeMessage(mainMenu, MAIN);

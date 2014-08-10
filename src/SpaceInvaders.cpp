@@ -584,5 +584,7 @@ void SpaceInvaders::gameOver()
 		std::cout << "Game over! Score: " << score.getScore() << std::endl;
 		highscores.addHighscore(score.getScore(), (player2) ? 2 : 1);
 		menuView->setHighscores(highscores.getHighscores());
+		highscores.save();
+
 		state = PAUSE;
 }
