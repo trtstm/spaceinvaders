@@ -78,6 +78,7 @@ enum State { PLAYING, PAUSE, GAMEOVER, MENU };
 class SpaceInvaders {
 	public:
 		/**
+		* @param globalConfig config to use.
 		* @param factory The factory to use.
 		*/
 		SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory::EntityFactory> factory = std::make_shared<Factory::DefaultEntityFactory>());
@@ -99,25 +100,6 @@ class SpaceInvaders {
 		void render(sf::RenderWindow& window, double dt);
 
 		/**
-		* Move the lasercannon left.
-		*
-		* @param dt The delta time.
-		*/
-		void moveLeft(double dt);
-
-		/**
-		* Move the lasercannon right.
-		*
-		* @param dt The delta time.
-		*/
-		void moveRight(double dt);
-
-		/**
-		* Let the lasercannon shoot.
-		*/
-		void shoot(Model::LaserCannon* owner);
-
-		/**
 		* Checks if the game has ended.
 		*
 		* @return True if game has ended, false otherwise.
@@ -130,6 +112,13 @@ class SpaceInvaders {
 		* @param newState The state to set.
 		*/
 		void setState(State newState);
+
+		/**
+		* Get the state of the game.
+		*
+		* @return The state.
+		*/
+		State getState() const;
 
 		/**
 		* Handle an input event.
@@ -146,6 +135,17 @@ class SpaceInvaders {
 		void initGame(int players);
 
 	private:
+		friend Controller::LaserCannonController;
+
+		/**
+		* Called by LaserCannonController to spawn bullets.
+		*
+		* @param owner The owner of the bullet
+		*/
+		void shoot(Model::LaserCannon* owner);
+
+		void gameOver();
+
 		GlobalLoader globalConfig;
 		std::vector<LevelLoader> levels;
 
@@ -156,7 +156,7 @@ class SpaceInvaders {
 		void alienShoot();
 
 		Resources loadResources();
-		void loadAliens(double speed);
+		void loadAliens();
 
 		SpaceshipInfo loadSpaceshipInfo();
 

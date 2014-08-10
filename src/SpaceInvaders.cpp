@@ -36,11 +36,12 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 
 SpaceInvaders::~SpaceInvaders()
 {
-	highscores.save();
 }
 
-void SpaceInvaders::loadAliens(double speed)
+void SpaceInvaders::loadAliens()
 {
+
+	// Remove existing aliens from collision system
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
 			if(alienInfo == nullptr) {
@@ -57,6 +58,7 @@ void SpaceInvaders::loadAliens(double speed)
 		return;
 	}
 
+	// Update speed with the level multiplier
 	double originalSpeed = globalConfig.get<double>("invader.speed");
 	globalConfig.put<double>("invader.speed", originalSpeed * levels[0].getSpeed());
 
@@ -64,16 +66,17 @@ void SpaceInvaders::loadAliens(double speed)
 	int height = levels[0].getHeight();
 	auto enemies = levels[0].getEnemies();
 
-	for(unsigned int y = 0; y < height; y++) {
+	// Add invaders for the level
+	for(int y = 0; y < height; y++) {
 		aliens.push_back( std::vector< std::unique_ptr<AlienInfo> >() );
 
-		for(unsigned int i = 0; i < width; i++) {
-			if(enemies[y][i] != 1) {
+		for(int x = 0; x < width; x++) {
+			if(enemies[y][x] != 1) {
 				aliens[y].push_back(nullptr);
 				continue;
 			}
 
-			auto position = Coordinate(globalConfig.getResolutionX() - width * 30 + i * 30, globalConfig.getResolutionY() / 8 + y * 30);
+			auto position = Coordinate(globalConfig.getResolutionX() - width * 30 + x * 30, globalConfig.getResolutionY() / 8 + y * 30);
 			auto alien = factory->newAlien(position, globalConfig);
 			auto alienController = Controller::AlienController(alien);
 			auto alienView = View::AlienGuiView(position, resources);
@@ -88,11 +91,13 @@ void SpaceInvaders::loadAliens(double speed)
 		}
 	}
 
+	// Invaders are created now, reset the speed
 	globalConfig.put<double>("invader.speed", originalSpeed);
 }
 
 SpaceshipInfo SpaceInvaders::loadSpaceshipInfo()
 {
+	// Create a spaceship outside the screen
 	auto position = Coordinate(-50.0, 50);
 	auto spaceship = factory->newSpaceship(position, globalConfig);
 	auto spaceshipController = Controller::SpaceshipController(spaceship);
@@ -135,41 +140,43 @@ Resources SpaceInvaders::loadResources()
 
 void SpaceInvaders::update(double dt)
 {
+	menuController->update(dt);
+
 	if(state == PAUSE || state == GAMEOVER) {
 		return;
 	}
 
-	menuController->update(dt);
-
+	// If we are in menu, we don't need to update the game
 	if(state == MENU) {
 		return;
 	}
 
+	// Are player(s) still alive?
 	auto health = player1->getHealth();
 	if(player2) {
 		health += player2->getHealth();
 	}
 	if(health <= 0) {
-		std::cout << "Game over! Score: " << score.getScore() << std::endl;
-		highscores.addHighscore(score.getScore(), (player2) ? 2 : 1);
-		state = GAMEOVER;
-
+		gameOver();
 		return;
 	}
 
+	// Update the players
 	player1Controller->update(dt);
-
 	if(player2) {
 		player2Controller->update(dt);
 	}
 
+	// Spaceship is still on screen
 	if(spaceshipInfo.controller.isAlive() && spaceshipInfo.controller.getPosition().x < globalConfig.getResolutionX() + spaceshipInfo.controller.getSpaceship().getCollisionRectangle().width) {
 		spaceshipInfo.controller.moveRight(dt);
 		spaceshipClock.restart();
 	} else {
+		// We are offscreen, remove from collisions
 		collisions.removeEntity(spaceshipInfo.controller.getSpaceship());
 	}
 
+	// Should we spawn the spaceship?
 	if(spaceshipClock.getElapsedTime().asSeconds() >= 10) {
 		collisions.removeEntity(spaceshipInfo.controller.getSpaceship());
 		spaceshipInfo = loadSpaceshipInfo();
@@ -181,32 +188,38 @@ void SpaceInvaders::update(double dt)
 		spaceshipClock.restart();
 	}
 
+
+	// We killed all aliens
 	if(aliveAliens() == 0) {
 		level++;
 		player1->setHealth(player1->getHealth() + 1);
 
+		/*
 		if(player2) {
 			player2->setHealth(player2->getHealth() + 1);
 		}
+		*/
 
+		// Select next level
 		if(levels.size() > 0) {
 			levels.erase(levels.begin());
 		}
 		if(levels.size() < 1) {
-			std::cout << "Good game! There are no more levels. Your score: " << score.getScore() << std::endl;
-			highscores.addHighscore(score.getScore(), (player2) ? 2 : 1);
-	
-			state = GAMEOVER;
+			std::cout << "No more levels" << std::endl;
+			gameOver();
 			return;
 		}
-		loadAliens(16.0 + 8.0 * level * 5);
+
+		loadAliens();
 	}
 
+	// Players bullets
 	for(auto& bl : laserCannonBullet) {
 		bl.second->controller.update(dt);
 		auto position = bl.second->controller.getPosition();
 		auto rect = bl.second->controller.getCollisionRectangle();
 
+		// We are offscreen or bullet has hit something
 		if(position.y - rect.height / 2 < 0 || !bl.second->controller.isAlive()) {
 			collisions.removeEntity(bl.second->controller.getBullet());
 
@@ -214,12 +227,14 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
+	// Invader bullets
 	for(auto bulletInfo = alienBullets.begin(); bulletInfo != alienBullets.end();) {
 		(*bulletInfo)->controller.update(dt);
 
 		auto position = (*bulletInfo)->controller.getPosition();
 		auto rect = (*bulletInfo)->controller.getCollisionRectangle();
 
+		// We are offscreen or bullet has hit something
 		if(position.y - rect.height / 2 < 0 || !(*bulletInfo)->controller.isAlive()) {
 			collisions.removeEntity((*bulletInfo)->controller.getBullet());
 
@@ -229,11 +244,13 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
+	// Let invaders shoot randomly
 	if(timer >= 1.0) {
 		alienShoot();
 		timer = 0.0;
 	}
 
+	// Check if the invaders should move down
 	bool goDown = false;
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
@@ -263,6 +280,7 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
+	// Move the invaders down
 	for(auto& row : aliens) {
 		for(auto& alienInfo : row) {
 			if(alienInfo == nullptr) {
@@ -288,6 +306,7 @@ void SpaceInvaders::update(double dt)
 		}
 	}
 
+	// Remove bunkers from collisions if they are broken down
 	for(auto& bunkerInfo : bunkers) {
 		if(bunkerInfo->modelLeft->getHealth() <= 0) {
 			collisions.removeEntity(*bunkerInfo->modelLeft);
@@ -388,8 +407,7 @@ void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 
 BunkerInfo* SpaceInvaders::newBunkerInfo(const Coordinate position) const
 {
-	
-
+	// Get the width of a bunker
 	double totalX = globalConfig.get<int>("bunkerleft.dimensions.x") + globalConfig.get<int>("bunkermiddle.dimensions.x") + globalConfig.get<int>("bunkerright.dimensions.x");
 
 	Coordinate bunkerLeftPos = position;
@@ -420,6 +438,7 @@ void SpaceInvaders::alienShoot()
 {
 	std::vector<AlienInfo*> possibleAliens;
 
+	// Invaders can only shoot if they are the lowest in their column
 	for(unsigned int x = 0; x < aliens[0].size(); x++) {
 		for(unsigned int y = aliens.size(); y-- > 0;) {
 			if(aliens[y][x] == nullptr) {
@@ -461,6 +480,7 @@ void SpaceInvaders::alienShoot()
 
 void SpaceInvaders::shoot(Model::LaserCannon* owner)
 {
+	// Owner already has a bullet flying around
 	if(laserCannonBullet.count(owner->getId()) == 1) {
 		return;
 	}
@@ -489,6 +509,11 @@ bool SpaceInvaders::shouldStop() const
 void SpaceInvaders::setState(State newState)
 {
 	state = newState;
+}
+
+State SpaceInvaders::getState() const
+{
+	return state;
 }
 
 void SpaceInvaders::event(sf::Event event)
@@ -532,7 +557,7 @@ void SpaceInvaders::initGame(int players)
 		collisions.addEntity(*player2, true);
 	}
 
-	loadAliens(32);
+	loadAliens();
 
 	bunkers.clear();
 	auto unit = globalConfig.getResolutionX() / 5;
@@ -552,4 +577,12 @@ void SpaceInvaders::initGame(int players)
 	spaceshipInfo.controller.getSpaceship().registerMove(spaceshipInfo.view);
 	spaceshipInfo.controller.getSpaceship().registerScore(score);
 	collisions.addEntity(spaceshipInfo.controller.getSpaceship());
+}
+
+void SpaceInvaders::gameOver()
+{
+		std::cout << "Game over! Score: " << score.getScore() << std::endl;
+		highscores.addHighscore(score.getScore(), (player2) ? 2 : 1);
+		menuView->setHighscores(highscores.getHighscores());
+		state = PAUSE;
 }

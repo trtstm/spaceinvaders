@@ -28,6 +28,8 @@ class MenuView : public GuiView, public Observer {
 
 		void render(sf::RenderWindow& w, const Resources& resources);
 
+		void setHighscores(std::vector<Highscore> highscore);
+
 	private:
 		std::vector<std::string> items;
 		int selection;

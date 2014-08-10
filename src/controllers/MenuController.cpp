@@ -16,7 +16,15 @@ MenuController::MenuController(SpaceInvaders* game)
 
 void MenuController::update(double dt)
 {
-
+	if(game->getState() == PAUSE) {
+		menu = MAIN;
+		selection = 0;
+		auto change = Message::MenuChangeMessage(mainMenu, MAIN);
+		notifyMenuChange(change);
+		auto select = Message::MenuSelectMessage(selection);
+		notifyMenuSelection(select);
+		game->setState(MENU);
+	}
 }
 
 void MenuController::event(sf::Event event)

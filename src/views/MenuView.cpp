@@ -92,4 +92,9 @@ void MenuView::render(sf::RenderWindow& w, const Resources& resources)
 
 }
 
+void MenuView::setHighscores(std::vector<Highscore> highscore)
+{
+	this->highscore = highscore;
+}
+
 }
