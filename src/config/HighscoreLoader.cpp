@@ -18,8 +18,8 @@ bool HighscoreLoader::load(std::string file)
 
 	for(const auto& kv : this->pt.get_child("scores")) {
 		try {
-			int score = kv.second.get<int>("score");
-			int players = kv.second.get<int>("players");
+			kv.second.get<int>("score");
+			kv.second.get<int>("players");
 
 		} catch(boost::property_tree::ptree_bad_path& err) {
 			std::cerr << "Invalid highscore file, could not find score or players." << std::endl;

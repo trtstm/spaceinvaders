@@ -10,12 +10,14 @@ namespace Controller {
 
 MenuController::MenuController(SpaceInvaders* game)
 	: menu(MAIN), mainMenu(std::vector<std::string>{"play","highscore", "quit"}), playMenu(std::vector<std::string>{"1 player", "2 players", "back"}),
-	highscoreMenu(std::vector<std::string>{"back"}), selection(0), game(game), paused(false)
+	highscoreMenu(std::vector<std::string>{"back"}), selection(0), paused(false), game(game)
 {
 }
 
 void MenuController::update(double dt)
 {
+	(void)dt;
+
 	if(game->getState() == PAUSE) {
 		paused = false;
 

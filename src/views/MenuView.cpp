@@ -52,7 +52,7 @@ void MenuView::render(sf::RenderWindow& w)
 			std::string s = std::to_string(score.score);
 			std::string p = std::to_string(score.players);
 			tmp += s;
-			for(int i = 0; i < 24 - s.length(); i++) {
+			for(unsigned int i = 0; i < 24 - s.length(); i++) {
 				tmp += " ";
 			}
 
@@ -61,17 +61,17 @@ void MenuView::render(sf::RenderWindow& w)
 
 		tmp += "\n\n\n";
 
-		for(int i = 0; i < items.size(); i++) {
+		for(unsigned int i = 0; i < items.size(); i++) {
 			tmp += items[i];
-			if(i == selection) {
+			if(static_cast<int>(i) == selection) {
 				tmp += " <<";
 			}
 			tmp += "\n";
 		}
 	} else {
-		for(int i = 0; i < items.size(); i++) {
+		for(unsigned int i = 0; i < items.size(); i++) {
 			tmp += items[i];
-			if(i == selection) {
+			if(static_cast<int>(i) == selection) {
 				tmp += " <<";
 			}
 			tmp += "\n";
