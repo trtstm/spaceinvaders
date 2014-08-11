@@ -13,7 +13,7 @@ LaserCannonController::LaserCannonController(Model::LaserCannon* laserCannon, In
 		left = sf::Keyboard::Key::Left;
 		right = sf::Keyboard::Key::Right;
 		shoot = sf::Keyboard::Key::Space;
-	}else if(input == WASD) {
+	} else if(input == WASD) {
 		left = sf::Keyboard::Key::A;
 		right = sf::Keyboard::Key::D;
 		shoot = sf::Keyboard::Key::S;

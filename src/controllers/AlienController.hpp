@@ -15,28 +15,28 @@ enum Direction {LEFT, RIGHT, UP, DOWN};
 class AlienController {
 	public:
 		/**
-		@param alien The alien this controller has to control. The controller will own the pointer.
+		* @param alien The alien this controller has to control. The controller will own the pointer.
 		*/
 		AlienController(Model::Alien* alien);
 
 		/**
 		* Move left.
 		*
-		@param dt The delta time.
+		* @param dt The delta time.
 		*/
 		void moveLeft(double dt);
 
 		/**
 		* Move right.
 		*
-		@param dt The delta time.
+		* @param dt The delta time.
 		*/
 		void moveRight(double dt);
 
 		/**
 		* Move down.
 		*
-		@param dt The delta time.
+		* @param dt The delta time.
 		*/
 		void moveDown(double dt);
 

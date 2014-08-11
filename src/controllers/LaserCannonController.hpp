@@ -17,10 +17,11 @@ class LaserCannonController {
 		enum Input {ARROWS, WASD};
 
 		/**
-		@param laserCannon The lasercannon this controller has to control. The controller will own the pointer.
-		@param input What kind of input to use.
+		* @param laserCannon The lasercannon this controller has to control. The controller will own the pointer.
+		* @param input What kind of input to use.
+		* @param game The instance of a game. Will be used for callbacks.
 		*/
-		LaserCannonController(Model::LaserCannon* laserCannon, Input input, SpaceInvaders*);
+		LaserCannonController(Model::LaserCannon* laserCannon, Input input, SpaceInvaders* game);
 
 		/**
 		* Update the laser cannon.
