@@ -12,16 +12,40 @@ class ConfigLoader {
 	public:
 		ConfigLoader();
 
-		virtual bool load(std::string);
+		/*
+		* Load a config file.
+		*
+		* @param file The file to load.
+		* @return True if loaded, false otherwise.
+		*/
+		virtual bool load(std::string file);
 
+		/*
+		* Set a value for the key if it does not exist or is of wrong type.
+		*
+		* @param key The key.
+		* @param value The value to set.
+		*/
 		template<class T>
-		void setDefault(std::string, T);
+		void setDefault(std::string key , T value);
 
+		/*
+		* Get the value at a key.
+		*
+		* @param key The key.
+		* @return The value at the key.
+		*/
 		template<class T>
-		T get(std::string) const;
+		T get(std::string key) const;
 
+		/*
+		* Set a value for the key.
+		*
+		* @param key The key.
+		* @param value The value to set.
+		*/
 		template<class T>
-		void put(std::string, T value);
+		void put(std::string key, T value);
 
 	protected:
 		boost::property_tree::ptree pt;
