@@ -41,10 +41,8 @@ bool MenuView::notify(Message::Message& msg)
 	return true;
 }
 
-void MenuView::render(sf::RenderWindow& w, const Resources& resources)
+void MenuView::render(sf::RenderWindow& w)
 {
-	(void)resources;
-
 	std::string tmp;
 
 	if(menu == Controller::MenuController::HIGHSCORE) {

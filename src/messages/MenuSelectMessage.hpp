@@ -9,6 +9,9 @@ namespace Message {
 
 class MenuSelectMessage : public Message {
 	public:
+		/**
+		* @param selection The index of the menu button that was clicked.
+		*/
 		MenuSelectMessage(int selection);
 
 		int selection;

@@ -12,6 +12,10 @@ namespace Message {
 
 class MenuChangeMessage : public Message {
 	public:
+		/**
+		* @param items The available buttons in the new menu.
+		* @param menu The new menu type.
+		*/
 		MenuChangeMessage(std::vector<std::string> items, Controller::MenuController::Menu menu);
 
 		std::vector<std::string> items;

@@ -346,7 +346,7 @@ unsigned int SpaceInvaders::aliveAliens() const
 void SpaceInvaders::render(sf::RenderWindow& window, double dt)
 {
 	if(state == MENU) {
-		menuView->render(window, resources);
+		menuView->render(window);
 		return;
 	}
 
