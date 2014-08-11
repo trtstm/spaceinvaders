@@ -8,60 +8,37 @@ namespace Factory {
 class DefaultEntityFactory : public EntityFactory {
 	public:
 		/**
-		* Create a new spaceship.
-		*
-		* @param position The position.
-		* @return The spaceship.
+		* See base class.
 		*/
 		Model::Spaceship* newSpaceship(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
-		* Create a new lasercannon.
-		*
-		* @param position The position.
-		* @return The lasercannon.
+		* See base class.
 		*/
 		Model::LaserCannon* newLaserCannon(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
-		* Create a new alien.
-		*
-		* @param position The position.
-		* @param position The speed.
-		* @return The alien.
+		* See base class.
 		*/
 		Model::Alien* newAlien(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
-		* Create a new bullet.
-		*
-		* @param position The position.
-		* @param position The speed.
-		* @return The alien.
+		* See base class.
 		*/
 		Model::Bullet* newBullet(const Coordinate& position, double speed, Model::Bullet::Type type, int owner);
 
 		/**
-		* Create a new bunker left.
-		*
-		* @param position The position.
-		* @return The bunker left.
+		* See base class.
 		*/
 		Model::BunkerLeft* newBunkerLeft(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
-		* Create a new bunker middle.
-		*
-		* @param position The position.
-		* @return The bunker middle.
+		* See base class.
 		*/
 		Model::BunkerMiddle* newBunkerMiddle(const Coordinate& position, GlobalLoader globalConfig);
 
 		/**
-		* Create a new bunker right.
-		*
-		* @param position The position.
-		* @return The bunker right.
+		* See base class.
 		*/
 		Model::BunkerRight* newBunkerRight(const Coordinate& position, GlobalLoader globalConfig);
 };

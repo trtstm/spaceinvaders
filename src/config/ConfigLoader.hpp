@@ -12,7 +12,7 @@ class ConfigLoader {
 	public:
 		ConfigLoader();
 
-		/*
+		/**
 		* Load a config file.
 		*
 		* @param file The file to load.
@@ -20,7 +20,7 @@ class ConfigLoader {
 		*/
 		virtual bool load(std::string file);
 
-		/*
+		/**
 		* Set a value for the key if it does not exist or is of wrong type.
 		*
 		* @param key The key.
@@ -29,7 +29,7 @@ class ConfigLoader {
 		template<class T>
 		void setDefault(std::string key , T value);
 
-		/*
+		/**
 		* Get the value at a key.
 		*
 		* @param key The key.
@@ -38,7 +38,7 @@ class ConfigLoader {
 		template<class T>
 		T get(std::string key) const;
 
-		/*
+		/**
 		* Set a value for the key.
 		*
 		* @param key The key.

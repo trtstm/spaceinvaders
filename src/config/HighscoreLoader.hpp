@@ -14,19 +14,19 @@ struct Highscore {
 class HighscoreLoader : public ConfigLoader {
 	public:
 
-		/*
+		/**
 		* See base class.
 		*/
 		bool load(std::string);
 
-		/*
+		/**
 		* Get the highscores.
 		*
 		* @return The highscores.
 		*/
 		std::vector<Highscore> getHighscores() const;
 
-		/*
+		/**
 		* Add a highscore.
 		*
 		* @param score The score.
@@ -34,7 +34,7 @@ class HighscoreLoader : public ConfigLoader {
 		*/
 		void addHighscore(int score, int players);
 
-		/*
+		/**
 		* Save the highscore to disk.
 		*/
 		void save();

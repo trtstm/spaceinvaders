@@ -23,6 +23,7 @@ class EntityFactory {
 		* Create a new spaceship.
 		*
 		* @param position The position.
+		* @param globalConfig The config to use.
 		* @return The spaceship.
 		*/
 		virtual Model::Spaceship* newSpaceship(const Coordinate& position, GlobalLoader globalConfig) = 0;
@@ -31,6 +32,7 @@ class EntityFactory {
 		* Create a new lasercannon.
 		*
 		* @param position The position.
+		* @param globalConfig The config to use.
 		* @return The lasercannon.
 		*/
 		virtual Model::LaserCannon* newLaserCannon(const Coordinate& position, GlobalLoader globalConfig) = 0;
@@ -39,7 +41,7 @@ class EntityFactory {
 		* Create a new alien.
 		*
 		* @param position The position.
-		* @param position The speed.
+		* @param globalConfig The config to use.
 		* @return The alien.
 		*/
 		virtual Model::Alien* newAlien(const Coordinate& position, GlobalLoader globalConfig) = 0;
@@ -58,6 +60,7 @@ class EntityFactory {
 		* Create a new bunker left.
 		*
 		* @param position The position.
+		* @param globalConfig The config to use.
 		* @return The bunker left.
 		*/
 		virtual Model::BunkerLeft* newBunkerLeft(const Coordinate& position, GlobalLoader globalConfig) = 0;
@@ -66,6 +69,7 @@ class EntityFactory {
 		* Create a new bunker middle.
 		*
 		* @param position The position.
+		* @param globalConfig The config to use.
 		* @return The bunker middle.
 		*/
 		virtual Model::BunkerMiddle* newBunkerMiddle(const Coordinate& position, GlobalLoader globalConfig) = 0;
@@ -74,6 +78,7 @@ class EntityFactory {
 		* Create a new bunker right.
 		*
 		* @param position The position.
+		* @param globalConfig The config to use.
 		* @return The bunker right.
 		*/
 		virtual Model::BunkerRight* newBunkerRight(const Coordinate& position, GlobalLoader globalConfig) = 0;
