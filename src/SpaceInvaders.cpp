@@ -1,6 +1,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <algorithm>
+
 #include "SpaceInvaders.hpp"
 
 #include "exceptions/FileException.hpp"
@@ -16,7 +18,7 @@ SpaceInvaders::SpaceInvaders(GlobalLoader globalConfig, std::shared_ptr<Factory:
 		timer(0.0),
 		level(1),
 		resources(loadResources()),
-		player2(0),
+		player2(nullptr),
 		scoreView(resources, globalConfig),
 		levelView(resources, globalConfig),
 		livesView(resources, globalConfig),
@@ -98,7 +100,7 @@ void SpaceInvaders::loadAliens()
 SpaceshipInfo SpaceInvaders::loadSpaceshipInfo()
 {
 	// Create a spaceship outside the screen
-	auto position = Coordinate(-50.0, 50);
+	auto position = Coordinate(-globalConfig.get<double>("spaceship.dimensions.x"), 50);
 	auto spaceship = factory->newSpaceship(position, globalConfig);
 	auto spaceshipController = Controller::SpaceshipController(spaceship);
 	auto spaceshipView = View::SpaceshipGuiView(position, resources);
@@ -177,7 +179,7 @@ void SpaceInvaders::update(double dt)
 	}
 
 	// Should we spawn the spaceship?
-	if(spaceshipClock.getElapsedTime().asSeconds() >= 10) {
+	if(spaceshipClock.getElapsedTime().asSeconds() >= globalConfig.get<int>("spaceship.spawntime")) {
 		collisions.removeEntity(spaceshipInfo.controller.getSpaceship());
 		spaceshipInfo = loadSpaceshipInfo();
 
@@ -193,12 +195,6 @@ void SpaceInvaders::update(double dt)
 	if(aliveAliens() == 0) {
 		level++;
 		player1->setHealth(player1->getHealth() + 1);
-
-		/*
-		if(player2) {
-			player2->setHealth(player2->getHealth() + 1);
-		}
-		*/
 
 		// Select next level
 		if(levels.size() > 0) {
@@ -245,7 +241,7 @@ void SpaceInvaders::update(double dt)
 	}
 
 	// Let invaders shoot randomly
-	if(timer >= 1.0) {
+	if(timer >= globalConfig.get<double>("invader.shoottime")) {
 		alienShoot();
 		timer = 0.0;
 	}
@@ -459,22 +455,38 @@ void SpaceInvaders::alienShoot()
 		return;
 	}
 
+	int nrDelete = possibleAliens.size() - globalConfig.get<int>("invader.maxshots");
+	if(nrDelete < 0) {
+		nrDelete = 0;
+	}
+	nrDelete = std::min(nrDelete, static_cast<int>(possibleAliens.size()));
+	for(int i = 0; i < nrDelete; i++) {
+		auto deletePos = std::rand() % possibleAliens.size();
+
+		possibleAliens.erase(possibleAliens.begin() + deletePos);
+	}
+
 	// Should these aliens shoot?
-	auto shouldShoot = ((std::rand() % 3) == 0);
+	double chance = std::min(globalConfig.get<double>("invader.shootchance"), 1.0) * 100.0;
+	if(chance < 0) {
+		chance = 0;
+	}
 
-	if(shouldShoot) {
-		auto randX = std::rand() % possibleAliens.size();
+	for(auto& alien : possibleAliens) {
+		bool shouldShoot = ((std::rand() % 100) < chance);
 
-		auto bulletPosition = possibleAliens[randX]->controller.getPosition();
+		if(shouldShoot) {
+			auto bulletPosition = alien->controller.getPosition();
 
-		auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, -300, Model::Bullet::ENEMY, possibleAliens[randX]->controller.getAlien().getId()));
-		auto bulletView = View::BulletGuiView(bulletPosition);
+			auto bulletController = Controller::BulletController(factory->newBullet(bulletPosition, -300, Model::Bullet::ENEMY, alien->controller.getAlien().getId()));
+			auto bulletView = View::BulletGuiView(bulletPosition);
 
-		std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
-		alienBullets.push_back(std::move(info));
+			std::unique_ptr<BulletInfo> info(new BulletInfo{bulletController, bulletView});
+			alienBullets.push_back(std::move(info));
 
-		alienBullets.back()->controller.getBullet().registerMove(alienBullets.back()->view);
-		collisions.addEntity(alienBullets.back()->controller.getBullet(), true);
+			alienBullets.back()->controller.getBullet().registerMove(alienBullets.back()->view);
+			collisions.addEntity(alienBullets.back()->controller.getBullet(), true);
+		}
 	}
 }
 

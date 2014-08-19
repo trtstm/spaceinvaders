@@ -49,6 +49,17 @@ bool GlobalLoader::load(std::string file)
 			if(entity == "invader" || entity == "spaceship") {
 				this->pt.get_child(entity).get<int>("score");
 			}
+
+			if(entity == "invader") {
+				this->pt.get_child(entity).get<double>("shoottime");
+				this->pt.get_child(entity).get<double>("shootchance");
+				this->pt.get_child(entity).get<int>("maxshots");
+			}
+
+			if(entity == "spaceship") {
+				this->pt.get_child(entity).get<int>("spawntime");
+			}
+
 		} catch(boost::property_tree::ptree_bad_path& err) {
 			std::cerr << "Could not read config for entity " << entity << ": " << err.what() << std::endl;
 			return false;

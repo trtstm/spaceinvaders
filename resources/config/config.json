@@ -44,6 +44,11 @@
 
 		"score": 10,
 		"speed": 32,
+
+		"shoottime": 1,
+		"shootchance": 0.3,
+
+		"maxshots": 5,
 		
 		"dimensions": {"x": 16, "y": 16}
 	},
@@ -66,7 +71,9 @@
 		"score": 100,
 		"speed": 100,
 		
-		"dimensions": {"x": 48, "y": 21}
+		"dimensions": {"x": 48, "y": 21},
+
+		"spawntime": 10
 	},
 
 	"explosion": {
