@@ -44,10 +44,18 @@ void MenuController::event(sf::Event event)
 			up();
 		} else if(event.key.code == sf::Keyboard::Key::Return) {
 			select();
-		} else if(event.key.code == sf::Keyboard::Key::Escape && paused) {
-			menu = NONE;
-			selection = 0;
-			game->setState(PLAYING);
+		} else if(event.key.code == sf::Keyboard::Key::Escape) {
+			if(paused) {
+				menu = NONE;
+				selection = 0;
+				game->setState(PLAYING);
+			} else {
+				auto change = Message::MenuChangeMessage(mainMenu, MAIN);
+				notifyMenuChange(change);
+				auto select = Message::MenuSelectMessage(0);
+				notifyMenuSelection(select);
+				menu = MAIN;
+			}
 		}
 	} else {
 	 	if(event.key.code == sf::Keyboard::Key::Escape) {

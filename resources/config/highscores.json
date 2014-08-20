@@ -2,6 +2,10 @@
     "scores":
     [
         {
+            "score": "1650",
+            "players": "2"
+        },
+        {
             "score": "1550",
             "players": "2"
         },
@@ -80,6 +84,14 @@
         {
             "score": "0",
             "players": "1"
+        },
+        {
+            "score": "0",
+            "players": "1"
+        },
+        {
+            "score": "0",
+            "players": "2"
         }
     ]
 }
