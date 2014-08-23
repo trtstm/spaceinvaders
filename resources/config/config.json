@@ -13,6 +13,7 @@
 			"3": "bunkerleft3.png"
 		},
 
+		// Dimensions of the collision rectangle
 		"dimensions": {"x": 10, "y": 32}
 	},
 
@@ -23,6 +24,7 @@
 			"3": "bunkerright3.png"
 		},
 
+		// Dimensions of the collision rectangle
 		"dimensions": {"x": 10, "y": 32}
 	},
 
@@ -33,6 +35,7 @@
 			"3": "bunkermiddle3.png"
 		},
 
+		// Dimensions of the collision rectangle
 		"dimensions": {"x": 22, "y": 28}
 	},
 
@@ -45,11 +48,15 @@
 		"score": 10,
 		"speed": 32,
 
+		// Try to shoot every n seconds
 		"shoottime": 1,
+		// The chance to shoot
 		"shootchance": 0.3,
 
+		// Total number of bullets that can be shot at the same time by all the invaders
 		"maxshots": 5,
 		
+		// Dimensions of the collision rectangle
 		"dimensions": {"x": 16, "y": 16}
 	},
 
@@ -60,6 +67,7 @@
 
 		"speed": 400,
 		
+		// Dimensions of the collision rectangle
 		"dimensions": {"x": 26, "y": 15}
 	},
 
@@ -71,8 +79,10 @@
 		"score": 100,
 		"speed": 100,
 		
+		// Dimensions of the collision rectangle
 		"dimensions": {"x": 48, "y": 21},
 
+		// How long to wait before respawning
 		"spawntime": 10
 	},
 
@@ -87,6 +97,7 @@
 		"mono": "DejaVuSansMono.ttf"
 	},
 
+	// The levels that can be played. See resources/levels
 	"levels": [
 		"level1",
 		"level2",

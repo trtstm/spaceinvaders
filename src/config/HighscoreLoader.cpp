@@ -47,12 +47,17 @@ std::vector<Highscore> HighscoreLoader::getHighscores() const
 		return scores;
 	}
 
+	unsigned int i = 0;
 	for(const auto& kv : this->pt.get_child("scores")) {
+		if(i >= 10) {
+			break;
+		}
 		try {
 			int score = kv.second.get<int>("score");
 			int players = kv.second.get<int>("players");
 
 			scores.push_back(Highscore{score, players});
+			i++;
 
 		} catch(boost::property_tree::ptree_bad_path& err) {
 			std::cerr << "Could not get score/players." << std::endl;
