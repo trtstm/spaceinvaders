@@ -1,16 +1,27 @@
+![demo](/demo.png?raw=true)
+
 Building (in the build directory):
+
 	cmake ..
 	make install
 
+
 Running (in the bin directory):
-	./Spaceinvaders
+
+	./spaceinvaders
+
 
 Game:
-	Speler 1 controls: Bewegen = pijltjes, Schieten = spatie
-	Speler 2 controls: Bewegen = a en d, Schieten = s
+
+	Player 1 controls: Move = arrows, Shoot = spacebar
+	Player 2 controls: Move = a and d, Shoot = s
+
 
 Config:
+
 	resources/config
 
+
 Levels:
+
 	resources/levels
